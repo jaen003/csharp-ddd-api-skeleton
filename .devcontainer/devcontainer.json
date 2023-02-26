@@ -1,0 +1,19 @@
+{
+	"name": "Development environment",
+	"dockerComposeFile": "docker-compose.yml",
+	"service": "backend",
+	"workspaceFolder": "/workspaces/backoffice",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-dotnettools.csharp",
+				"fudge.auto-using",
+				"adrianwilczynski.namespace",
+				"josefpihrt-vscode.roslynator",
+				"csharpier.csharpier-vscode",
+				"ms-vscode.makefile-tools",
+				"formulahendry.dotnet-test-explorer"
+			]
+		}
+	}
+}

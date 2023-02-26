@@ -1,0 +1,11 @@
+.devcontainer
+.vscode
+bin/
+*.log
+obj/
+.dockerignore
+.gitattributes
+.gitignore
+docker-compose.yml
+Dockerfile
+Makefile

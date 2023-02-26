@@ -1,0 +1,15 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "C#: .NET Core",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/Src/Api/bin/Debug/net7.0/Src.Api.dll",
+            "env": {
+                "ASPNETCORE_URLS": "http://0.0.0.0:8000"
+            }
+        }
+    ]
+}
