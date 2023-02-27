@@ -14,6 +14,19 @@ It is built with clean architecture, SOLID principles and above all with ❤️.
 - Log events by file and console with Serilog logger.
 - Domain event information collector using reflection.
 
+## 🔧 Setup
+
+1. [Install Docker](https://www.docker.com/get-started).
+2. If you are using Linux [Install Docker Compose](https://docs.docker.com/).
+3. Create a docker network. 
+```bash
+docker network create -d bridge csharp_ddd_api_skeleton_network
+```
+4. Create a docker container for the RabbitMQ event bus.
+```bash
+docker run -d -h rabbitmq --restart unless-stopped -v rabbitmq_data:/var/lib/rabbitmq/:delegated -e "RABBITMQ_DEFAULT_USER=guest" -e "RABBITMQ_DEFAULT_PASS=guest" --network csharp_ddd_api_skeleton_network heidiks/rabbitmq-delayed-message-exchange:3.10.2-management
+```
+
 ## ⚙️ Environment Variables
 
 If you want to modify any environment variables from the `.env` file, you can.
