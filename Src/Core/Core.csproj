@@ -8,4 +8,8 @@
     <RootNamespace>Src.Core</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="IdGen" Version="3.0.3" />
+  </ItemGroup>
+
 </Project>
