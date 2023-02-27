@@ -11,6 +11,19 @@ It is built with clean architecture, SOLID principles and above all with ❤️.
 ## 🎢 Features
 
 - Identifier generator based on Twitter's snowflake algorithm.
+- Log events by file and console with Serilog logger.
+
+## ⚙️ Environment Variables
+
+If you want to modify any environment variables from the `.env` file, you can.
+
+## 🧪 Running Tests
+
+To run tests, run the following command.
+
+```bash
+make test
+```
 
 ## 📜 License
 
