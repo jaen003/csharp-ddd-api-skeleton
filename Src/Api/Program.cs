@@ -1,4 +1,5 @@
 using dotenv.net;
+using Src.Core.Shared.Domain.EventBus;
 using Src.Core.Shared.Domain.Exceptions;
 using Src.Core.Shared.Domain.Generators;
 using Src.Core.Shared.Infrastructure.EventBus;
@@ -28,6 +29,7 @@ builder.Services.AddScoped<IIdentifierGenerator>(
     serviceProvider =>
         serviceProvider.GetRequiredService<SnowflakeIdentifierGeneratorCreator>().Create()
 );
+builder.Services.AddScoped<IDomainEventPublisher, RabbitmqDomainEventPublisher>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
