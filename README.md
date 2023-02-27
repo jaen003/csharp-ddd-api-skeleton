@@ -13,6 +13,10 @@ It is built with clean architecture, SOLID principles and above all with ❤️.
 - Identifier generator based on Twitter's snowflake algorithm.
 - Log events by file and console with Serilog logger.
 - Domain event information collector using reflection.
+- Domain event Json serializer and deserializer.
+- Asynchronous consumer and publisher of domain events using RabbitMQ.
+- Retry queue to reprocess failed event bus messages, you can modify the delivery time from `EVENT_BUS_MESSAGE_REDELIVERY_DELAY` environment variable in the `.env` file.
+- Dead letter queue to publish failed domain event messages after exceeding the retry limit, you can modify the message delivery limit from `EVENT_BUS_MESSAGE_DELIVERY_LIMIT` environment variable in the `.env` file.
 
 ## 🔧 Setup
 
