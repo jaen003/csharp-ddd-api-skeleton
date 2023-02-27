@@ -8,6 +8,10 @@ The main idea of ​​this project is to share a template that can be used as a
 
 It is built with clean architecture, SOLID principles and above all with ❤️.
 
+## 🎢 Features
+
+- Identifier generator based on Twitter's snowflake algorithm.
+
 ## 📜 License
 
 [GNU GPLv2](https://choosealicense.com/licenses/gpl-2.0/)
