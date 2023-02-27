@@ -1,5 +1,8 @@
 using dotenv.net;
+using Src.Core.Shared.Domain.EventBus;
+using Src.Core.Shared.Domain.Exceptions;
 using Src.Core.Shared.Domain.Generators;
+using Src.Core.Shared.Infrastructure.EventBus;
 using Src.Core.Shared.Infrastructure.Events;
 using Src.Core.Shared.Infrastructure.Generators;
 using Src.Core.Shared.Infrastructure.Logging;
@@ -14,6 +17,9 @@ builder.Services.AddSingleton<ApplicationLoggerCreator, ApplicationLoggerCreator
 builder.Services.AddScoped<ILogger>(
     serviceProvider => serviceProvider.GetRequiredService<ApplicationLoggerCreator>().Create()
 );
+builder.Services.AddTransient<DomainExceptionHandler, DomainExceptionHandler>();
+builder.Services.AddSingleton<RabbitmqEventBusConnection, RabbitmqEventBusConnection>();
+builder.Services.AddTransient<RabbitmqMessagePublisher, RabbitmqMessagePublisher>();
 builder.Services.CollectDomainEventInformation();
 builder.Services.AddSingleton<
     SnowflakeIdentifierGeneratorCreator,
@@ -23,6 +29,7 @@ builder.Services.AddScoped<IIdentifierGenerator>(
     serviceProvider =>
         serviceProvider.GetRequiredService<SnowflakeIdentifierGeneratorCreator>().Create()
 );
+builder.Services.AddScoped<IDomainEventPublisher, RabbitmqDomainEventPublisher>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
