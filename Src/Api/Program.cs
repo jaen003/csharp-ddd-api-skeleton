@@ -18,6 +18,7 @@ builder.Services.AddScoped<ILogger>(
 );
 builder.Services.AddTransient<DomainExceptionHandler, DomainExceptionHandler>();
 builder.Services.AddSingleton<RabbitmqEventBusConnection, RabbitmqEventBusConnection>();
+builder.Services.AddTransient<RabbitmqMessagePublisher, RabbitmqMessagePublisher>();
 builder.Services.CollectDomainEventInformation();
 builder.Services.AddSingleton<
     SnowflakeIdentifierGeneratorCreator,
