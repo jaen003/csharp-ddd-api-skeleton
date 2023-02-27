@@ -22,6 +22,7 @@ builder.Services.AddSingleton<RabbitmqEventBusConnection, RabbitmqEventBusConnec
 builder.Services.AddTransient<RabbitmqMessagePublisher, RabbitmqMessagePublisher>();
 builder.Services.CollectDomainEventInformation();
 builder.Services.AddTransient<RabbitmqEventBusConfigurer, RabbitmqEventBusConfigurer>();
+builder.Services.AddSingleton<RabbitmqDomainEventConsumer, RabbitmqDomainEventConsumer>();
 builder.Services.AddSingleton<
     SnowflakeIdentifierGeneratorCreator,
     SnowflakeIdentifierGeneratorCreator
@@ -38,6 +39,9 @@ var app = builder.Build();
 RabbitmqEventBusConfigurer eventBusConfigurer =
     app.Services.GetRequiredService<RabbitmqEventBusConfigurer>();
 await eventBusConfigurer.Configure();
+RabbitmqDomainEventConsumer eventBusConsumer =
+    app.Services.GetRequiredService<RabbitmqDomainEventConsumer>();
+eventBusConsumer.Consume();
 
 // Configure the HTTP request pipeline.
 
