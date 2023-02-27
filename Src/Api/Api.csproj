@@ -7,7 +7,12 @@
     <AssemblyName>Src.Api</AssemblyName>
     <RootNamespace>Src.Api</RootNamespace>
     <NoDefaultLaunchSettingsFile>True</NoDefaultLaunchSettingsFile>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="dotenv.net" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj" />
