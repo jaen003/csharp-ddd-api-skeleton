@@ -12,6 +12,7 @@ It is built with clean architecture, SOLID principles and above all with ❤️.
 
 - Identifier generator based on Twitter's snowflake algorithm.
 - Log events by file and console with Serilog logger.
+- Domain event information collector using reflection.
 
 ## ⚙️ Environment Variables
 
