@@ -12,7 +12,7 @@ public class Restaurant
     public long Id { get; set; }
 
     [Column("name"), MaxLength(40)]
-    public required string Name { get; set; }
+    public string Name { get; set; } = null!;
 
     [Column("status")]
     public short Status { get; set; }

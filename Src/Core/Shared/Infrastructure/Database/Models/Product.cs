@@ -13,13 +13,13 @@ public class Product
     public long Id { get; set; }
 
     [Column("name"), MaxLength(60)]
-    public required string Name { get; set; }
+    public string Name { get; set; } = null!;
 
     [Column("price")]
     public int Price { get; set; }
 
     [Column("description"), MaxLength(80)]
-    public required string Description { get; set; }
+    public string Description { get; set; } = null!;
 
     [Column("status")]
     public short Status { get; set; }
