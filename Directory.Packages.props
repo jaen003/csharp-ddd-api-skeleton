@@ -2,6 +2,23 @@
 
   <ItemGroup>
     <PackageVersion Include="dotenv.net" Version="3.1.2" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
+    <PackageVersion Include="xunit" Version="2.4.2" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="2.4.5">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageVersion>
+    <PackageVersion Include="coverlet.collector" Version="3.1.2">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageVersion>
+    <PackageVersion Include="IdGen" Version="3.0.3" />
+    <PackageVersion Include="Serilog" Version="3.0.0-dev-01884" />
+    <PackageVersion Include="Serilog.Sinks.Console" Version="4.1.1-dev-00907" />
+    <PackageVersion Include="Serilog.Sinks.File" Version="5.0.1-dev-00947" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+    <PackageVersion Include="RabbitMQ.Client" Version="6.4.0" />
+    <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.3" />
   </ItemGroup>
   
 </Project>
