@@ -1,7 +1,9 @@
 using dotenv.net;
+using Microsoft.EntityFrameworkCore;
 using Src.Core.Shared.Domain.EventBus;
 using Src.Core.Shared.Domain.Exceptions;
 using Src.Core.Shared.Domain.Generators;
+using Src.Core.Shared.Infrastructure.Database;
 using Src.Core.Shared.Infrastructure.EventBus;
 using Src.Core.Shared.Infrastructure.Events;
 using Src.Core.Shared.Infrastructure.Generators;
@@ -23,6 +25,11 @@ builder.Services.AddTransient<RabbitmqMessagePublisher, RabbitmqMessagePublisher
 builder.Services.CollectDomainEventInformation();
 builder.Services.AddTransient<RabbitmqEventBusConfigurer, RabbitmqEventBusConfigurer>();
 builder.Services.AddSingleton<RabbitmqDomainEventConsumer, RabbitmqDomainEventConsumer>();
+PostgresqlDatabaseConnectionData databaseConnectionData = new();
+builder.Services.AddPooledDbContextFactory<PostgresqlDatabaseContext>(
+    options => options.UseNpgsql(databaseConnectionData.ConnectionString),
+    databaseConnectionData.PoolSize
+);
 builder.Services.AddSingleton<
     SnowflakeIdentifierGeneratorCreator,
     SnowflakeIdentifierGeneratorCreator
