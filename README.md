@@ -18,6 +18,7 @@ It is built with clean architecture, SOLID principles and above all with ❤️.
 - Retry queue to reprocess failed event bus messages, you can modify the delivery time from `EVENT_BUS_MESSAGE_REDELIVERY_DELAY` environment variable in the `.env` file.
 - Dead letter queue to publish failed domain event messages after exceeding the retry limit, you can modify the message delivery limit from `EVENT_BUS_MESSAGE_DELIVERY_LIMIT` environment variable in the `.env` file.
 - Connection pool in Entity Framework, you can modify the pool size from `DATABASE_CONNECTION_POOL_SIZE` environment variable in the `.env` file.
+- Database migrations with Entity Framework.
 
 <a name="setup"></a>
 ## 🔧 Setup
