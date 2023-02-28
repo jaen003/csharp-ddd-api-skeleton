@@ -22,6 +22,7 @@ builder.Services.AddScoped<ILogger>(
 builder.Services.AddTransient<DomainExceptionHandler, DomainExceptionHandler>();
 builder.Services.AddSingleton<RabbitmqEventBusConnection, RabbitmqEventBusConnection>();
 builder.Services.AddTransient<RabbitmqMessagePublisher, RabbitmqMessagePublisher>();
+builder.Services.AddTransient<RabbitmqConsumptionErrorHandler, RabbitmqConsumptionErrorHandler>();
 builder.Services.CollectDomainEventInformation();
 builder.Services.AddTransient<RabbitmqEventBusConfigurer, RabbitmqEventBusConfigurer>();
 builder.Services.AddSingleton<RabbitmqDomainEventConsumer, RabbitmqDomainEventConsumer>();
@@ -38,11 +39,15 @@ builder.Services.AddScoped<IIdentifierGenerator>(
     serviceProvider =>
         serviceProvider.GetRequiredService<SnowflakeIdentifierGeneratorCreator>().Create()
 );
+builder.Services.AddScoped<PostgresqlDatabaseMigrator, PostgresqlDatabaseMigrator>();
 builder.Services.AddScoped<IDomainEventPublisher, RabbitmqDomainEventPublisher>();
 var app = builder.Build();
 
 // Init services
 
+PostgresqlDatabaseMigrator databaseMigrator =
+    app.Services.GetRequiredService<PostgresqlDatabaseMigrator>();
+await databaseMigrator.Migrate();
 RabbitmqEventBusConfigurer eventBusConfigurer =
     app.Services.GetRequiredService<RabbitmqEventBusConfigurer>();
 await eventBusConfigurer.Configure();
