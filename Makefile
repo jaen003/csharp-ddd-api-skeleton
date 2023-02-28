@@ -13,5 +13,5 @@ test:
 .PHONY: lint
 lint:
 	@echo "Running the project linters"
-	@dotnet csharpier --check $(check_directories)
 	@dotnet roslynator analyze
+	@dotnet csharpier --check $(check_directories)
