@@ -27,6 +27,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageVersion>
+    <PackageVersion Include="System.Linq.Dynamic.Core" Version="1.2.25" />
   </ItemGroup>
   
 </Project>
