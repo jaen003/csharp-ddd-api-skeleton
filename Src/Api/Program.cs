@@ -1,5 +1,8 @@
 using dotenv.net;
 using Microsoft.EntityFrameworkCore;
+using Src.Core.Restaurants.Application.Services;
+using Src.Core.Restaurants.Domain;
+using Src.Core.Restaurants.Infrastructure;
 using Src.Core.Shared.Domain.EventBus;
 using Src.Core.Shared.Domain.Exceptions;
 using Src.Core.Shared.Domain.Generators;
@@ -41,6 +44,8 @@ builder.Services.AddScoped<IIdentifierGenerator>(
 );
 builder.Services.AddScoped<PostgresqlDatabaseMigrator, PostgresqlDatabaseMigrator>();
 builder.Services.AddScoped<IDomainEventPublisher, RabbitmqDomainEventPublisher>();
+builder.Services.AddScoped<IRestaurantRepository, PostgresqlRestaurantRepository>();
+builder.Services.AddScoped<RestaurantCreator, RestaurantCreator>();
 var app = builder.Build();
 
 // Init services
