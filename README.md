@@ -20,6 +20,7 @@ It is built with clean architecture, SOLID principles and above all with ❤️.
 - Connection pool in Entity Framework, you can modify the pool size from `DATABASE_CONNECTION_POOL_SIZE` environment variable in the `.env` file.
 - Database migrations with Entity Framework.
 - Key pagination and sorting by field receiving parameters through path.
+- Restaurant creation from the `restaurant.created` domain event.
 
 <a name="setup"></a>
 ## 🔧 Setup
