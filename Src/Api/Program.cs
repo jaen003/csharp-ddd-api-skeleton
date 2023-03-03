@@ -1,6 +1,8 @@
 using dotenv.net;
 using Microsoft.EntityFrameworkCore;
 using Src.Api.Middlewares;
+using Src.Core.Products.Domain;
+using Src.Core.Products.Infrastructure;
 using Src.Core.Restaurants.Application.Services;
 using Src.Core.Restaurants.Domain;
 using Src.Core.Restaurants.Infrastructure;
@@ -19,6 +21,8 @@ DotEnv.Load();
 
 // Add services to the container.
 
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSingleton<ApplicationLoggerCreator, ApplicationLoggerCreator>();
 builder.Services.AddScoped<ILogger>(
     serviceProvider => serviceProvider.GetRequiredService<ApplicationLoggerCreator>().Create()
@@ -47,6 +51,7 @@ builder.Services.AddScoped<PostgresqlDatabaseMigrator, PostgresqlDatabaseMigrato
 builder.Services.AddScoped<IDomainEventPublisher, RabbitmqDomainEventPublisher>();
 builder.Services.AddScoped<IRestaurantRepository, PostgresqlRestaurantRepository>();
 builder.Services.AddScoped<RestaurantCreator, RestaurantCreator>();
+builder.Services.AddScoped<IProductRepository, PostgresqlProductRepository>();
 var app = builder.Build();
 
 // Add middlewares
@@ -67,4 +72,5 @@ eventBusConsumer.Consume();
 
 // Configure the HTTP request pipeline.
 
+app.MapControllers();
 app.Run();

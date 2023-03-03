@@ -1,5 +1,4 @@
 using Src.Core.Restaurants.Domain.ValueObjects;
-using Xunit;
 
 namespace Tests.Resturants;
 
