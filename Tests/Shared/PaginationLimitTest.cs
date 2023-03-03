@@ -1,6 +1,5 @@
 using Src.Core.Shared.Domain.Exceptions;
 using Src.Core.Shared.Domain.Paginations;
-using Xunit;
 
 namespace Tests.Shared;
 
