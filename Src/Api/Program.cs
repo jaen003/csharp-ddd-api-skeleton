@@ -1,5 +1,6 @@
 using dotenv.net;
 using Microsoft.EntityFrameworkCore;
+using Src.Api.Middlewares;
 using Src.Core.Restaurants.Application.Services;
 using Src.Core.Restaurants.Domain;
 using Src.Core.Restaurants.Infrastructure;
@@ -47,6 +48,10 @@ builder.Services.AddScoped<IDomainEventPublisher, RabbitmqDomainEventPublisher>(
 builder.Services.AddScoped<IRestaurantRepository, PostgresqlRestaurantRepository>();
 builder.Services.AddScoped<RestaurantCreator, RestaurantCreator>();
 var app = builder.Build();
+
+// Add middlewares
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 // Init services
 
