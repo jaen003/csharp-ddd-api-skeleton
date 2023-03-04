@@ -101,4 +101,14 @@ public class ProductController : ControllerBase
             new RestaurantId(restaurantId ?? 0)
         );
     }
+
+    [HttpDelete("{id:long}")]
+    public async Task Delete(
+        long id,
+        [Required, FromHeader(Name = "restaurant_id")] long? restaurantId
+    )
+    {
+        ProductDeletor deletor = new(repository, eventPublisher, logger);
+        await deletor.Delete(new ProductId(id), new RestaurantId(restaurantId ?? 0));
+    }
 }

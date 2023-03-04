@@ -25,6 +25,7 @@ It is built with clean architecture, SOLID principles and above all with ❤️.
 - Product creation.
 - Search for products by id and restaurant.
 - Product price change.
+- Product deletion.
 
 <a name="setup"></a>
 ## 🔧 Setup

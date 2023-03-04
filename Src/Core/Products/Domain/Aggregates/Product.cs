@@ -52,4 +52,10 @@ public class Product : AggregateRoot
         Price = newPrice;
         RecordEvent(new ProductPriceChanged(Id.Value, Price.Value));
     }
+
+    public void Delete()
+    {
+        Status = ProductStatus.CreateDeleted();
+        RecordEvent(new ProductDeleted(Id.Value));
+    }
 }
