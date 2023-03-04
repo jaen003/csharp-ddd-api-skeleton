@@ -46,4 +46,10 @@ public class Product : AggregateRoot
         );
         return product;
     }
+
+    public void ChangePrice(ProductPrice newPrice)
+    {
+        Price = newPrice;
+        RecordEvent(new ProductPriceChanged(Id.Value, Price.Value));
+    }
 }
