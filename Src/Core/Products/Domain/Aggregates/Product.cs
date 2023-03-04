@@ -64,4 +64,10 @@ public class Product : AggregateRoot
         Description = newDescription;
         RecordEvent(new ProductDescriptionChanged(Id.Value, Description.Value));
     }
+
+    public void Rename(ProductName newName)
+    {
+        Name = newName;
+        RecordEvent(new ProductRenamed(Id.Value, Name.Value));
+    }
 }
