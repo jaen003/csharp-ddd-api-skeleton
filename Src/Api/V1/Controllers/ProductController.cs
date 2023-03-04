@@ -86,4 +86,19 @@ public class ProductController : ControllerBase
             new RestaurantId(restaurantId ?? 0)
         );
     }
+
+    [HttpPut("{id:long}/change/price")]
+    public async Task ChangePrice(
+        long id,
+        ProductPriceChangerSchema schema,
+        [Required, FromHeader(Name = "restaurant_id")] long? restaurantId
+    )
+    {
+        ProductPriceChanger changer = new(repository, eventPublisher, logger);
+        await changer.Change(
+            new ProductId(id),
+            new ProductPrice(schema.Price),
+            new RestaurantId(restaurantId ?? 0)
+        );
+    }
 }

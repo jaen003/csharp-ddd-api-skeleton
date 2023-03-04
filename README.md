@@ -22,8 +22,9 @@ It is built with clean architecture, SOLID principles and above all with ❤️.
 - Key pagination and sorting by field receiving parameters through path.
 - Restaurant creation from the `restaurant.created` domain event.
 - Middleware to catch exceptions and log events.
-- Product creation from endpoint.
+- Product creation.
 - Search for products by id and restaurant.
+- Product price change.
 
 <a name="setup"></a>
 ## 🔧 Setup
