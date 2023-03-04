@@ -111,4 +111,19 @@ public class ProductController : ControllerBase
         ProductDeletor deletor = new(repository, eventPublisher, logger);
         await deletor.Delete(new ProductId(id), new RestaurantId(restaurantId ?? 0));
     }
+
+    [HttpPut("{id:long}/change/description")]
+    public async Task ChangeDescription(
+        long id,
+        ProductDescriptionChangeSchema schema,
+        [Required, FromHeader(Name = "restaurant_id")] long? restaurantId
+    )
+    {
+        ProductDescriptionChanger changer = new(repository, eventPublisher, logger);
+        await changer.Change(
+            new ProductId(id),
+            new ProductDescription(schema.Description),
+            new RestaurantId(restaurantId ?? 0)
+        );
+    }
 }

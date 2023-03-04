@@ -58,4 +58,10 @@ public class Product : AggregateRoot
         Status = ProductStatus.CreateDeleted();
         RecordEvent(new ProductDeleted(Id.Value));
     }
+
+    public void ChangeDescription(ProductDescription newDescription)
+    {
+        Description = newDescription;
+        RecordEvent(new ProductDescriptionChanged(Id.Value, Description.Value));
+    }
 }
