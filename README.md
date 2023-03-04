@@ -27,6 +27,7 @@ It is built with clean architecture, SOLID principles and above all with ❤️.
 - Product price change.
 - Product deletion.
 - Product description change.
+- Change product name.
 
 <a name="setup"></a>
 ## 🔧 Setup
