@@ -126,4 +126,19 @@ public class ProductController : ControllerBase
             new RestaurantId(restaurantId ?? 0)
         );
     }
+
+    [HttpPut("{id:long}/rename")]
+    public async Task Rename(
+        long id,
+        ProductNameChangeSchema schema,
+        [Required, FromHeader(Name = "restaurant_id")] long? restaurantId
+    )
+    {
+        ProductRenamer renamer = new(repository, eventPublisher, logger);
+        await renamer.Rename(
+            new ProductId(id),
+            new ProductName(schema.Name),
+            new RestaurantId(restaurantId ?? 0)
+        );
+    }
 }
