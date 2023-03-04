@@ -23,6 +23,7 @@ It is built with clean architecture, SOLID principles and above all with ❤️.
 - Restaurant creation from the `restaurant.created` domain event.
 - Middleware to catch exceptions and log events.
 - Product creation from endpoint.
+- Search for products by id and restaurant.
 
 <a name="setup"></a>
 ## 🔧 Setup

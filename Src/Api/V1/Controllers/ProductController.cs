@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
+using Src.Api.V1.Schemas;
 using Src.Api.V1.Schemas.Products;
 using Src.Core.Products.Application.Services;
 using Src.Core.Products.Domain;
@@ -8,6 +9,7 @@ using Src.Core.Restaurants.Domain;
 using Src.Core.Restaurants.Domain.ValueObjects;
 using Src.Core.Shared.Domain.EventBus;
 using Src.Core.Shared.Domain.Generators;
+using Src.Core.Shared.Domain.Paginations;
 using ILogger = Src.Core.Shared.Domain.Logging.ILogger;
 
 namespace Src.Api.V1.Controllers;
@@ -49,6 +51,38 @@ public class ProductController : ControllerBase
             new ProductName(schema.Name),
             new ProductPrice(schema.Price),
             new ProductDescription(schema.Description),
+            new RestaurantId(restaurantId ?? 0)
+        );
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<List<Dictionary<string, object>>>> FindByRestaurant(
+        [FromQuery] PaginationSchema paginationSchema,
+        [Required, FromHeader(Name = "restaurant_id")] long? restaurantId
+    )
+    {
+        ProductFinder finder = new(repository);
+        Pagination pagination = Pagination.FromPrimitives(
+            paginationSchema.Limit,
+            paginationSchema.StartIndex,
+            paginationSchema.SortingField,
+            paginationSchema.SortingType
+        );
+        return await finder.FindByResturantIdAndPagination(
+            new RestaurantId(restaurantId ?? 0),
+            pagination
+        );
+    }
+
+    [HttpGet("{id:long}")]
+    public async Task<ActionResult<Dictionary<string, object>>> FindById(
+        long id,
+        [Required, FromHeader(Name = "restaurant_id")] long? restaurantId
+    )
+    {
+        ProductFinder finder = new(repository);
+        return await finder.FindByIdAndResturantId(
+            new ProductId(id),
             new RestaurantId(restaurantId ?? 0)
         );
     }
