@@ -22,15 +22,9 @@ public class ProductFinder
     )
     {
         ProductStatus status = ProductStatus.CreateDeleted();
-        Product? product = await repository.FindByStatusNotAndIdAndRestaurantId(
-            status,
-            id,
-            restaurantId
-        );
-        if (product == null)
-        {
-            throw new ProductNotFoundException(id.Value);
-        }
+        Product? product =
+            await repository.FindByStatusNotAndIdAndRestaurantId(status, id, restaurantId)
+            ?? throw new ProductNotFoundException(id.Value);
         return new()
         {
             { "name", product.Name.Value },

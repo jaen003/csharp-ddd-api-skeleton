@@ -32,15 +32,9 @@ public class ProductDescriptionChanger
     )
     {
         ProductStatus status = ProductStatus.CreateDeleted();
-        Product? product = await repository.FindByStatusNotAndIdAndRestaurantId(
-            status,
-            id,
-            restaurantId
-        );
-        if (product == null)
-        {
-            throw new ProductNotFoundException(id.Value);
-        }
+        Product? product =
+            await repository.FindByStatusNotAndIdAndRestaurantId(status, id, restaurantId)
+            ?? throw new ProductNotFoundException(id.Value);
         ProductDescription oldDescription = product.Description;
         product.ChangeDescription(description);
         await repository.Update(product);

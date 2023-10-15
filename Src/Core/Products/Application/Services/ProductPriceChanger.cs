@@ -28,15 +28,9 @@ public class ProductPriceChanger
     public async Task Change(ProductId id, ProductPrice price, RestaurantId restaurantId)
     {
         ProductStatus status = ProductStatus.CreateDeleted();
-        Product? product = await repository.FindByStatusNotAndIdAndRestaurantId(
-            status,
-            id,
-            restaurantId
-        );
-        if (product == null)
-        {
-            throw new ProductNotFoundException(id.Value);
-        }
+        Product? product =
+            await repository.FindByStatusNotAndIdAndRestaurantId(status, id, restaurantId)
+            ?? throw new ProductNotFoundException(id.Value);
         ProductPrice oldPrice = product.Price;
         product.ChangePrice(price);
         await repository.Update(product);

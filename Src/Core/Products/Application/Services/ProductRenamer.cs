@@ -32,15 +32,9 @@ public class ProductRenamer
             throw new ProductNameAlreadyCreatedException(name.Value);
         }
         ProductStatus status = ProductStatus.CreateDeleted();
-        Product? product = await repository.FindByStatusNotAndIdAndRestaurantId(
-            status,
-            id,
-            restaurantId
-        );
-        if (product == null)
-        {
-            throw new ProductNotFoundException(id.Value);
-        }
+        Product? product =
+            await repository.FindByStatusNotAndIdAndRestaurantId(status, id, restaurantId)
+            ?? throw new ProductNotFoundException(id.Value);
         ProductName oldName = product.Name;
         product.Rename(name);
         await repository.Update(product);

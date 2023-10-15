@@ -28,15 +28,9 @@ public class ProductDeletor
     public async Task Delete(ProductId id, RestaurantId restaurantId)
     {
         ProductStatus status = ProductStatus.CreateDeleted();
-        Product? product = await repository.FindByStatusNotAndIdAndRestaurantId(
-            status,
-            id,
-            restaurantId
-        );
-        if (product == null)
-        {
-            throw new ProductNotFoundException(id.Value);
-        }
+        Product? product =
+            await repository.FindByStatusNotAndIdAndRestaurantId(status, id, restaurantId)
+            ?? throw new ProductNotFoundException(id.Value);
         product.Delete();
         await repository.Update(product);
         eventPublisher.Publish(product.PullEvents());
