@@ -4,9 +4,7 @@ using Src.Api.V1.Schemas;
 using Src.Api.V1.Schemas.Products;
 using Src.Core.Products.Application.Services;
 using Src.Core.Products.Domain;
-using Src.Core.Products.Domain.ValueObjects;
 using Src.Core.Restaurants.Domain;
-using Src.Core.Restaurants.Domain.ValueObjects;
 using Src.Core.Shared.Domain.EventBus;
 using Src.Core.Shared.Domain.Generators;
 using Src.Core.Shared.Domain.Paginations;
@@ -47,12 +45,7 @@ public class ProductController : ControllerBase
     {
         ProductCreator creator =
             new(repository, restaurantRepository, eventPublisher, logger, identifierGenerator);
-        await creator.Create(
-            new ProductName(schema.Name),
-            new ProductPrice(schema.Price),
-            new ProductDescription(schema.Description),
-            new RestaurantId(restaurantId ?? 0)
-        );
+        await creator.Create(schema.Name, schema.Price, schema.Description, restaurantId ?? 0);
     }
 
     [HttpGet]
@@ -68,10 +61,7 @@ public class ProductController : ControllerBase
             paginationSchema.SortingField,
             paginationSchema.SortingType
         );
-        return await finder.FindByResturantIdAndPagination(
-            new RestaurantId(restaurantId ?? 0),
-            pagination
-        );
+        return await finder.FindByResturantIdAndPagination(restaurantId ?? 0, pagination);
     }
 
     [HttpGet("{id:long}")]
@@ -81,10 +71,7 @@ public class ProductController : ControllerBase
     )
     {
         ProductFinder finder = new(repository);
-        return await finder.FindByIdAndResturantId(
-            new ProductId(id),
-            new RestaurantId(restaurantId ?? 0)
-        );
+        return await finder.FindByIdAndResturantId(id, restaurantId ?? 0);
     }
 
     [HttpPut("{id:long}/change/price")]
@@ -95,11 +82,7 @@ public class ProductController : ControllerBase
     )
     {
         ProductPriceChanger changer = new(repository, eventPublisher, logger);
-        await changer.Change(
-            new ProductId(id),
-            new ProductPrice(schema.Price),
-            new RestaurantId(restaurantId ?? 0)
-        );
+        await changer.Change(id, schema.Price, restaurantId ?? 0);
     }
 
     [HttpDelete("{id:long}")]
@@ -109,7 +92,7 @@ public class ProductController : ControllerBase
     )
     {
         ProductDeletor deletor = new(repository, eventPublisher, logger);
-        await deletor.Delete(new ProductId(id), new RestaurantId(restaurantId ?? 0));
+        await deletor.Delete(id, restaurantId ?? 0);
     }
 
     [HttpPut("{id:long}/change/description")]
@@ -120,11 +103,7 @@ public class ProductController : ControllerBase
     )
     {
         ProductDescriptionChanger changer = new(repository, eventPublisher, logger);
-        await changer.Change(
-            new ProductId(id),
-            new ProductDescription(schema.Description),
-            new RestaurantId(restaurantId ?? 0)
-        );
+        await changer.Change(id, schema.Description, restaurantId ?? 0);
     }
 
     [HttpPut("{id:long}/rename")]
@@ -135,10 +114,6 @@ public class ProductController : ControllerBase
     )
     {
         ProductRenamer renamer = new(repository, eventPublisher, logger);
-        await renamer.Rename(
-            new ProductId(id),
-            new ProductName(schema.Name),
-            new RestaurantId(restaurantId ?? 0)
-        );
+        await renamer.Rename(id, schema.Name, restaurantId ?? 0);
     }
 }

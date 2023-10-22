@@ -2,9 +2,9 @@ using Microsoft.EntityFrameworkCore;
 using Src.Core.Products.Domain;
 using Src.Core.Products.Domain.Aggregates;
 using Src.Core.Products.Domain.ValueObjects;
-using Src.Core.Restaurants.Domain.ValueObjects;
 using Src.Core.Shared.Domain.Exceptions;
 using Src.Core.Shared.Domain.Paginations;
+using Src.Core.Shared.Domain.ValueObjects;
 using Src.Core.Shared.Infrastructure.Database;
 using ProductModel = Src.Core.Shared.Infrastructure.Database.Models.Product;
 
@@ -23,8 +23,8 @@ public class PostgresqlProductRepository : IProductRepository
 
     async public Task<bool> ExistByStatusNotAndNameAndRestaurantId(
         ProductStatus status,
-        ProductName name,
-        RestaurantId restaurantId
+        NonEmptyStringValueObject name,
+        NonNegativeLongValueObject restaurantId
     )
     {
         try
@@ -46,8 +46,8 @@ public class PostgresqlProductRepository : IProductRepository
 
     public async Task<Product?> FindByStatusNotAndIdAndRestaurantId(
         ProductStatus status,
-        ProductId id,
-        RestaurantId restaurantId
+        NonNegativeLongValueObject id,
+        NonNegativeLongValueObject restaurantId
     )
     {
         try
@@ -75,12 +75,12 @@ public class PostgresqlProductRepository : IProductRepository
     private static Product MapToAggregates(ProductModel productModel)
     {
         return new(
-            new ProductId(productModel.Id),
-            new ProductName(productModel.Name),
-            new ProductPrice(productModel.Price),
-            new ProductDescription(productModel.Description),
-            new ProductStatus(productModel.Status),
-            new RestaurantId(productModel.RestaurantId)
+            productModel.Id,
+            productModel.Name,
+            productModel.Price,
+            productModel.Description,
+            productModel.Status,
+            productModel.RestaurantId
         );
     }
 
@@ -93,12 +93,12 @@ public class PostgresqlProductRepository : IProductRepository
             ProductModel productModel =
                 new()
                 {
-                    Id = product.Id.Value,
-                    Name = product.Name.Value,
-                    Price = product.Price.Value,
-                    Description = product.Description.Value,
-                    Status = product.Status.Value,
-                    RestaurantId = product.RestaurantId.Value
+                    Id = product.Id,
+                    Name = product.Name,
+                    Price = product.Price,
+                    Description = product.Description,
+                    Status = product.Status,
+                    RestaurantId = product.RestaurantId
                 };
             await databaseContext.Products.AddAsync(productModel);
             await databaseContext.SaveChangesAsync();
@@ -116,12 +116,12 @@ public class PostgresqlProductRepository : IProductRepository
             using PostgresqlDatabaseContext databaseContext =
                 await databaseContextFactory.CreateDbContextAsync();
             ProductModel productModel = await databaseContext.Products.FirstAsync(
-                t => t.Id == product.Id.Value
+                t => t.Id == product.Id
             );
-            productModel.Name = product.Name.Value;
-            productModel.Price = product.Price.Value;
-            productModel.Description = product.Description.Value;
-            productModel.Status = product.Status.Value;
+            productModel.Name = product.Name;
+            productModel.Price = product.Price;
+            productModel.Description = product.Description;
+            productModel.Status = product.Status;
             await databaseContext.SaveChangesAsync();
         }
         catch (Exception exception)
@@ -132,7 +132,7 @@ public class PostgresqlProductRepository : IProductRepository
 
     async public Task<List<Product>> FindByStatusNotAndRestaurantIdAndPagination(
         ProductStatus status,
-        RestaurantId restaurantId,
+        NonNegativeLongValueObject restaurantId,
         Pagination pagination
     )
     {

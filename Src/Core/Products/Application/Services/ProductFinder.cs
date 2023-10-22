@@ -2,8 +2,8 @@ using Src.Core.Products.Domain;
 using Src.Core.Products.Domain.Aggregates;
 using Src.Core.Products.Domain.Exceptions;
 using Src.Core.Products.Domain.ValueObjects;
-using Src.Core.Restaurants.Domain.ValueObjects;
 using Src.Core.Shared.Domain.Paginations;
+using Src.Core.Shared.Domain.ValueObjects;
 
 namespace Src.Core.Products.Application.Services;
 
@@ -16,44 +16,37 @@ public class ProductFinder
         this.repository = repository;
     }
 
-    public async Task<Dictionary<string, object>> FindByIdAndResturantId(
-        ProductId id,
-        RestaurantId restaurantId
-    )
+    public async Task<Dictionary<string, object>> FindByIdAndResturantId(long id, long restaurantId)
     {
-        ProductStatus status = ProductStatus.CreateDeleted();
         Product? product =
-            await repository.FindByStatusNotAndIdAndRestaurantId(status, id, restaurantId)
-            ?? throw new ProductNotFoundException(id.Value);
+            await repository.FindByStatusNotAndIdAndRestaurantId(
+                ProductStatus.CreateDeleted(),
+                new NonNegativeLongValueObject(id),
+                new NonNegativeLongValueObject(restaurantId)
+            ) ?? throw new ProductNotFoundException(id);
         return new()
         {
-            { "name", product.Name.Value },
-            { "price", product.Price.Value },
-            { "description", product.Description.Value }
+            { "name", product.Name },
+            { "price", product.Price },
+            { "description", product.Description }
         };
     }
 
     public async Task<List<Dictionary<string, object>>> FindByResturantIdAndPagination(
-        RestaurantId restaurantId,
+        long restaurantId,
         Pagination pagination
     )
     {
-        ProductStatus status = ProductStatus.CreateDeleted();
         List<Product> products = await repository.FindByStatusNotAndRestaurantIdAndPagination(
-            status,
-            restaurantId,
+            ProductStatus.CreateDeleted(),
+            new NonNegativeLongValueObject(restaurantId),
             pagination
         );
         List<Dictionary<string, object>> result = new();
         foreach (Product product in products)
         {
             result.Add(
-                new()
-                {
-                    { "id", product.Id.Value },
-                    { "name", product.Name.Value },
-                    { "price", product.Price.Value }
-                }
+                new() { { "id", product.Id }, { "name", product.Name }, { "price", product.Price } }
             );
         }
         return result;

@@ -3,10 +3,10 @@ using Src.Core.Products.Application.Services;
 using Src.Core.Products.Domain;
 using Src.Core.Products.Domain.Aggregates;
 using Src.Core.Products.Domain.ValueObjects;
-using Src.Core.Restaurants.Domain.ValueObjects;
 using Src.Core.Shared.Domain.EventBus;
 using Src.Core.Shared.Domain.Exceptions;
 using Src.Core.Shared.Domain.Logging;
+using Src.Core.Shared.Domain.ValueObjects;
 
 namespace Tests.Products;
 
@@ -19,12 +19,12 @@ public class ProductDeletorTest
     public ProductDeletorTest()
     {
         product = new Product(
-            new ProductId(1),
-            new ProductName("Sandwich"),
-            new ProductPrice(3),
-            new ProductDescription("Bread, Onion, Tomato, Chicken"),
+            1,
+            "Sandwich",
+            3,
+            "Bread, Onion, Tomato, Chicken",
             ProductStatus.CreateActived(),
-            new RestaurantId(1)
+            1
         );
         logger = Mock.Of<ILogger>();
         eventPublisher = Mock.Of<IDomainEventPublisher>();
@@ -37,8 +37,8 @@ public class ProductDeletorTest
             l =>
                 l.FindByStatusNotAndIdAndRestaurantId(
                     It.IsAny<ProductStatus>(),
-                    It.IsAny<ProductId>(),
-                    It.IsAny<RestaurantId>()
+                    It.IsAny<NonNegativeLongValueObject>(),
+                    It.IsAny<NonNegativeLongValueObject>()
                 ) == Task.FromResult(product)
         );
         int exceptionCode = 0;
@@ -61,8 +61,8 @@ public class ProductDeletorTest
             l =>
                 l.FindByStatusNotAndIdAndRestaurantId(
                     It.IsAny<ProductStatus>(),
-                    It.IsAny<ProductId>(),
-                    It.IsAny<RestaurantId>()
+                    It.IsAny<NonNegativeLongValueObject>(),
+                    It.IsAny<NonNegativeLongValueObject>()
                 ) == Task.FromResult<Product>(null!)
         );
         int exceptionCode = 0;

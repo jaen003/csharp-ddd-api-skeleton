@@ -3,6 +3,7 @@ using Src.Core.Restaurants.Domain;
 using Src.Core.Restaurants.Domain.Aggregates;
 using Src.Core.Restaurants.Domain.ValueObjects;
 using Src.Core.Shared.Domain.Exceptions;
+using Src.Core.Shared.Domain.ValueObjects;
 using Src.Core.Shared.Infrastructure.Database;
 using RestaurantModel = Src.Core.Shared.Infrastructure.Database.Models.Restaurant;
 
@@ -19,7 +20,10 @@ public class PostgresqlRestaurantRepository : IRestaurantRepository
         this.databaseContextFactory = databaseContextFactory;
     }
 
-    async public Task<bool> ExistsByStatusNotAndId(RestaurantStatus status, RestaurantId id)
+    async public Task<bool> ExistsByStatusNotAndId(
+        RestaurantStatus status,
+        NonNegativeLongValueObject id
+    )
     {
         try
         {
@@ -44,9 +48,9 @@ public class PostgresqlRestaurantRepository : IRestaurantRepository
             RestaurantModel restaurantModel =
                 new()
                 {
-                    Id = restaurant.Id.Value,
-                    Name = restaurant.Name.Value,
-                    Status = restaurant.Status.Value
+                    Id = restaurant.Id,
+                    Name = restaurant.Name,
+                    Status = restaurant.Status
                 };
             await databaseContext.Restaurants.AddAsync(restaurantModel);
             await databaseContext.SaveChangesAsync();

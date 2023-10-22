@@ -1,7 +1,7 @@
-using Src.Core.Products.Domain.ValueObjects;
-using Src.Core.Restaurants.Domain.ValueObjects;
 using Src.Core.Products.Domain.Aggregates;
+using Src.Core.Products.Domain.ValueObjects;
 using Src.Core.Shared.Domain.Paginations;
+using Src.Core.Shared.Domain.ValueObjects;
 
 namespace Src.Core.Products.Domain;
 
@@ -13,19 +13,19 @@ public interface IProductRepository
 
     Task<bool> ExistByStatusNotAndNameAndRestaurantId(
         ProductStatus status,
-        ProductName name,
-        RestaurantId restaurantId
+        NonEmptyStringValueObject name,
+        NonNegativeLongValueObject restaurantId
     );
 
     Task<Product?> FindByStatusNotAndIdAndRestaurantId(
         ProductStatus status,
-        ProductId id,
-        RestaurantId restaurantId
+        NonNegativeLongValueObject id,
+        NonNegativeLongValueObject restaurantId
     );
 
     Task<List<Product>> FindByStatusNotAndRestaurantIdAndPagination(
         ProductStatus status,
-        RestaurantId restaurantId,
+        NonNegativeLongValueObject restaurantId,
         Pagination pagination
     );
 }

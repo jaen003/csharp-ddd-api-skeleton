@@ -1,73 +1,113 @@
 using Src.Core.Products.Domain.Events;
 using Src.Core.Products.Domain.ValueObjects;
-using Src.Core.Restaurants.Domain.ValueObjects;
+using Src.Core.Shared.Domain.ValueObjects;
 using Src.Core.Shared.Domain.Aggregates;
 
 namespace Src.Core.Products.Domain.Aggregates;
 
 public class Product : AggregateRoot
 {
-    public ProductId Id { get; }
-    public ProductName Name { get; private set; }
-    public ProductPrice Price { get; private set; }
-    public ProductDescription Description { get; private set; }
-    public ProductStatus Status { get; private set; }
-    public RestaurantId RestaurantId { get; }
+    private readonly NonNegativeLongValueObject id;
+    private NonEmptyStringValueObject name;
+    private NonNegativeIntValueObject price;
+    private NonEmptyStringValueObject description;
+    private ProductStatus status;
+    private readonly NonNegativeLongValueObject restaurantId;
+
+    public long Id
+    {
+        get { return id.Value; }
+    }
+    public string Name
+    {
+        get { return name.Value; }
+    }
+    public int Price
+    {
+        get { return price.Value; }
+    }
+    public string Description
+    {
+        get { return description.Value; }
+    }
+    public short Status
+    {
+        get { return status.Value; }
+    }
+    public long RestaurantId
+    {
+        get { return restaurantId.Value; }
+    }
 
     public Product(
-        ProductId id,
-        ProductName name,
-        ProductPrice price,
-        ProductDescription description,
-        ProductStatus status,
-        RestaurantId restaurantId
+        long id,
+        string name,
+        int price,
+        string description,
+        short status,
+        long restaurantId
     )
     {
-        Id = id;
-        Name = name;
-        Price = price;
-        Description = description;
-        Status = status;
-        RestaurantId = restaurantId;
+        this.id = new NonNegativeLongValueObject(id);
+        this.name = new NonEmptyStringValueObject(name);
+        this.price = new NonNegativeIntValueObject(price);
+        this.description = new NonEmptyStringValueObject(description);
+        this.status = new ProductStatus(status);
+        this.restaurantId = new NonNegativeLongValueObject(restaurantId);
+    }
+
+    public Product(
+        long id,
+        string name,
+        int price,
+        string description,
+        ProductStatus status,
+        long restaurantId
+    )
+    {
+        this.id = new NonNegativeLongValueObject(id);
+        this.name = new NonEmptyStringValueObject(name);
+        this.price = new NonNegativeIntValueObject(price);
+        this.description = new NonEmptyStringValueObject(description);
+        this.status = status;
+        this.restaurantId = new NonNegativeLongValueObject(restaurantId);
     }
 
     public static Product Create(
-        ProductId id,
-        ProductName name,
-        ProductPrice price,
-        ProductDescription description,
-        RestaurantId restaurantId
+        long id,
+        string name,
+        int price,
+        string description,
+        long restaurantId
     )
     {
         Product product =
             new(id, name, price, description, ProductStatus.CreateActived(), restaurantId);
-        product.RecordEvent(
-            new ProductCreated(id.Value, name.Value, price.Value, description.Value)
-        );
+        product.RecordEvent(new ProductCreated(id, name, price, description));
         return product;
     }
 
-    public void ChangePrice(ProductPrice newPrice)
+    public void ChangePrice(int newPrice)
     {
-        Price = newPrice;
-        RecordEvent(new ProductPriceChanged(Id.Value, Price.Value));
+        price = new NonNegativeIntValueObject(newPrice);
+        RecordEvent(new ProductPriceChanged(id.Value, price.Value));
     }
 
     public void Delete()
     {
-        Status = ProductStatus.CreateDeleted();
-        RecordEvent(new ProductDeleted(Id.Value));
+        status = ProductStatus.CreateDeleted();
+        RecordEvent(new ProductDeleted(id.Value));
     }
 
-    public void ChangeDescription(ProductDescription newDescription)
+    public void ChangeDescription(string newDescription)
     {
-        Description = newDescription;
-        RecordEvent(new ProductDescriptionChanged(Id.Value, Description.Value));
+        description = new NonEmptyStringValueObject(newDescription);
+        RecordEvent(new ProductDescriptionChanged(id.Value, description.Value));
     }
 
-    public void Rename(ProductName newName)
+    public void Rename(string newName)
     {
-        Name = newName;
-        RecordEvent(new ProductRenamed(Id.Value, Name.Value));
+        name = new NonEmptyStringValueObject(newName);
+        RecordEvent(new ProductRenamed(id.Value, name.Value));
     }
 }
