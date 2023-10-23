@@ -13,19 +13,19 @@ public interface IProductRepository
 
     Task<bool> ExistByStatusNotAndNameAndRestaurantId(
         ProductStatus status,
-        NonEmptyStringValueObject name,
-        NonNegativeLongValueObject restaurantId
+        NonEmptyString name,
+        NonNegativeLong restaurantId
     );
 
     Task<Product?> FindByStatusNotAndIdAndRestaurantId(
         ProductStatus status,
-        NonNegativeLongValueObject id,
-        NonNegativeLongValueObject restaurantId
+        NonNegativeLong id,
+        NonNegativeLong restaurantId
     );
 
     Task<List<Product>> FindByStatusNotAndRestaurantIdAndPagination(
         ProductStatus status,
-        NonNegativeLongValueObject restaurantId,
+        NonNegativeLong restaurantId,
         Pagination pagination
     );
 }

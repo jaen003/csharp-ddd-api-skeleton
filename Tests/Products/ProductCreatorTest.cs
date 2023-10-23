@@ -40,17 +40,15 @@ public class ProductCreatorTest
     {
         IRestaurantRepository restaurantRepository = Mock.Of<IRestaurantRepository>(
             l =>
-                l.ExistsByStatusNotAndId(
-                    It.IsAny<RestaurantStatus>(),
-                    It.IsAny<NonNegativeLongValueObject>()
-                ) == Task.FromResult(true)
+                l.ExistsByStatusNotAndId(It.IsAny<RestaurantStatus>(), It.IsAny<NonNegativeLong>())
+                == Task.FromResult(true)
         );
         IProductRepository repository = Mock.Of<IProductRepository>(
             l =>
                 l.ExistByStatusNotAndNameAndRestaurantId(
                     It.IsAny<ProductStatus>(),
-                    It.IsAny<NonEmptyStringValueObject>(),
-                    It.IsAny<NonNegativeLongValueObject>()
+                    It.IsAny<NonEmptyString>(),
+                    It.IsAny<NonNegativeLong>()
                 ) == Task.FromResult(false)
         );
         int exceptionCode = 0;
@@ -77,10 +75,8 @@ public class ProductCreatorTest
     {
         IRestaurantRepository restaurantRepository = Mock.Of<IRestaurantRepository>(
             l =>
-                l.ExistsByStatusNotAndId(
-                    It.IsAny<RestaurantStatus>(),
-                    It.IsAny<NonNegativeLongValueObject>()
-                ) == Task.FromResult(false)
+                l.ExistsByStatusNotAndId(It.IsAny<RestaurantStatus>(), It.IsAny<NonNegativeLong>())
+                == Task.FromResult(false)
         );
         IProductRepository repository = Mock.Of<IProductRepository>();
         int exceptionCode = 0;
@@ -107,17 +103,15 @@ public class ProductCreatorTest
     {
         IRestaurantRepository restaurantRepository = Mock.Of<IRestaurantRepository>(
             l =>
-                l.ExistsByStatusNotAndId(
-                    It.IsAny<RestaurantStatus>(),
-                    It.IsAny<NonNegativeLongValueObject>()
-                ) == Task.FromResult(true)
+                l.ExistsByStatusNotAndId(It.IsAny<RestaurantStatus>(), It.IsAny<NonNegativeLong>())
+                == Task.FromResult(true)
         );
         IProductRepository repository = Mock.Of<IProductRepository>(
             l =>
                 l.ExistByStatusNotAndNameAndRestaurantId(
                     It.IsAny<ProductStatus>(),
-                    It.IsAny<NonEmptyStringValueObject>(),
-                    It.IsAny<NonNegativeLongValueObject>()
+                    It.IsAny<NonEmptyString>(),
+                    It.IsAny<NonNegativeLong>()
                 ) == Task.FromResult(true)
         );
         int exceptionCode = 0;

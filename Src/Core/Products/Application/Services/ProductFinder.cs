@@ -21,8 +21,8 @@ public class ProductFinder
         Product? product =
             await repository.FindByStatusNotAndIdAndRestaurantId(
                 ProductStatus.CreateDeleted(),
-                new NonNegativeLongValueObject(id),
-                new NonNegativeLongValueObject(restaurantId)
+                new NonNegativeLong(id),
+                new NonNegativeLong(restaurantId)
             ) ?? throw new ProductNotFoundException(id);
         return new()
         {
@@ -39,7 +39,7 @@ public class ProductFinder
     {
         List<Product> products = await repository.FindByStatusNotAndRestaurantIdAndPagination(
             ProductStatus.CreateDeleted(),
-            new NonNegativeLongValueObject(restaurantId),
+            new NonNegativeLong(restaurantId),
             pagination
         );
         List<Dictionary<string, object>> result = new();

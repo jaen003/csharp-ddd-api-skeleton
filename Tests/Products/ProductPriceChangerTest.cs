@@ -37,8 +37,8 @@ public class ProductPriceChangerTest
             l =>
                 l.FindByStatusNotAndIdAndRestaurantId(
                     It.IsAny<ProductStatus>(),
-                    It.IsAny<NonNegativeLongValueObject>(),
-                    It.IsAny<NonNegativeLongValueObject>()
+                    It.IsAny<NonNegativeLong>(),
+                    It.IsAny<NonNegativeLong>()
                 ) == Task.FromResult(product)
         );
         int exceptionCode = 0;
@@ -61,8 +61,8 @@ public class ProductPriceChangerTest
             l =>
                 l.FindByStatusNotAndIdAndRestaurantId(
                     It.IsAny<ProductStatus>(),
-                    It.IsAny<NonNegativeLongValueObject>(),
-                    It.IsAny<NonNegativeLongValueObject>()
+                    It.IsAny<NonNegativeLong>(),
+                    It.IsAny<NonNegativeLong>()
                 ) == Task.FromResult<Product>(null!)
         );
         int exceptionCode = 0;

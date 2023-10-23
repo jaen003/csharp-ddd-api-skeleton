@@ -30,8 +30,8 @@ public class ProductDeletor
         Product? product =
             await repository.FindByStatusNotAndIdAndRestaurantId(
                 ProductStatus.CreateDeleted(),
-                new NonNegativeLongValueObject(id),
-                new NonNegativeLongValueObject(restaurantId)
+                new NonNegativeLong(id),
+                new NonNegativeLong(restaurantId)
             ) ?? throw new ProductNotFoundException(id);
         product.Delete();
         await repository.Update(product);

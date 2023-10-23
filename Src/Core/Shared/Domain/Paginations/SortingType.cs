@@ -3,7 +3,7 @@ using Src.Core.Shared.Domain.ValueObjects;
 
 namespace Src.Core.Shared.Domain.Paginations;
 
-public class SortingType : NonEmptyStringValueObject
+public class SortingType : NonEmptyString
 {
     private const string ASCENDING = "asc";
     private const string DESCENDING = "desc";
@@ -19,12 +19,11 @@ public class SortingType : NonEmptyStringValueObject
 
     private bool IsValid()
     {
-        return Equals(new StringValueObject(ASCENDING))
-            || Equals(new StringValueObject(DESCENDING));
+        return Equals(ASCENDING) || Equals(DESCENDING);
     }
 
     public bool IsDescending()
     {
-        return Equals(new StringValueObject(DESCENDING));
+        return Equals(DESCENDING);
     }
 }

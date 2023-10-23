@@ -37,13 +37,13 @@ public class ProductRenamerTest
             l =>
                 l.ExistByStatusNotAndNameAndRestaurantId(
                     It.IsAny<ProductStatus>(),
-                    It.IsAny<NonEmptyStringValueObject>(),
-                    It.IsAny<NonNegativeLongValueObject>()
+                    It.IsAny<NonEmptyString>(),
+                    It.IsAny<NonNegativeLong>()
                 ) == Task.FromResult(false)
                 && l.FindByStatusNotAndIdAndRestaurantId(
                     It.IsAny<ProductStatus>(),
-                    It.IsAny<NonNegativeLongValueObject>(),
-                    It.IsAny<NonNegativeLongValueObject>()
+                    It.IsAny<NonNegativeLong>(),
+                    It.IsAny<NonNegativeLong>()
                 ) == Task.FromResult(product)
         );
         int exceptionCode = 0;
@@ -66,8 +66,8 @@ public class ProductRenamerTest
             l =>
                 l.ExistByStatusNotAndNameAndRestaurantId(
                     It.IsAny<ProductStatus>(),
-                    It.IsAny<NonEmptyStringValueObject>(),
-                    It.IsAny<NonNegativeLongValueObject>()
+                    It.IsAny<NonEmptyString>(),
+                    It.IsAny<NonNegativeLong>()
                 ) == Task.FromResult(true)
         );
         int exceptionCode = 0;
@@ -90,13 +90,13 @@ public class ProductRenamerTest
             l =>
                 l.ExistByStatusNotAndNameAndRestaurantId(
                     It.IsAny<ProductStatus>(),
-                    It.IsAny<NonEmptyStringValueObject>(),
-                    It.IsAny<NonNegativeLongValueObject>()
+                    It.IsAny<NonEmptyString>(),
+                    It.IsAny<NonNegativeLong>()
                 ) == Task.FromResult(false)
                 && l.FindByStatusNotAndIdAndRestaurantId(
                     It.IsAny<ProductStatus>(),
-                    It.IsAny<NonNegativeLongValueObject>(),
-                    It.IsAny<NonNegativeLongValueObject>()
+                    It.IsAny<NonNegativeLong>(),
+                    It.IsAny<NonNegativeLong>()
                 ) == Task.FromResult<Product>(null!)
         );
         int exceptionCode = 0;

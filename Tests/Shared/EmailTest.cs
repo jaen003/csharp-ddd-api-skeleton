@@ -3,7 +3,7 @@ using Src.Core.Shared.Domain.ValueObjects;
 
 namespace Tests.Shared;
 
-public class EmailValueObjectTest
+public class EmailTest
 {
     [Theory]
     [InlineData("stephen.hawking@gmail.com")]
@@ -15,7 +15,7 @@ public class EmailValueObjectTest
         int exceptionCode = 0;
         try
         {
-            EmailValueObject valueObject = new(value);
+            Email valueObject = new(value);
         }
         catch (DomainException exception)
         {
@@ -35,7 +35,7 @@ public class EmailValueObjectTest
         int exceptionCode = 0;
         try
         {
-            EmailValueObject valueObject = new(value);
+            Email valueObject = new(value);
         }
         catch (DomainException exception)
         {

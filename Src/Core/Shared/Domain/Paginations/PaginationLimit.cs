@@ -3,7 +3,7 @@ using Src.Core.Shared.Domain.ValueObjects;
 
 namespace Src.Core.Shared.Domain.Paginations;
 
-public class PaginationLimit : NonNegativeIntValueObject
+public class PaginationLimit : NonNegativeInt
 {
     private const int MAXIMUM = 30;
 
@@ -18,6 +18,6 @@ public class PaginationLimit : NonNegativeIntValueObject
 
     private bool IsValid()
     {
-        return IsLessThanOrEqual(new IntValueObject(MAXIMUM));
+        return IsLessThanOrEqual(MAXIMUM);
     }
 }

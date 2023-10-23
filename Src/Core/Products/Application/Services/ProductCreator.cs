@@ -56,7 +56,7 @@ public class ProductCreator
     {
         return await restaurantRepository.ExistsByStatusNotAndId(
             RestaurantStatus.CreateDeleted(),
-            new NonNegativeLongValueObject(id)
+            new NonNegativeLong(id)
         );
     }
 
@@ -64,8 +64,8 @@ public class ProductCreator
     {
         return await repository.ExistByStatusNotAndNameAndRestaurantId(
             ProductStatus.CreateDeleted(),
-            new NonEmptyStringValueObject(name),
-            new NonNegativeLongValueObject(restaurantId)
+            new NonEmptyString(name),
+            new NonNegativeLong(restaurantId)
         );
     }
 }

@@ -34,8 +34,8 @@ public class ProductRenamer
         Product? product =
             await repository.FindByStatusNotAndIdAndRestaurantId(
                 ProductStatus.CreateDeleted(),
-                new NonNegativeLongValueObject(id),
-                new NonNegativeLongValueObject(restaurantId)
+                new NonNegativeLong(id),
+                new NonNegativeLong(restaurantId)
             ) ?? throw new ProductNotFoundException(id);
         string oldName = product.Name;
         product.Rename(name);
@@ -48,8 +48,8 @@ public class ProductRenamer
     {
         return await repository.ExistByStatusNotAndNameAndRestaurantId(
             ProductStatus.CreateDeleted(),
-            new NonEmptyStringValueObject(name),
-            new NonNegativeLongValueObject(restaurantId)
+            new NonEmptyString(name),
+            new NonNegativeLong(restaurantId)
         );
     }
 }

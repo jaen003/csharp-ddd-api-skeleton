@@ -5,8 +5,8 @@ namespace Src.Core.Restaurants.Domain.Aggregates;
 
 public class Restaurant
 {
-    private readonly NonNegativeLongValueObject id;
-    private readonly NonEmptyStringValueObject name;
+    private readonly NonNegativeLong id;
+    private readonly NonEmptyString name;
     private readonly RestaurantStatus status;
 
     public long Id
@@ -24,15 +24,15 @@ public class Restaurant
 
     public Restaurant(long id, string name, short status)
     {
-        this.id = new NonNegativeLongValueObject(id);
-        this.name = new NonEmptyStringValueObject(name);
+        this.id = new NonNegativeLong(id);
+        this.name = new NonEmptyString(name);
         this.status = new RestaurantStatus(status);
     }
 
     public Restaurant(long id, string name, RestaurantStatus status)
     {
-        this.id = new NonNegativeLongValueObject(id);
-        this.name = new NonEmptyStringValueObject(name);
+        this.id = new NonNegativeLong(id);
+        this.name = new NonEmptyString(name);
         this.status = status;
     }
 

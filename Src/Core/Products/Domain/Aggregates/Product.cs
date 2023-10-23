@@ -7,12 +7,12 @@ namespace Src.Core.Products.Domain.Aggregates;
 
 public class Product : AggregateRoot
 {
-    private readonly NonNegativeLongValueObject id;
-    private NonEmptyStringValueObject name;
-    private NonNegativeIntValueObject price;
-    private NonEmptyStringValueObject description;
+    private readonly NonNegativeLong id;
+    private NonEmptyString name;
+    private NonNegativeInt price;
+    private NonEmptyString description;
     private ProductStatus status;
-    private readonly NonNegativeLongValueObject restaurantId;
+    private readonly NonNegativeLong restaurantId;
 
     public long Id
     {
@@ -48,12 +48,12 @@ public class Product : AggregateRoot
         long restaurantId
     )
     {
-        this.id = new NonNegativeLongValueObject(id);
-        this.name = new NonEmptyStringValueObject(name);
-        this.price = new NonNegativeIntValueObject(price);
-        this.description = new NonEmptyStringValueObject(description);
+        this.id = new NonNegativeLong(id);
+        this.name = new NonEmptyString(name);
+        this.price = new NonNegativeInt(price);
+        this.description = new NonEmptyString(description);
         this.status = new ProductStatus(status);
-        this.restaurantId = new NonNegativeLongValueObject(restaurantId);
+        this.restaurantId = new NonNegativeLong(restaurantId);
     }
 
     public Product(
@@ -65,12 +65,12 @@ public class Product : AggregateRoot
         long restaurantId
     )
     {
-        this.id = new NonNegativeLongValueObject(id);
-        this.name = new NonEmptyStringValueObject(name);
-        this.price = new NonNegativeIntValueObject(price);
-        this.description = new NonEmptyStringValueObject(description);
+        this.id = new NonNegativeLong(id);
+        this.name = new NonEmptyString(name);
+        this.price = new NonNegativeInt(price);
+        this.description = new NonEmptyString(description);
         this.status = status;
-        this.restaurantId = new NonNegativeLongValueObject(restaurantId);
+        this.restaurantId = new NonNegativeLong(restaurantId);
     }
 
     public static Product Create(
@@ -89,7 +89,7 @@ public class Product : AggregateRoot
 
     public void ChangePrice(int newPrice)
     {
-        price = new NonNegativeIntValueObject(newPrice);
+        price = new NonNegativeInt(newPrice);
         RecordEvent(new ProductPriceChanged(id.Value, price.Value));
     }
 
@@ -101,13 +101,13 @@ public class Product : AggregateRoot
 
     public void ChangeDescription(string newDescription)
     {
-        description = new NonEmptyStringValueObject(newDescription);
+        description = new NonEmptyString(newDescription);
         RecordEvent(new ProductDescriptionChanged(id.Value, description.Value));
     }
 
     public void Rename(string newName)
     {
-        name = new NonEmptyStringValueObject(newName);
+        name = new NonEmptyString(newName);
         RecordEvent(new ProductRenamed(id.Value, name.Value));
     }
 }

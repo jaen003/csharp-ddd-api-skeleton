@@ -2,7 +2,7 @@ using Src.Core.Shared.Domain.ValueObjects;
 
 namespace Src.Core.Restaurants.Domain.ValueObjects;
 
-public class RestaurantStatus : NonNegativeShortValueObject
+public class RestaurantStatus : NonNegativeShort
 {
     private const short ACTIVED = 1;
     private const short DELETED = 2;
@@ -22,6 +22,6 @@ public class RestaurantStatus : NonNegativeShortValueObject
 
     public bool IsActived()
     {
-        return Equals(new ShortValueObject(ACTIVED));
+        return Equals(ACTIVED);
     }
 }

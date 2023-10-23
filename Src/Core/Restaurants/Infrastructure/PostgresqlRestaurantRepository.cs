@@ -20,10 +20,7 @@ public class PostgresqlRestaurantRepository : IRestaurantRepository
         this.databaseContextFactory = databaseContextFactory;
     }
 
-    async public Task<bool> ExistsByStatusNotAndId(
-        RestaurantStatus status,
-        NonNegativeLongValueObject id
-    )
+    async public Task<bool> ExistsByStatusNotAndId(RestaurantStatus status, NonNegativeLong id)
     {
         try
         {

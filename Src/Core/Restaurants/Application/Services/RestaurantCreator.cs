@@ -31,7 +31,7 @@ public class RestaurantCreator
     {
         return await repository.ExistsByStatusNotAndId(
             RestaurantStatus.CreateDeleted(),
-            new NonNegativeLongValueObject(id)
+            new NonNegativeLong(id)
         );
     }
 }
