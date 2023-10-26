@@ -5,6 +5,7 @@ using Src.Core.Restaurants.Domain.ValueObjects;
 using Src.Core.Shared.Domain.Exceptions;
 using Src.Core.Shared.Domain.ValueObjects;
 using Src.Core.Shared.Infrastructure.Database;
+using Src.Core.Shared.Infrastructure.Mappers;
 using RestaurantModel = Src.Core.Shared.Infrastructure.Database.Models.Restaurant;
 
 namespace Src.Core.Restaurants.Infrastructure;
@@ -13,11 +14,15 @@ public class PostgresqlRestaurantRepository : IRestaurantRepository
 {
     private readonly IDbContextFactory<PostgresqlDatabaseContext> databaseContextFactory;
 
+    private readonly RestaurantMapper mapper;
+
     public PostgresqlRestaurantRepository(
-        IDbContextFactory<PostgresqlDatabaseContext> databaseContextFactory
+        IDbContextFactory<PostgresqlDatabaseContext> databaseContextFactory,
+        RestaurantMapper mapper
     )
     {
         this.databaseContextFactory = databaseContextFactory;
+        this.mapper = mapper;
     }
 
     async public Task<bool> ExistsByStatusNotAndId(RestaurantStatus status, NonNegativeLong id)
@@ -42,13 +47,7 @@ public class PostgresqlRestaurantRepository : IRestaurantRepository
         {
             using PostgresqlDatabaseContext databaseContext =
                 await databaseContextFactory.CreateDbContextAsync();
-            RestaurantModel restaurantModel =
-                new()
-                {
-                    Id = restaurant.Id,
-                    Name = restaurant.Name,
-                    Status = restaurant.Status
-                };
+            RestaurantModel restaurantModel = mapper.ToModel(restaurant);
             await databaseContext.Restaurants.AddAsync(restaurantModel);
             await databaseContext.SaveChangesAsync();
         }

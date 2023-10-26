@@ -29,6 +29,7 @@
     </PackageVersion>
     <PackageVersion Include="System.Linq.Dynamic.Core" Version="1.2.25" />
     <PackageVersion Include="Moq" Version="4.18.4" />
+    <PackageVersion Include="Riok.Mapperly" Version="3.3.0-next.1" />
   </ItemGroup>
   
 </Project>

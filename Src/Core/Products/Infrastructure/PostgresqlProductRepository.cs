@@ -6,6 +6,7 @@ using Src.Core.Shared.Domain.Exceptions;
 using Src.Core.Shared.Domain.Paginations;
 using Src.Core.Shared.Domain.ValueObjects;
 using Src.Core.Shared.Infrastructure.Database;
+using Src.Core.Shared.Infrastructure.Mappers;
 using ProductModel = Src.Core.Shared.Infrastructure.Database.Models.Product;
 
 namespace Src.Core.Products.Infrastructure;
@@ -13,12 +14,15 @@ namespace Src.Core.Products.Infrastructure;
 public class PostgresqlProductRepository : IProductRepository
 {
     private readonly IDbContextFactory<PostgresqlDatabaseContext> databaseContextFactory;
+    private readonly ProductMapper mapper;
 
     public PostgresqlProductRepository(
-        IDbContextFactory<PostgresqlDatabaseContext> databaseContextFactory
+        IDbContextFactory<PostgresqlDatabaseContext> databaseContextFactory,
+        ProductMapper mapper
     )
     {
         this.databaseContextFactory = databaseContextFactory;
+        this.mapper = mapper;
     }
 
     async public Task<bool> ExistByStatusNotAndNameAndRestaurantId(
@@ -64,24 +68,12 @@ public class PostgresqlProductRepository : IProductRepository
             {
                 return null;
             }
-            return MapToAggregates(productModel);
+            return mapper.ToEntity(productModel);
         }
         catch (Exception exception)
         {
             throw new DatabaseErrorException(exception.ToString());
         }
-    }
-
-    private static Product MapToAggregates(ProductModel productModel)
-    {
-        return new(
-            productModel.Id,
-            productModel.Name,
-            productModel.Price,
-            productModel.Description,
-            productModel.Status,
-            productModel.RestaurantId
-        );
     }
 
     async public Task Save(Product product)
@@ -90,16 +82,7 @@ public class PostgresqlProductRepository : IProductRepository
         {
             using PostgresqlDatabaseContext databaseContext =
                 await databaseContextFactory.CreateDbContextAsync();
-            ProductModel productModel =
-                new()
-                {
-                    Id = product.Id,
-                    Name = product.Name,
-                    Price = product.Price,
-                    Description = product.Description,
-                    Status = product.Status,
-                    RestaurantId = product.RestaurantId
-                };
+            ProductModel productModel = mapper.ToModel(product);
             await databaseContext.Products.AddAsync(productModel);
             await databaseContext.SaveChangesAsync();
         }
@@ -144,12 +127,7 @@ public class PostgresqlProductRepository : IProductRepository
                 .Where(t => t.Status != status.Value && t.RestaurantId == restaurantId.Value)
                 .AddPagination(pagination)
                 .ToListAsync();
-            List<Product> products = new();
-            foreach (ProductModel productModel in productModels)
-            {
-                products.Add(MapToAggregates(productModel));
-            }
-            return products;
+            return mapper.ToEntities(productModels);
         }
         catch (Exception exception)
         {

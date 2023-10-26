@@ -14,6 +14,7 @@ using Src.Core.Shared.Infrastructure.EventBus;
 using Src.Core.Shared.Infrastructure.Events;
 using Src.Core.Shared.Infrastructure.Generators;
 using Src.Core.Shared.Infrastructure.Logging;
+using Src.Core.Shared.Infrastructure.Mappers;
 using ILogger = Src.Core.Shared.Domain.Logging.ILogger;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,6 +24,8 @@ DotEnv.Load();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddTransient<ProductMapper, ProductMapper>();
+builder.Services.AddTransient<RestaurantMapper, RestaurantMapper>();
 builder.Services.AddSingleton<ApplicationLoggerCreator, ApplicationLoggerCreator>();
 builder.Services.AddScoped<ILogger>(
     serviceProvider => serviceProvider.GetRequiredService<ApplicationLoggerCreator>().Create()
