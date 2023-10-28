@@ -23,12 +23,10 @@ namespace Src.Core.Shared.Infrastructure.Database.Migrations
 
             modelBuilder.Entity("Src.Core.Shared.Infrastructure.Database.Models.Product", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                    b.Property<string>("Id")
+                        .HasMaxLength(36)
+                        .HasColumnType("character varying(36)")
                         .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -46,8 +44,10 @@ namespace Src.Core.Shared.Infrastructure.Database.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("price");
 
-                    b.Property<long>("RestaurantId")
-                        .HasColumnType("bigint")
+                    b.Property<string>("RestaurantId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("character varying(36)")
                         .HasColumnName("restaurant_id");
 
                     b.Property<short>("Status")
@@ -65,12 +65,10 @@ namespace Src.Core.Shared.Infrastructure.Database.Migrations
 
             modelBuilder.Entity("Src.Core.Shared.Infrastructure.Database.Models.Restaurant", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                    b.Property<string>("Id")
+                        .HasMaxLength(36)
+                        .HasColumnType("character varying(36)")
                         .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()

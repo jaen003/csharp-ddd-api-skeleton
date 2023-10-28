@@ -25,7 +25,7 @@ public class PostgresqlRestaurantRepository : IRestaurantRepository
         this.mapper = mapper;
     }
 
-    async public Task<bool> ExistsByStatusNotAndId(RestaurantStatus status, NonNegativeLong id)
+    async public Task<bool> ExistsByStatusNotAndId(RestaurantStatus status, Uuid id)
     {
         try
         {

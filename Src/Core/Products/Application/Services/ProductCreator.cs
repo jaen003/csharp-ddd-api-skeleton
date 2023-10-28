@@ -6,7 +6,6 @@ using Src.Core.Restaurants.Domain;
 using Src.Core.Restaurants.Domain.Exceptions;
 using Src.Core.Restaurants.Domain.ValueObjects;
 using Src.Core.Shared.Domain.EventBus;
-using Src.Core.Shared.Domain.Generators;
 using Src.Core.Shared.Domain.Logging;
 using Src.Core.Shared.Domain.ValueObjects;
 
@@ -18,24 +17,27 @@ public class ProductCreator
     private readonly IRestaurantRepository restaurantRepository;
     private readonly IDomainEventPublisher eventPublisher;
     private readonly ILogger logger;
-    private readonly IIdentifierGenerator identifierGenerator;
 
     public ProductCreator(
         IProductRepository repository,
         IRestaurantRepository restaurantRepository,
         IDomainEventPublisher eventPublisher,
-        ILogger logger,
-        IIdentifierGenerator identifierGenerator
+        ILogger logger
     )
     {
         this.repository = repository;
         this.restaurantRepository = restaurantRepository;
         this.eventPublisher = eventPublisher;
         this.logger = logger;
-        this.identifierGenerator = identifierGenerator;
     }
 
-    public async Task Create(string name, int price, string description, long restaurantId)
+    public async Task Create(
+        string id,
+        string name,
+        int price,
+        string description,
+        string restaurantId
+    )
     {
         if (!await IsRestaurantCreated(restaurantId))
         {
@@ -45,27 +47,26 @@ public class ProductCreator
         {
             throw new ProductNameNotAvailable(name);
         }
-        long id = identifierGenerator.Generate();
         Product product = Product.Create(id, name, price, description, restaurantId);
         await repository.Save(product);
         eventPublisher.Publish(product.PullEvents());
         logger.Information($"The product '{id}' has been created.");
     }
 
-    async private Task<bool> IsRestaurantCreated(long id)
+    async private Task<bool> IsRestaurantCreated(string restaurantId)
     {
         return await restaurantRepository.ExistsByStatusNotAndId(
             RestaurantStatus.CreateDeleted(),
-            new NonNegativeLong(id)
+            new Uuid(restaurantId)
         );
     }
 
-    async private Task<bool> IsProductNameCreatedInRestaurant(string name, long restaurantId)
+    async private Task<bool> IsProductNameCreatedInRestaurant(string name, string restaurantId)
     {
         return await repository.ExistByStatusNotAndNameAndRestaurantId(
             ProductStatus.CreateDeleted(),
             new NonEmptyString(name),
-            new NonNegativeLong(restaurantId)
+            new Uuid(restaurantId)
         );
     }
 }

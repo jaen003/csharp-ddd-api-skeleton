@@ -16,13 +16,16 @@ public class ProductFinder
         this.repository = repository;
     }
 
-    public async Task<Dictionary<string, object>> FindByIdAndResturantId(long id, long restaurantId)
+    public async Task<Dictionary<string, object>> FindByIdAndResturantId(
+        string id,
+        string restaurantId
+    )
     {
         Product? product =
             await repository.FindByStatusNotAndIdAndRestaurantId(
                 ProductStatus.CreateDeleted(),
-                new NonNegativeLong(id),
-                new NonNegativeLong(restaurantId)
+                new Uuid(id),
+                new Uuid(restaurantId)
             ) ?? throw new ProductNotFound(id);
         return new()
         {
@@ -33,13 +36,13 @@ public class ProductFinder
     }
 
     public async Task<List<Dictionary<string, object>>> FindByResturantIdAndPagination(
-        long restaurantId,
+        string restaurantId,
         Pagination pagination
     )
     {
         List<Product> products = await repository.FindByStatusNotAndRestaurantIdAndPagination(
             ProductStatus.CreateDeleted(),
-            new NonNegativeLong(restaurantId),
+            new Uuid(restaurantId),
             pagination
         );
         List<Dictionary<string, object>> result = new();

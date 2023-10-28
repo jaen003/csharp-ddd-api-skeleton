@@ -6,6 +6,6 @@ public class RestaurantNotFound : ValidationError
 {
     private const int CODE = 101;
 
-    public RestaurantNotFound(long id)
+    public RestaurantNotFound(string id)
         : base(CODE, $"The restaurant '{id}' has not been found.") { }
 }

@@ -25,13 +25,13 @@ public class ProductDescriptionChanger
         this.logger = logger;
     }
 
-    public async Task Change(long id, string description, long restaurantId)
+    public async Task Change(string id, string description, string restaurantId)
     {
         Product? product =
             await repository.FindByStatusNotAndIdAndRestaurantId(
                 ProductStatus.CreateDeleted(),
-                new NonNegativeLong(id),
-                new NonNegativeLong(restaurantId)
+                new Uuid(id),
+                new Uuid(restaurantId)
             ) ?? throw new ProductNotFound(id);
         string oldDescription = product.Description;
         product.ChangeDescription(description);

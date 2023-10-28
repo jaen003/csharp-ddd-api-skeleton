@@ -4,19 +4,22 @@ namespace Src.Core.Products.Domain.Events;
 
 public class ProductPriceChanged : DomainEvent
 {
-    public long Id { get; }
+    public string Id { get; }
     public int Price { get; }
     public override string EventName => "product.price.changed";
 
-    public ProductPriceChanged() { }
+    public ProductPriceChanged()
+    {
+        Id = string.Empty;
+    }
 
-    public ProductPriceChanged(long id, int price)
+    public ProductPriceChanged(string id, int price)
     {
         Id = id;
         Price = price;
     }
 
-    public ProductPriceChanged(long id, int price, string eventId, int timestamp)
+    public ProductPriceChanged(string id, int price, string eventId, int timestamp)
         : base(eventId, timestamp)
     {
         Id = id;
@@ -30,7 +33,7 @@ public class ProductPriceChanged : DomainEvent
     )
     {
         return new ProductPriceChanged(
-            long.Parse(data["id"].ToString()!),
+            data["id"].ToString()!,
             int.Parse(data["price"].ToString()!),
             eventId,
             timestamp
@@ -39,6 +42,6 @@ public class ProductPriceChanged : DomainEvent
 
     public override Dictionary<string, object> ToPrimitives()
     {
-        return new Dictionary<string, object> { { "id", Id }, { "price", "" + Price }, };
+        return new Dictionary<string, object> { { "id", Id }, { "price", Price }, };
     }
 }

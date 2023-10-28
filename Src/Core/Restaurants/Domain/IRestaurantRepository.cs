@@ -6,7 +6,7 @@ namespace Src.Core.Restaurants.Domain;
 
 public interface IRestaurantRepository
 {
-    Task<bool> ExistsByStatusNotAndId(RestaurantStatus status, NonNegativeLong id);
+    Task<bool> ExistsByStatusNotAndId(RestaurantStatus status, Uuid id);
 
     Task Save(Restaurant restaurant);
 }

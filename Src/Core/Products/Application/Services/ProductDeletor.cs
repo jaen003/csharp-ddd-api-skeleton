@@ -25,13 +25,13 @@ public class ProductDeletor
         this.logger = logger;
     }
 
-    public async Task Delete(long id, long restaurantId)
+    public async Task Delete(string id, string restaurantId)
     {
         Product? product =
             await repository.FindByStatusNotAndIdAndRestaurantId(
                 ProductStatus.CreateDeleted(),
-                new NonNegativeLong(id),
-                new NonNegativeLong(restaurantId)
+                new Uuid(id),
+                new Uuid(restaurantId)
             ) ?? throw new ProductNotFound(id);
         product.Delete();
         await repository.Update(product);

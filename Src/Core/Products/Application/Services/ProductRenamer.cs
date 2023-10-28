@@ -25,7 +25,7 @@ public class ProductRenamer
         this.logger = logger;
     }
 
-    public async Task Rename(long id, string name, long restaurantId)
+    public async Task Rename(string id, string name, string restaurantId)
     {
         if (await IsProductNameCreatedInRestaurant(name, restaurantId))
         {
@@ -34,8 +34,8 @@ public class ProductRenamer
         Product? product =
             await repository.FindByStatusNotAndIdAndRestaurantId(
                 ProductStatus.CreateDeleted(),
-                new NonNegativeLong(id),
-                new NonNegativeLong(restaurantId)
+                new Uuid(id),
+                new Uuid(restaurantId)
             ) ?? throw new ProductNotFound(id);
         string oldName = product.Name;
         product.Rename(name);
@@ -44,12 +44,12 @@ public class ProductRenamer
         logger.Information($"The product name '{oldName}' has been changed to '{name}'.");
     }
 
-    async private Task<bool> IsProductNameCreatedInRestaurant(string name, long restaurantId)
+    async private Task<bool> IsProductNameCreatedInRestaurant(string name, string restaurantId)
     {
         return await repository.ExistByStatusNotAndNameAndRestaurantId(
             ProductStatus.CreateDeleted(),
             new NonEmptyString(name),
-            new NonNegativeLong(restaurantId)
+            new Uuid(restaurantId)
         );
     }
 }

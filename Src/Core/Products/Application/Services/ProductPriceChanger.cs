@@ -25,13 +25,13 @@ public class ProductPriceChanger
         this.logger = logger;
     }
 
-    public async Task Change(long id, int price, long restaurantId)
+    public async Task Change(string id, int price, string restaurantId)
     {
         Product? product =
             await repository.FindByStatusNotAndIdAndRestaurantId(
                 ProductStatus.CreateDeleted(),
-                new NonNegativeLong(id),
-                new NonNegativeLong(restaurantId)
+                new Uuid(id),
+                new Uuid(restaurantId)
             ) ?? throw new ProductNotFound(id);
         int oldPrice = product.Price;
         product.ChangePrice(price);

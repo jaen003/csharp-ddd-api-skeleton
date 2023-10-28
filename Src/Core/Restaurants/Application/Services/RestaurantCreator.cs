@@ -17,7 +17,7 @@ public class RestaurantCreator
         this.logger = logger;
     }
 
-    public async Task Create(long id, string name)
+    public async Task Create(string id, string name)
     {
         if (!await IsRestaurantCreated(id))
         {
@@ -27,11 +27,11 @@ public class RestaurantCreator
         }
     }
 
-    async private Task<bool> IsRestaurantCreated(long id)
+    async private Task<bool> IsRestaurantCreated(string id)
     {
         return await repository.ExistsByStatusNotAndId(
             RestaurantStatus.CreateDeleted(),
-            new NonNegativeLong(id)
+            new Uuid(id)
         );
     }
 }

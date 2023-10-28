@@ -19,12 +19,12 @@ public class ProductDeletorTest
     public ProductDeletorTest()
     {
         product = new Product(
-            1,
+            "a1433e47-9708-4e61-adfc-6de2ad462f82",
             "Sandwich",
             3,
             "Bread, Onion, Tomato, Chicken",
             ProductStatus.CreateActived(),
-            1
+            "82022d1f-b0fa-4b70-86ae-e99c3101fb47"
         );
         logger = Mock.Of<ILogger>();
         eventPublisher = Mock.Of<IDomainEventPublisher>();
@@ -37,8 +37,8 @@ public class ProductDeletorTest
             l =>
                 l.FindByStatusNotAndIdAndRestaurantId(
                     It.IsAny<ProductStatus>(),
-                    It.IsAny<NonNegativeLong>(),
-                    It.IsAny<NonNegativeLong>()
+                    It.IsAny<Uuid>(),
+                    It.IsAny<Uuid>()
                 ) == Task.FromResult(product)
         );
         int exceptionCode = 0;
@@ -61,8 +61,8 @@ public class ProductDeletorTest
             l =>
                 l.FindByStatusNotAndIdAndRestaurantId(
                     It.IsAny<ProductStatus>(),
-                    It.IsAny<NonNegativeLong>(),
-                    It.IsAny<NonNegativeLong>()
+                    It.IsAny<Uuid>(),
+                    It.IsAny<Uuid>()
                 ) == Task.FromResult<Product>(null!)
         );
         int exceptionCode = 0;

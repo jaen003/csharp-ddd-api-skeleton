@@ -7,14 +7,14 @@ namespace Src.Core.Products.Domain.Aggregates;
 
 public class Product : AggregateRoot
 {
-    private readonly NonNegativeLong id;
+    private readonly Uuid id;
     private NonEmptyString name;
     private NonNegativeInt price;
     private NonEmptyString description;
     private ProductStatus status;
-    private readonly NonNegativeLong restaurantId;
+    private readonly Uuid restaurantId;
 
-    public long Id
+    public string Id
     {
         get { return id.Value; }
     }
@@ -34,51 +34,51 @@ public class Product : AggregateRoot
     {
         get { return status.Value; }
     }
-    public long RestaurantId
+    public string RestaurantId
     {
         get { return restaurantId.Value; }
     }
 
     public Product(
-        long id,
+        string id,
         string name,
         int price,
         string description,
         short status,
-        long restaurantId
+        string restaurantId
     )
     {
-        this.id = new NonNegativeLong(id);
+        this.id = new Uuid(id);
         this.name = new NonEmptyString(name);
         this.price = new NonNegativeInt(price);
         this.description = new NonEmptyString(description);
         this.status = new ProductStatus(status);
-        this.restaurantId = new NonNegativeLong(restaurantId);
+        this.restaurantId = new Uuid(restaurantId);
     }
 
     public Product(
-        long id,
+        string id,
         string name,
         int price,
         string description,
         ProductStatus status,
-        long restaurantId
+        string restaurantId
     )
     {
-        this.id = new NonNegativeLong(id);
+        this.id = new Uuid(id);
         this.name = new NonEmptyString(name);
         this.price = new NonNegativeInt(price);
         this.description = new NonEmptyString(description);
         this.status = status;
-        this.restaurantId = new NonNegativeLong(restaurantId);
+        this.restaurantId = new Uuid(restaurantId);
     }
 
     public static Product Create(
-        long id,
+        string id,
         string name,
         int price,
         string description,
-        long restaurantId
+        string restaurantId
     )
     {
         Product product =

@@ -6,6 +6,6 @@ public class ProductNotFound : ValidationError
 {
     private const int CODE = 202;
 
-    public ProductNotFound(long id)
+    public ProductNotFound(string id)
         : base(CODE, $"The product '{id}' has not been found.") { }
 }

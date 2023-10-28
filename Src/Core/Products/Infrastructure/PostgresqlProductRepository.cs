@@ -28,7 +28,7 @@ public class PostgresqlProductRepository : IProductRepository
     async public Task<bool> ExistByStatusNotAndNameAndRestaurantId(
         ProductStatus status,
         NonEmptyString name,
-        NonNegativeLong restaurantId
+        Uuid restaurantId
     )
     {
         try
@@ -50,8 +50,8 @@ public class PostgresqlProductRepository : IProductRepository
 
     public async Task<Product?> FindByStatusNotAndIdAndRestaurantId(
         ProductStatus status,
-        NonNegativeLong id,
-        NonNegativeLong restaurantId
+        Uuid id,
+        Uuid restaurantId
     )
     {
         try
@@ -115,7 +115,7 @@ public class PostgresqlProductRepository : IProductRepository
 
     async public Task<List<Product>> FindByStatusNotAndRestaurantIdAndPagination(
         ProductStatus status,
-        NonNegativeLong restaurantId,
+        Uuid restaurantId,
         Pagination pagination
     )
     {

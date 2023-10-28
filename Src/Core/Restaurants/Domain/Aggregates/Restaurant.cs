@@ -5,11 +5,11 @@ namespace Src.Core.Restaurants.Domain.Aggregates;
 
 public class Restaurant
 {
-    private readonly NonNegativeLong id;
+    private readonly Uuid id;
     private readonly NonEmptyString name;
     private readonly RestaurantStatus status;
 
-    public long Id
+    public string Id
     {
         get { return id.Value; }
     }
@@ -22,21 +22,21 @@ public class Restaurant
         get { return status.Value; }
     }
 
-    public Restaurant(long id, string name, short status)
+    public Restaurant(string id, string name, short status)
     {
-        this.id = new NonNegativeLong(id);
+        this.id = new Uuid(id);
         this.name = new NonEmptyString(name);
         this.status = new RestaurantStatus(status);
     }
 
-    public Restaurant(long id, string name, RestaurantStatus status)
+    public Restaurant(string id, string name, RestaurantStatus status)
     {
-        this.id = new NonNegativeLong(id);
+        this.id = new Uuid(id);
         this.name = new NonEmptyString(name);
         this.status = status;
     }
 
-    public static Restaurant Create(long id, string name)
+    public static Restaurant Create(string id, string name)
     {
         return new(id, name, RestaurantStatus.CreateActived());
     }
