@@ -11,7 +11,7 @@ public class NonNegativeLong : ValueObject<long>
     {
         if (IsNegative())
         {
-            throw new NegativeLongException(value);
+            throw new UnexpectedNegativeLong(value);
         }
     }
 

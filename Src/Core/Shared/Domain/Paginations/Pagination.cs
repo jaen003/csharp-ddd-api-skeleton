@@ -40,7 +40,7 @@ public class Pagination
         Sorting? sorting = Sorting.Create(sortingField, sortingType);
         if (startIndex != null && sorting == null)
         {
-            throw new NullSortingFieldException();
+            throw new UnexpectedNullSortingField();
         }
         return new Pagination(new PaginationLimit(limit), paginationStartIndex, sorting);
     }

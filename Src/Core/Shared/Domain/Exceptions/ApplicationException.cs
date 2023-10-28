@@ -1,6 +1,6 @@
 namespace Src.Core.Shared.Domain.Exceptions;
 
-public class DomainException : Exception
+public abstract class ApplicationException : Exception
 {
     protected const int CRITICAL = 1;
     protected const int ERROR = 2;
@@ -11,20 +11,12 @@ public class DomainException : Exception
     public int Code { get; }
     private readonly int type;
 
-    public DomainException(int code, int type, string message)
+    protected ApplicationException(int code, int type, string message)
         : base(message)
     {
         Code = code;
         this.type = type;
     }
-
-    public DomainException() { }
-
-    public DomainException(string? message)
-        : base(message) { }
-
-    public DomainException(string? message, Exception? innerException)
-        : base(message, innerException) { }
 
     public bool IsCritical()
     {

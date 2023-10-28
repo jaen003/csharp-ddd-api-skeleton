@@ -2,16 +2,16 @@ using Src.Core.Shared.Domain.Logging;
 
 namespace Src.Core.Shared.Domain.Exceptions;
 
-public class DomainExceptionHandler
+public class ApplicationExceptionHandler
 {
     private readonly ILogger logger;
 
-    public DomainExceptionHandler(ILogger logger)
+    public ApplicationExceptionHandler(ILogger logger)
     {
         this.logger = logger;
     }
 
-    public void Handle(DomainException exception)
+    public void Handle(ApplicationException exception)
     {
         if (exception.IsDebug())
         {

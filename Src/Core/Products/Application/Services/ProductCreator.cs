@@ -39,11 +39,11 @@ public class ProductCreator
     {
         if (!await IsRestaurantCreated(restaurantId))
         {
-            throw new RestaurantNotFoundException(restaurantId);
+            throw new RestaurantNotFound(restaurantId);
         }
         if (await IsProductNameCreatedInRestaurant(name, restaurantId))
         {
-            throw new ProductNameAlreadyCreatedException(name);
+            throw new ProductNameNotAvailable(name);
         }
         long id = identifierGenerator.Generate();
         Product product = Product.Create(id, name, price, description, restaurantId);

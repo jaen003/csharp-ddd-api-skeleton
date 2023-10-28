@@ -11,7 +11,7 @@ public class NonNegativeShort : ValueObject<short>
     {
         if (IsNegative())
         {
-            throw new NegativeShortException(value);
+            throw new UnexpectedNegativeShort(value);
         }
     }
 

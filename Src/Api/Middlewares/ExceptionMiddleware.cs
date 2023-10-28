@@ -1,13 +1,14 @@
 using Src.Core.Shared.Domain.Exceptions;
+using ApplicationException = Src.Core.Shared.Domain.Exceptions.ApplicationException;
 
 namespace Src.Api.Middlewares;
 
 public class ExceptionMiddleware
 {
     private readonly RequestDelegate next;
-    private readonly DomainExceptionHandler exceptionHandler;
+    private readonly ApplicationExceptionHandler exceptionHandler;
 
-    public ExceptionMiddleware(RequestDelegate next, DomainExceptionHandler exceptionHandler)
+    public ExceptionMiddleware(RequestDelegate next, ApplicationExceptionHandler exceptionHandler)
     {
         this.next = next;
         this.exceptionHandler = exceptionHandler;
@@ -19,7 +20,7 @@ public class ExceptionMiddleware
         {
             await next(context);
         }
-        catch (DomainException exception)
+        catch (ApplicationException exception)
         {
             exceptionHandler.Handle(exception);
             context.Response.StatusCode = StatusCodes.Status400BadRequest;

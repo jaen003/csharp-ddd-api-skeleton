@@ -32,7 +32,7 @@ public class ProductDeletor
                 ProductStatus.CreateDeleted(),
                 new NonNegativeLong(id),
                 new NonNegativeLong(restaurantId)
-            ) ?? throw new ProductNotFoundException(id);
+            ) ?? throw new ProductNotFound(id);
         product.Delete();
         await repository.Update(product);
         eventPublisher.Publish(product.PullEvents());

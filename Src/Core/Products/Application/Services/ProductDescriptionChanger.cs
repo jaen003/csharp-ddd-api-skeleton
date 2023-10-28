@@ -32,7 +32,7 @@ public class ProductDescriptionChanger
                 ProductStatus.CreateDeleted(),
                 new NonNegativeLong(id),
                 new NonNegativeLong(restaurantId)
-            ) ?? throw new ProductNotFoundException(id);
+            ) ?? throw new ProductNotFound(id);
         string oldDescription = product.Description;
         product.ChangeDescription(description);
         await repository.Update(product);

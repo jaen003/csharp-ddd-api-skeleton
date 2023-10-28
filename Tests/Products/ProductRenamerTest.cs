@@ -4,7 +4,7 @@ using Src.Core.Products.Domain;
 using Src.Core.Products.Domain.Aggregates;
 using Src.Core.Products.Domain.ValueObjects;
 using Src.Core.Shared.Domain.EventBus;
-using Src.Core.Shared.Domain.Exceptions;
+using ApplicationException = Src.Core.Shared.Domain.Exceptions.ApplicationException;
 using Src.Core.Shared.Domain.Logging;
 using Src.Core.Shared.Domain.ValueObjects;
 
@@ -52,7 +52,7 @@ public class ProductRenamerTest
             ProductRenamer renamer = new(repository, eventPublisher, logger);
             await renamer.Rename(product.Id, product.Name, product.RestaurantId);
         }
-        catch (DomainException exception)
+        catch (ApplicationException exception)
         {
             exceptionCode = exception.Code;
         }
@@ -76,7 +76,7 @@ public class ProductRenamerTest
             ProductRenamer renamer = new(repository, eventPublisher, logger);
             await renamer.Rename(product.Id, product.Name, product.RestaurantId);
         }
-        catch (DomainException exception)
+        catch (ApplicationException exception)
         {
             exceptionCode = exception.Code;
         }
@@ -105,7 +105,7 @@ public class ProductRenamerTest
             ProductRenamer renamer = new(repository, eventPublisher, logger);
             await renamer.Rename(product.Id, product.Name, product.RestaurantId);
         }
-        catch (DomainException exception)
+        catch (ApplicationException exception)
         {
             exceptionCode = exception.Code;
         }

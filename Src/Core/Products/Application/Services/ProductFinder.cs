@@ -23,7 +23,7 @@ public class ProductFinder
                 ProductStatus.CreateDeleted(),
                 new NonNegativeLong(id),
                 new NonNegativeLong(restaurantId)
-            ) ?? throw new ProductNotFoundException(id);
+            ) ?? throw new ProductNotFound(id);
         return new()
         {
             { "name", product.Name },

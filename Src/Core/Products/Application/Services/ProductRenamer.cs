@@ -29,14 +29,14 @@ public class ProductRenamer
     {
         if (await IsProductNameCreatedInRestaurant(name, restaurantId))
         {
-            throw new ProductNameAlreadyCreatedException(name);
+            throw new ProductNameNotAvailable(name);
         }
         Product? product =
             await repository.FindByStatusNotAndIdAndRestaurantId(
                 ProductStatus.CreateDeleted(),
                 new NonNegativeLong(id),
                 new NonNegativeLong(restaurantId)
-            ) ?? throw new ProductNotFoundException(id);
+            ) ?? throw new ProductNotFound(id);
         string oldName = product.Name;
         product.Rename(name);
         await repository.Update(product);

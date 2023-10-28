@@ -11,7 +11,7 @@ public class NonNegativeInt : ValueObject<int>
     {
         if (IsNegative())
         {
-            throw new NegativeIntException(value);
+            throw new UnexpectedNegativeInt(value);
         }
     }
 

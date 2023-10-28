@@ -30,7 +30,7 @@ builder.Services.AddSingleton<ApplicationLoggerCreator, ApplicationLoggerCreator
 builder.Services.AddScoped<ILogger>(
     serviceProvider => serviceProvider.GetRequiredService<ApplicationLoggerCreator>().Create()
 );
-builder.Services.AddTransient<DomainExceptionHandler, DomainExceptionHandler>();
+builder.Services.AddTransient<ApplicationExceptionHandler, ApplicationExceptionHandler>();
 builder.Services.AddSingleton<RabbitmqEventBusConnection, RabbitmqEventBusConnection>();
 builder.Services.AddTransient<RabbitmqMessagePublisher, RabbitmqMessagePublisher>();
 builder.Services.AddTransient<RabbitmqConsumptionErrorHandler, RabbitmqConsumptionErrorHandler>();

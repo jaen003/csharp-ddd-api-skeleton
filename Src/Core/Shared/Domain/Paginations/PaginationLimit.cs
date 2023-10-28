@@ -12,7 +12,7 @@ public class PaginationLimit : NonNegativeInt
     {
         if (!IsValid())
         {
-            throw new InvalidPaginationLimitException(value);
+            throw new InvalidPaginationLimit(value);
         }
     }
 

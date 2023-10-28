@@ -32,7 +32,7 @@ public class ProductPriceChanger
                 ProductStatus.CreateDeleted(),
                 new NonNegativeLong(id),
                 new NonNegativeLong(restaurantId)
-            ) ?? throw new ProductNotFoundException(id);
+            ) ?? throw new ProductNotFound(id);
         int oldPrice = product.Price;
         product.ChangePrice(price);
         await repository.Update(product);
