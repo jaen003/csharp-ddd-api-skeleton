@@ -23,7 +23,7 @@ public class ProductDescriptionChangerTest
             "Sandwich",
             3,
             "Bread, Onion, Tomato, Chicken",
-            ProductStatus.CreateActived(),
+            1,
             "82022d1f-b0fa-4b70-86ae-e99c3101fb47"
         );
         logger = Mock.Of<ILogger>();

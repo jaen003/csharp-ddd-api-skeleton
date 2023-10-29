@@ -22,11 +22,38 @@ public class ExceptionMiddleware
         }
         catch (ApplicationException exception)
         {
-            exceptionHandler.Handle(exception);
-            context.Response.StatusCode = StatusCodes.Status400BadRequest;
-            await context.Response.WriteAsJsonAsync(
-                new Dictionary<string, object> { { "code", exception.Code } }
-            );
+            await HandleApplicationException(context, exception);
         }
+        catch (MultipleApplicationException multipleException)
+        {
+            await HandleMultipleApplicationException(context, multipleException);
+        }
+    }
+
+    private async Task HandleApplicationException(
+        HttpContext context,
+        ApplicationException exception
+    )
+    {
+        exceptionHandler.Handle(exception);
+        context.Response.StatusCode = StatusCodes.Status400BadRequest;
+        await context.Response.WriteAsJsonAsync(
+            new Dictionary<string, object> { { "code", exception.Code } }
+        );
+    }
+
+    private async Task HandleMultipleApplicationException(
+        HttpContext context,
+        MultipleApplicationException multipleException
+    )
+    {
+        context.Response.StatusCode = StatusCodes.Status400BadRequest;
+        List<Dictionary<string, object>> response = new();
+        foreach (ApplicationException exception in multipleException.Exceptions)
+        {
+            exceptionHandler.Handle(exception);
+            response.Add(new Dictionary<string, object> { { "code", exception.Code } });
+        }
+        await context.Response.WriteAsJsonAsync(response);
     }
 }

@@ -2,6 +2,8 @@ using Src.Core.Products.Domain.Events;
 using Src.Core.Products.Domain.ValueObjects;
 using Src.Core.Shared.Domain.ValueObjects;
 using Src.Core.Shared.Domain.Aggregates;
+using ApplicationException = Src.Core.Shared.Domain.Exceptions.ApplicationException;
+using Src.Core.Shared.Domain.Exceptions;
 
 namespace Src.Core.Products.Domain.Aggregates;
 
@@ -56,21 +58,21 @@ public class Product : AggregateRoot
         this.restaurantId = new Uuid(restaurantId);
     }
 
-    public Product(
-        string id,
-        string name,
-        int price,
-        string description,
-        ProductStatus status,
-        string restaurantId
+    private Product(
+        Uuid productId,
+        NonEmptyString productName,
+        NonNegativeInt productPrice,
+        NonEmptyString productDescription,
+        ProductStatus productStatus,
+        Uuid productRestaurantId
     )
     {
-        this.id = new Uuid(id);
-        this.name = new NonEmptyString(name);
-        this.price = new NonNegativeInt(price);
-        this.description = new NonEmptyString(description);
-        this.status = status;
-        this.restaurantId = new Uuid(restaurantId);
+        id = productId;
+        name = productName;
+        price = productPrice;
+        description = productDescription;
+        status = productStatus;
+        restaurantId = productRestaurantId;
     }
 
     public static Product Create(
@@ -81,8 +83,65 @@ public class Product : AggregateRoot
         string restaurantId
     )
     {
+        List<ApplicationException> exceptions = new();
+        Uuid? productId = null;
+        NonEmptyString? productName = null;
+        NonNegativeInt? productPrice = null;
+        NonEmptyString? productDescription = null;
+        Uuid? productRestaurantId = null;
+        try
+        {
+            productId = new Uuid(id);
+        }
+        catch (ApplicationException exception)
+        {
+            exceptions.Add(exception);
+        }
+        try
+        {
+            productName = new NonEmptyString(name);
+        }
+        catch (ApplicationException exception)
+        {
+            exceptions.Add(exception);
+        }
+        try
+        {
+            productPrice = new NonNegativeInt(price);
+        }
+        catch (ApplicationException exception)
+        {
+            exceptions.Add(exception);
+        }
+        try
+        {
+            productDescription = new NonEmptyString(description);
+        }
+        catch (ApplicationException exception)
+        {
+            exceptions.Add(exception);
+        }
+        try
+        {
+            productRestaurantId = new Uuid(restaurantId);
+        }
+        catch (ApplicationException exception)
+        {
+            exceptions.Add(exception);
+        }
+        if (exceptions.Count > 0)
+        {
+            throw new MultipleApplicationException(exceptions);
+        }
         Product product =
-            new(id, name, price, description, ProductStatus.CreateActived(), restaurantId);
+            new(
+                productId!,
+                productName!,
+                productPrice!,
+                productDescription!,
+                ProductStatus.CreateActived(),
+                productRestaurantId!
+            );
         product.RecordEvent(new ProductCreated(id, name, price, description));
         return product;
     }

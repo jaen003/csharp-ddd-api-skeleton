@@ -82,5 +82,13 @@ public class RabbitmqDomainEventConsumer
             exceptionHandler.Handle(exception);
             consumptionErrorHandler.Handle(deliverEventArgs, eventInformation);
         }
+        catch (MultipleApplicationException multipleException)
+        {
+            foreach (ApplicationException exception in multipleException.Exceptions)
+            {
+                exceptionHandler.Handle(exception);
+            }
+            consumptionErrorHandler.Handle(deliverEventArgs, eventInformation);
+        }
     }
 }

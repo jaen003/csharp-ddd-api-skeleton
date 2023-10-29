@@ -1,5 +1,7 @@
 using Src.Core.Restaurants.Domain.ValueObjects;
+using Src.Core.Shared.Domain.Exceptions;
 using Src.Core.Shared.Domain.ValueObjects;
+using ApplicationException = Src.Core.Shared.Domain.Exceptions.ApplicationException;
 
 namespace Src.Core.Restaurants.Domain.Aggregates;
 
@@ -29,15 +31,42 @@ public class Restaurant
         this.status = new RestaurantStatus(status);
     }
 
-    public Restaurant(string id, string name, RestaurantStatus status)
+    private Restaurant(
+        Uuid restaurantId,
+        NonEmptyString restaurantName,
+        RestaurantStatus restaurantStatus
+    )
     {
-        this.id = new Uuid(id);
-        this.name = new NonEmptyString(name);
-        this.status = status;
+        id = restaurantId;
+        name = restaurantName;
+        status = restaurantStatus;
     }
 
     public static Restaurant Create(string id, string name)
     {
-        return new(id, name, RestaurantStatus.CreateActived());
+        List<ApplicationException> exceptions = new();
+        Uuid? restaurantId = null;
+        NonEmptyString? restaurantName = null;
+        try
+        {
+            restaurantId = new Uuid(id);
+        }
+        catch (ApplicationException exception)
+        {
+            exceptions.Add(exception);
+        }
+        try
+        {
+            restaurantName = new NonEmptyString(name);
+        }
+        catch (ApplicationException exception)
+        {
+            exceptions.Add(exception);
+        }
+        if (exceptions.Count > 0)
+        {
+            throw new MultipleApplicationException(exceptions);
+        }
+        return new(restaurantId!, restaurantName!, RestaurantStatus.CreateActived());
     }
 }
