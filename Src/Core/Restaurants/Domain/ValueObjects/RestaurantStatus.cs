@@ -1,3 +1,4 @@
+using Src.Core.Restaurants.Domain.Exceptions;
 using Src.Core.Shared.Domain.ValueObjects;
 
 namespace Src.Core.Restaurants.Domain.ValueObjects;
@@ -8,7 +9,13 @@ public class RestaurantStatus : NonNegativeShort
     private const short DELETED = 2;
 
     public RestaurantStatus(short value)
-        : base(value) { }
+        : base(value)
+    {
+        if (!IsValid())
+        {
+            throw new InvalidRestaurantStatus(value);
+        }
+    }
 
     public static RestaurantStatus CreateActived()
     {
@@ -23,5 +30,10 @@ public class RestaurantStatus : NonNegativeShort
     public bool IsActived()
     {
         return Equals(ACTIVED);
+    }
+
+    private bool IsValid()
+    {
+        return Equals(ACTIVED) || Equals(DELETED);
     }
 }
