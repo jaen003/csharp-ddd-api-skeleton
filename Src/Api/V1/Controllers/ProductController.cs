@@ -50,19 +50,19 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<Dictionary<string, object>>>> FindByRestaurant(
+    public async Task<ActionResult<List<Dictionary<string, object>>>> FindAll(
         [FromQuery] PaginationSchema paginationSchema,
         [Required, FromHeader(Name = "restaurant_id")] string? restaurantId
     )
     {
-        ProductFinder finder = new(repository);
+        AllProductsFinder finder = new(repository);
         Pagination pagination = Pagination.FromPrimitives(
             paginationSchema.Limit,
             paginationSchema.StartIndex,
             paginationSchema.SortingField,
             paginationSchema.SortingType
         );
-        return await finder.FindByResturantIdAndPagination(restaurantId!, pagination);
+        return await finder.Find(restaurantId!, pagination);
     }
 
     [HttpGet("{id}")]
@@ -71,8 +71,8 @@ public class ProductController : ControllerBase
         [Required, FromHeader(Name = "restaurant_id")] string? restaurantId
     )
     {
-        ProductFinder finder = new(repository);
-        return await finder.FindByIdAndResturantId(id, restaurantId!);
+        ProductByIdFinder finder = new(repository);
+        return await finder.Find(id, restaurantId!);
     }
 
     [HttpPut("{id}/change/price")]
