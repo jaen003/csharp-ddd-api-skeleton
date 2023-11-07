@@ -1,5 +1,5 @@
-using Src.Core.Shared.Domain.Exceptions;
 using Src.Core.Shared.Domain.Paginations;
+using ApplicationException = Src.Core.Shared.Domain.Exceptions.ApplicationException;
 
 namespace Tests.Shared;
 
@@ -16,7 +16,7 @@ public class SortingTypeTest
         {
             SortingType sortingType = new(value);
         }
-        catch (DomainException exception)
+        catch (ApplicationException exception)
         {
             exceptionCode = exception.Code;
         }
@@ -34,7 +34,7 @@ public class SortingTypeTest
         {
             SortingType sortingType = new(value);
         }
-        catch (DomainException exception)
+        catch (ApplicationException exception)
         {
             exceptionCode = exception.Code;
         }

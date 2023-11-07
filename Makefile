@@ -1,9 +1,10 @@
-check_directories := Src Tests
+SOURCE_DIRECTORY = Src
+TEST_DIRECTORY = Tests
 
 .PHONY: format
 format:
 	@echo "Running the project formatters"
-	@dotnet csharpier $(check_directories)
+	@dotnet csharpier $(SOURCE_DIRECTORY) $(TEST_DIRECTORY)
 
 .PHONY: test
 test:
@@ -14,4 +15,4 @@ test:
 lint:
 	@echo "Running the project linters"
 	@dotnet roslynator analyze
-	@dotnet csharpier --check $(check_directories)
+	@dotnet csharpier --check $(SOURCE_DIRECTORY) $(TEST_DIRECTORY)

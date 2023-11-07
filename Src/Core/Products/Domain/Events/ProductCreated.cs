@@ -4,7 +4,7 @@ namespace Src.Core.Products.Domain.Events;
 
 public class ProductCreated : DomainEvent
 {
-    public long Id { get; }
+    public string Id { get; }
     public string Name { get; }
     public int Price { get; }
     public string Description { get; }
@@ -12,12 +12,13 @@ public class ProductCreated : DomainEvent
 
     public ProductCreated()
     {
+        Id = string.Empty;
         Name = string.Empty;
         Description = string.Empty;
     }
 
     public ProductCreated(
-        long id,
+        string id,
         string name,
         int price,
         string description,
@@ -32,7 +33,7 @@ public class ProductCreated : DomainEvent
         Description = description;
     }
 
-    public ProductCreated(long id, string name, int price, string description)
+    public ProductCreated(string id, string name, int price, string description)
     {
         Id = id;
         Name = name;
@@ -47,7 +48,7 @@ public class ProductCreated : DomainEvent
     )
     {
         return new ProductCreated(
-            long.Parse(data["id"].ToString()!),
+            data["id"].ToString()!,
             data["name"].ToString()!,
             int.Parse(data["price"].ToString()!),
             data["description"].ToString()!,
@@ -61,9 +62,9 @@ public class ProductCreated : DomainEvent
         return new Dictionary<string, object>
         {
             { "id", Id },
-            { "name", "" + Name },
-            { "price", "" + Price },
-            { "description", "" + Description }
+            { "name", Name },
+            { "price", Price },
+            { "description", Description }
         };
     }
 }

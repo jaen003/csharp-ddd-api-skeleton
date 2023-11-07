@@ -4,11 +4,8 @@ using Src.Api.V1.Schemas;
 using Src.Api.V1.Schemas.Products;
 using Src.Core.Products.Application.Services;
 using Src.Core.Products.Domain;
-using Src.Core.Products.Domain.ValueObjects;
 using Src.Core.Restaurants.Domain;
-using Src.Core.Restaurants.Domain.ValueObjects;
 using Src.Core.Shared.Domain.EventBus;
-using Src.Core.Shared.Domain.Generators;
 using Src.Core.Shared.Domain.Paginations;
 using ILogger = Src.Core.Shared.Domain.Logging.ILogger;
 
@@ -22,123 +19,102 @@ public class ProductController : ControllerBase
     private readonly IRestaurantRepository restaurantRepository;
     private readonly IDomainEventPublisher eventPublisher;
     private readonly ILogger logger;
-    private readonly IIdentifierGenerator identifierGenerator;
 
     public ProductController(
         IProductRepository repository,
         IRestaurantRepository restaurantRepository,
         IDomainEventPublisher eventPublisher,
-        ILogger logger,
-        IIdentifierGenerator identifierGenerator
+        ILogger logger
     )
     {
         this.repository = repository;
         this.restaurantRepository = restaurantRepository;
         this.eventPublisher = eventPublisher;
         this.logger = logger;
-        this.identifierGenerator = identifierGenerator;
     }
 
     [HttpPut("create")]
     public async Task Create(
         ProductCreationSchema schema,
-        [Required, FromHeader(Name = "restaurant_id")] long? restaurantId
+        [Required, FromHeader(Name = "restaurant_id")] string? restaurantId
     )
     {
-        ProductCreator creator =
-            new(repository, restaurantRepository, eventPublisher, logger, identifierGenerator);
+        ProductCreator creator = new(repository, restaurantRepository, eventPublisher, logger);
         await creator.Create(
-            new ProductName(schema.Name),
-            new ProductPrice(schema.Price),
-            new ProductDescription(schema.Description),
-            new RestaurantId(restaurantId ?? 0)
+            schema.Id,
+            schema.Name,
+            schema.Price,
+            schema.Description,
+            restaurantId!
         );
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<Dictionary<string, object>>>> FindByRestaurant(
+    public async Task<ActionResult<List<Dictionary<string, object>>>> FindAll(
         [FromQuery] PaginationSchema paginationSchema,
-        [Required, FromHeader(Name = "restaurant_id")] long? restaurantId
+        [Required, FromHeader(Name = "restaurant_id")] string? restaurantId
     )
     {
-        ProductFinder finder = new(repository);
+        AllProductsFinder finder = new(repository);
         Pagination pagination = Pagination.FromPrimitives(
             paginationSchema.Limit,
             paginationSchema.StartIndex,
             paginationSchema.SortingField,
             paginationSchema.SortingType
         );
-        return await finder.FindByResturantIdAndPagination(
-            new RestaurantId(restaurantId ?? 0),
-            pagination
-        );
+        return await finder.Find(restaurantId!, pagination);
     }
 
-    [HttpGet("{id:long}")]
+    [HttpGet("{id}")]
     public async Task<ActionResult<Dictionary<string, object>>> FindById(
-        long id,
-        [Required, FromHeader(Name = "restaurant_id")] long? restaurantId
+        [FromRoute] string id,
+        [Required, FromHeader(Name = "restaurant_id")] string? restaurantId
     )
     {
-        ProductFinder finder = new(repository);
-        return await finder.FindByIdAndResturantId(
-            new ProductId(id),
-            new RestaurantId(restaurantId ?? 0)
-        );
+        ProductByIdFinder finder = new(repository);
+        return await finder.Find(id, restaurantId!);
     }
 
-    [HttpPut("{id:long}/change/price")]
+    [HttpPut("{id}/change/price")]
     public async Task ChangePrice(
-        long id,
+        [FromRoute] string id,
         ProductPriceChangerSchema schema,
-        [Required, FromHeader(Name = "restaurant_id")] long? restaurantId
+        [Required, FromHeader(Name = "restaurant_id")] string? restaurantId
     )
     {
         ProductPriceChanger changer = new(repository, eventPublisher, logger);
-        await changer.Change(
-            new ProductId(id),
-            new ProductPrice(schema.Price),
-            new RestaurantId(restaurantId ?? 0)
-        );
+        await changer.Change(id, schema.Price, restaurantId!);
     }
 
-    [HttpDelete("{id:long}")]
+    [HttpDelete("{id}")]
     public async Task Delete(
-        long id,
-        [Required, FromHeader(Name = "restaurant_id")] long? restaurantId
+        [FromRoute] string id,
+        [Required, FromHeader(Name = "restaurant_id")] string? restaurantId
     )
     {
         ProductDeletor deletor = new(repository, eventPublisher, logger);
-        await deletor.Delete(new ProductId(id), new RestaurantId(restaurantId ?? 0));
+        await deletor.Delete(id, restaurantId!);
     }
 
-    [HttpPut("{id:long}/change/description")]
+    [HttpPut("{id}/change/description")]
     public async Task ChangeDescription(
-        long id,
+        [FromRoute] string id,
         ProductDescriptionChangeSchema schema,
-        [Required, FromHeader(Name = "restaurant_id")] long? restaurantId
+        [Required, FromHeader(Name = "restaurant_id")] string? restaurantId
     )
     {
         ProductDescriptionChanger changer = new(repository, eventPublisher, logger);
-        await changer.Change(
-            new ProductId(id),
-            new ProductDescription(schema.Description),
-            new RestaurantId(restaurantId ?? 0)
-        );
+        await changer.Change(id, schema.Description, restaurantId!);
     }
 
-    [HttpPut("{id:long}/rename")]
+    [HttpPut("{id}/rename")]
     public async Task Rename(
-        long id,
+        string id,
         ProductNameChangeSchema schema,
-        [Required, FromHeader(Name = "restaurant_id")] long? restaurantId
+        [Required, FromHeader(Name = "restaurant_id")] string? restaurantId
     )
     {
         ProductRenamer renamer = new(repository, eventPublisher, logger);
-        await renamer.Rename(
-            new ProductId(id),
-            new ProductName(schema.Name),
-            new RestaurantId(restaurantId ?? 0)
-        );
+        await renamer.Rename(id, schema.Name, restaurantId!);
     }
 }

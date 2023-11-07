@@ -7,7 +7,7 @@ services:
         hostname: backoffice
         restart: unless-stopped
         volumes:
-            - ./Logs:/home/backoffice/logs:cached
+            - ./Logs:/home/backoffice/Logs
 
 networks:
     default:

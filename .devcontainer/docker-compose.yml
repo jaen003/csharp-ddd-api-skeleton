@@ -3,14 +3,16 @@ version: '3.7'
 services:
 
     backend:
-        build: 
+        build:
             context: ..
             dockerfile: .devcontainer/Dockerfile
+        image: csharp_ddd_api_skeleton_development_backend:latest
+        container_name: csharp_ddd_api_skeleton_development_backend
         hostname: backoffice
         ports:
             - 5004:8000
         volumes:
-            - ..:/workspaces/backoffice:cached
+            - ..:/workspaces/backoffice
         command: sleep infinity
 
 networks:

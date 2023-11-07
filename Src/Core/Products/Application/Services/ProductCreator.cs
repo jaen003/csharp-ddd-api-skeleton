@@ -6,8 +6,8 @@ using Src.Core.Restaurants.Domain;
 using Src.Core.Restaurants.Domain.Exceptions;
 using Src.Core.Restaurants.Domain.ValueObjects;
 using Src.Core.Shared.Domain.EventBus;
-using Src.Core.Shared.Domain.Generators;
 using Src.Core.Shared.Domain.Logging;
+using Src.Core.Shared.Domain.ValueObjects;
 
 namespace Src.Core.Products.Application.Services;
 
@@ -17,57 +17,56 @@ public class ProductCreator
     private readonly IRestaurantRepository restaurantRepository;
     private readonly IDomainEventPublisher eventPublisher;
     private readonly ILogger logger;
-    private readonly IIdentifierGenerator identifierGenerator;
 
     public ProductCreator(
         IProductRepository repository,
         IRestaurantRepository restaurantRepository,
         IDomainEventPublisher eventPublisher,
-        ILogger logger,
-        IIdentifierGenerator identifierGenerator
+        ILogger logger
     )
     {
         this.repository = repository;
         this.restaurantRepository = restaurantRepository;
         this.eventPublisher = eventPublisher;
         this.logger = logger;
-        this.identifierGenerator = identifierGenerator;
     }
 
     public async Task Create(
-        ProductName name,
-        ProductPrice price,
-        ProductDescription description,
-        RestaurantId restaurantId
+        string id,
+        string name,
+        int price,
+        string description,
+        string restaurantId
     )
     {
         if (!await IsRestaurantCreated(restaurantId))
         {
-            throw new RestaurantNotFoundException(restaurantId.Value);
+            throw new RestaurantNotFound(restaurantId);
         }
         if (await IsProductNameCreatedInRestaurant(name, restaurantId))
         {
-            throw new ProductNameAlreadyCreatedException(name.Value);
+            throw new ProductNameNotAvailable(name);
         }
-        ProductId id = new(identifierGenerator.Generate());
         Product product = Product.Create(id, name, price, description, restaurantId);
         await repository.Save(product);
         eventPublisher.Publish(product.PullEvents());
-        logger.Information($"The product '{id.Value}' has been created.");
+        logger.Information($"The product '{id}' has been created.");
     }
 
-    async private Task<bool> IsRestaurantCreated(RestaurantId id)
+    async private Task<bool> IsRestaurantCreated(string restaurantId)
     {
-        RestaurantStatus status = RestaurantStatus.CreateDeleted();
-        return await restaurantRepository.ExistsByStatusNotAndId(status, id);
+        return await restaurantRepository.ExistsByStatusNotAndId(
+            RestaurantStatus.CreateDeleted(),
+            new Uuid(restaurantId)
+        );
     }
 
-    async private Task<bool> IsProductNameCreatedInRestaurant(
-        ProductName name,
-        RestaurantId restaurantId
-    )
+    async private Task<bool> IsProductNameCreatedInRestaurant(string name, string restaurantId)
     {
-        ProductStatus status = ProductStatus.CreateDeleted();
-        return await repository.ExistByStatusNotAndNameAndRestaurantId(status, name, restaurantId);
+        return await repository.ExistByStatusNotAndNameAndRestaurantId(
+            ProductStatus.CreateDeleted(),
+            new NonEmptyString(name),
+            new Uuid(restaurantId)
+        );
     }
 }

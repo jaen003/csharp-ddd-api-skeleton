@@ -2,10 +2,11 @@ using Microsoft.EntityFrameworkCore;
 using Src.Core.Products.Domain;
 using Src.Core.Products.Domain.Aggregates;
 using Src.Core.Products.Domain.ValueObjects;
-using Src.Core.Restaurants.Domain.ValueObjects;
 using Src.Core.Shared.Domain.Exceptions;
 using Src.Core.Shared.Domain.Paginations;
+using Src.Core.Shared.Domain.ValueObjects;
 using Src.Core.Shared.Infrastructure.Database;
+using Src.Core.Shared.Infrastructure.Mappers;
 using ProductModel = Src.Core.Shared.Infrastructure.Database.Models.Product;
 
 namespace Src.Core.Products.Infrastructure;
@@ -13,18 +14,21 @@ namespace Src.Core.Products.Infrastructure;
 public class PostgresqlProductRepository : IProductRepository
 {
     private readonly IDbContextFactory<PostgresqlDatabaseContext> databaseContextFactory;
+    private readonly ProductMapper mapper;
 
     public PostgresqlProductRepository(
-        IDbContextFactory<PostgresqlDatabaseContext> databaseContextFactory
+        IDbContextFactory<PostgresqlDatabaseContext> databaseContextFactory,
+        ProductMapper mapper
     )
     {
         this.databaseContextFactory = databaseContextFactory;
+        this.mapper = mapper;
     }
 
     async public Task<bool> ExistByStatusNotAndNameAndRestaurantId(
         ProductStatus status,
-        ProductName name,
-        RestaurantId restaurantId
+        NonEmptyString name,
+        Uuid restaurantId
     )
     {
         try
@@ -40,14 +44,14 @@ public class PostgresqlProductRepository : IProductRepository
         }
         catch (Exception exception)
         {
-            throw new DatabaseErrorException(exception.ToString());
+            throw new DatabaseError(exception.ToString());
         }
     }
 
     public async Task<Product?> FindByStatusNotAndIdAndRestaurantId(
         ProductStatus status,
-        ProductId id,
-        RestaurantId restaurantId
+        Uuid id,
+        Uuid restaurantId
     )
     {
         try
@@ -64,24 +68,12 @@ public class PostgresqlProductRepository : IProductRepository
             {
                 return null;
             }
-            return MapToAggregates(productModel);
+            return mapper.ToEntity(productModel);
         }
         catch (Exception exception)
         {
-            throw new DatabaseErrorException(exception.ToString());
+            throw new DatabaseError(exception.ToString());
         }
-    }
-
-    private static Product MapToAggregates(ProductModel productModel)
-    {
-        return new(
-            new ProductId(productModel.Id),
-            new ProductName(productModel.Name),
-            new ProductPrice(productModel.Price),
-            new ProductDescription(productModel.Description),
-            new ProductStatus(productModel.Status),
-            new RestaurantId(productModel.RestaurantId)
-        );
     }
 
     async public Task Save(Product product)
@@ -90,22 +82,13 @@ public class PostgresqlProductRepository : IProductRepository
         {
             using PostgresqlDatabaseContext databaseContext =
                 await databaseContextFactory.CreateDbContextAsync();
-            ProductModel productModel =
-                new()
-                {
-                    Id = product.Id.Value,
-                    Name = product.Name.Value,
-                    Price = product.Price.Value,
-                    Description = product.Description.Value,
-                    Status = product.Status.Value,
-                    RestaurantId = product.RestaurantId.Value
-                };
+            ProductModel productModel = mapper.ToModel(product);
             await databaseContext.Products.AddAsync(productModel);
             await databaseContext.SaveChangesAsync();
         }
         catch (Exception exception)
         {
-            throw new DatabaseErrorException(exception.ToString());
+            throw new DatabaseError(exception.ToString());
         }
     }
 
@@ -116,23 +99,23 @@ public class PostgresqlProductRepository : IProductRepository
             using PostgresqlDatabaseContext databaseContext =
                 await databaseContextFactory.CreateDbContextAsync();
             ProductModel productModel = await databaseContext.Products.FirstAsync(
-                t => t.Id == product.Id.Value
+                t => t.Id == product.Id
             );
-            productModel.Name = product.Name.Value;
-            productModel.Price = product.Price.Value;
-            productModel.Description = product.Description.Value;
-            productModel.Status = product.Status.Value;
+            productModel.Name = product.Name;
+            productModel.Price = product.Price;
+            productModel.Description = product.Description;
+            productModel.Status = product.Status;
             await databaseContext.SaveChangesAsync();
         }
         catch (Exception exception)
         {
-            throw new DatabaseErrorException(exception.ToString());
+            throw new DatabaseError(exception.ToString());
         }
     }
 
     async public Task<List<Product>> FindByStatusNotAndRestaurantIdAndPagination(
         ProductStatus status,
-        RestaurantId restaurantId,
+        Uuid restaurantId,
         Pagination pagination
     )
     {
@@ -144,16 +127,11 @@ public class PostgresqlProductRepository : IProductRepository
                 .Where(t => t.Status != status.Value && t.RestaurantId == restaurantId.Value)
                 .AddPagination(pagination)
                 .ToListAsync();
-            List<Product> products = new();
-            foreach (ProductModel productModel in productModels)
-            {
-                products.Add(MapToAggregates(productModel));
-            }
-            return products;
+            return mapper.ToEntities(productModels);
         }
         catch (Exception exception)
         {
-            throw new DatabaseErrorException(exception.ToString());
+            throw new DatabaseError(exception.ToString());
         }
     }
 }

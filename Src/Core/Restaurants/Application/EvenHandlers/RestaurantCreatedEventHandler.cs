@@ -1,6 +1,5 @@
 using Src.Core.Restaurants.Application.Services;
 using Src.Core.Restaurants.Domain.Events;
-using Src.Core.Restaurants.Domain.ValueObjects;
 using Src.Core.Shared.Domain.Events;
 
 namespace Src.Core.Restaurants.Application.EvenHandlers;
@@ -16,6 +15,6 @@ public class RestaurantCreatedEventHandler : IDomainEventHandler<RestaurantCreat
 
     public async Task Handle(RestaurantCreated _event)
     {
-        await creator.Create(new RestaurantId(_event.Id), new RestaurantName(_event.Name));
+        await creator.Create(_event.Id, _event.Name);
     }
 }

@@ -19,6 +19,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" />
     <PackageReference Include="dotenv.net" />
     <PackageReference Include="System.Linq.Dynamic.Core" />
+    <PackageReference Include="Riok.Mapperly" />
   </ItemGroup>
 
 </Project>

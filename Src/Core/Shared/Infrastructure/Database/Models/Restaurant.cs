@@ -8,12 +8,18 @@ namespace Src.Core.Shared.Infrastructure.Database.Models;
 [Index(nameof(Id), nameof(Status))]
 public class Restaurant
 {
-    [Key, Column("id")]
-    public long Id { get; set; }
+    [Key, Column("id"), MaxLength(36), DatabaseGenerated(DatabaseGeneratedOption.None)]
+    public string Id { get; set; }
 
     [Column("name"), MaxLength(40)]
-    public string Name { get; set; } = null!;
+    public string Name { get; set; }
 
     [Column("status")]
     public short Status { get; set; }
+
+    public Restaurant()
+    {
+        Name = string.Empty;
+        Id = string.Empty;
+    }
 }

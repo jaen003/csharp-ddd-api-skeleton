@@ -2,6 +2,7 @@ using Src.Core.Restaurants.Domain;
 using Src.Core.Restaurants.Domain.Aggregates;
 using Src.Core.Restaurants.Domain.ValueObjects;
 using Src.Core.Shared.Domain.Logging;
+using Src.Core.Shared.Domain.ValueObjects;
 
 namespace Src.Core.Restaurants.Application.Services;
 
@@ -16,19 +17,21 @@ public class RestaurantCreator
         this.logger = logger;
     }
 
-    public async Task Create(RestaurantId id, RestaurantName name)
+    public async Task Create(string id, string name)
     {
         if (!await IsRestaurantCreated(id))
         {
             Restaurant restaurant = Restaurant.Create(id, name);
             await repository.Save(restaurant);
-            logger.Information($"The restaurant '{id.Value}' has been created.");
+            logger.Information($"The restaurant '{id}' has been created.");
         }
     }
 
-    async private Task<bool> IsRestaurantCreated(RestaurantId id)
+    async private Task<bool> IsRestaurantCreated(string id)
     {
-        RestaurantStatus status = RestaurantStatus.CreateDeleted();
-        return await repository.ExistsByStatusNotAndId(status, id);
+        return await repository.ExistsByStatusNotAndId(
+            RestaurantStatus.CreateDeleted(),
+            new Uuid(id)
+        );
     }
 }

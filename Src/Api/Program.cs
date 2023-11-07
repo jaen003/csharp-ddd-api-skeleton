@@ -8,12 +8,11 @@ using Src.Core.Restaurants.Domain;
 using Src.Core.Restaurants.Infrastructure;
 using Src.Core.Shared.Domain.EventBus;
 using Src.Core.Shared.Domain.Exceptions;
-using Src.Core.Shared.Domain.Generators;
 using Src.Core.Shared.Infrastructure.Database;
 using Src.Core.Shared.Infrastructure.EventBus;
 using Src.Core.Shared.Infrastructure.Events;
-using Src.Core.Shared.Infrastructure.Generators;
 using Src.Core.Shared.Infrastructure.Logging;
+using Src.Core.Shared.Infrastructure.Mappers;
 using ILogger = Src.Core.Shared.Domain.Logging.ILogger;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,29 +22,23 @@ DotEnv.Load();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddScoped<ProductMapper, ProductMapper>();
+builder.Services.AddScoped<RestaurantMapper, RestaurantMapper>();
 builder.Services.AddSingleton<ApplicationLoggerCreator, ApplicationLoggerCreator>();
 builder.Services.AddScoped<ILogger>(
     serviceProvider => serviceProvider.GetRequiredService<ApplicationLoggerCreator>().Create()
 );
-builder.Services.AddTransient<DomainExceptionHandler, DomainExceptionHandler>();
+builder.Services.AddScoped<ApplicationExceptionHandler, ApplicationExceptionHandler>();
 builder.Services.AddSingleton<RabbitmqEventBusConnection, RabbitmqEventBusConnection>();
-builder.Services.AddTransient<RabbitmqMessagePublisher, RabbitmqMessagePublisher>();
+builder.Services.AddScoped<RabbitmqMessagePublisher, RabbitmqMessagePublisher>();
 builder.Services.AddTransient<RabbitmqConsumptionErrorHandler, RabbitmqConsumptionErrorHandler>();
 builder.Services.CollectDomainEventInformation();
-builder.Services.AddTransient<RabbitmqEventBusConfigurer, RabbitmqEventBusConfigurer>();
+builder.Services.AddScoped<RabbitmqEventBusConfigurer, RabbitmqEventBusConfigurer>();
 builder.Services.AddSingleton<RabbitmqDomainEventConsumer, RabbitmqDomainEventConsumer>();
 PostgresqlDatabaseConnectionData databaseConnectionData = new();
 builder.Services.AddPooledDbContextFactory<PostgresqlDatabaseContext>(
     options => options.UseNpgsql(databaseConnectionData.ConnectionString),
     databaseConnectionData.PoolSize
-);
-builder.Services.AddSingleton<
-    SnowflakeIdentifierGeneratorCreator,
-    SnowflakeIdentifierGeneratorCreator
->();
-builder.Services.AddScoped<IIdentifierGenerator>(
-    serviceProvider =>
-        serviceProvider.GetRequiredService<SnowflakeIdentifierGeneratorCreator>().Create()
 );
 builder.Services.AddScoped<PostgresqlDatabaseMigrator, PostgresqlDatabaseMigrator>();
 builder.Services.AddScoped<IDomainEventPublisher, RabbitmqDomainEventPublisher>();

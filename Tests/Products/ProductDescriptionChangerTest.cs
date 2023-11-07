@@ -3,10 +3,10 @@ using Src.Core.Products.Application.Services;
 using Src.Core.Products.Domain;
 using Src.Core.Products.Domain.Aggregates;
 using Src.Core.Products.Domain.ValueObjects;
-using Src.Core.Restaurants.Domain.ValueObjects;
 using Src.Core.Shared.Domain.EventBus;
-using Src.Core.Shared.Domain.Exceptions;
+using ApplicationException = Src.Core.Shared.Domain.Exceptions.ApplicationException;
 using Src.Core.Shared.Domain.Logging;
+using Src.Core.Shared.Domain.ValueObjects;
 
 namespace Tests.Products;
 
@@ -19,12 +19,12 @@ public class ProductDescriptionChangerTest
     public ProductDescriptionChangerTest()
     {
         product = new Product(
-            new ProductId(1),
-            new ProductName("Sandwich"),
-            new ProductPrice(3),
-            new ProductDescription("Bread, Onion, Tomato, Chicken"),
-            ProductStatus.CreateActived(),
-            new RestaurantId(1)
+            "a1433e47-9708-4e61-adfc-6de2ad462f82",
+            "Sandwich",
+            3,
+            "Bread, Onion, Tomato, Chicken",
+            1,
+            "82022d1f-b0fa-4b70-86ae-e99c3101fb47"
         );
         logger = Mock.Of<ILogger>();
         eventPublisher = Mock.Of<IDomainEventPublisher>();
@@ -37,8 +37,8 @@ public class ProductDescriptionChangerTest
             l =>
                 l.FindByStatusNotAndIdAndRestaurantId(
                     It.IsAny<ProductStatus>(),
-                    It.IsAny<ProductId>(),
-                    It.IsAny<RestaurantId>()
+                    It.IsAny<Uuid>(),
+                    It.IsAny<Uuid>()
                 ) == Task.FromResult(product)
         );
         int exceptionCode = 0;
@@ -47,7 +47,7 @@ public class ProductDescriptionChangerTest
             ProductDescriptionChanger changer = new(repository, eventPublisher, logger);
             await changer.Change(product.Id, product.Description, product.RestaurantId);
         }
-        catch (DomainException exception)
+        catch (ApplicationException exception)
         {
             exceptionCode = exception.Code;
         }
@@ -61,8 +61,8 @@ public class ProductDescriptionChangerTest
             l =>
                 l.FindByStatusNotAndIdAndRestaurantId(
                     It.IsAny<ProductStatus>(),
-                    It.IsAny<ProductId>(),
-                    It.IsAny<RestaurantId>()
+                    It.IsAny<Uuid>(),
+                    It.IsAny<Uuid>()
                 ) == Task.FromResult<Product>(null!)
         );
         int exceptionCode = 0;
@@ -71,7 +71,7 @@ public class ProductDescriptionChangerTest
             ProductDescriptionChanger changer = new(repository, eventPublisher, logger);
             await changer.Change(product.Id, product.Description, product.RestaurantId);
         }
-        catch (DomainException exception)
+        catch (ApplicationException exception)
         {
             exceptionCode = exception.Code;
         }

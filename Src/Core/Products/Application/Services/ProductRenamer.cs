@@ -2,9 +2,9 @@ using Src.Core.Products.Domain;
 using Src.Core.Products.Domain.Aggregates;
 using Src.Core.Products.Domain.Exceptions;
 using Src.Core.Products.Domain.ValueObjects;
-using Src.Core.Restaurants.Domain.ValueObjects;
 using Src.Core.Shared.Domain.EventBus;
 using Src.Core.Shared.Domain.Logging;
+using Src.Core.Shared.Domain.ValueObjects;
 
 namespace Src.Core.Products.Application.Services;
 
@@ -25,37 +25,31 @@ public class ProductRenamer
         this.logger = logger;
     }
 
-    public async Task Rename(ProductId id, ProductName name, RestaurantId restaurantId)
+    public async Task Rename(string id, string name, string restaurantId)
     {
         if (await IsProductNameCreatedInRestaurant(name, restaurantId))
         {
-            throw new ProductNameAlreadyCreatedException(name.Value);
+            throw new ProductNameNotAvailable(name);
         }
-        ProductStatus status = ProductStatus.CreateDeleted();
-        Product? product = await repository.FindByStatusNotAndIdAndRestaurantId(
-            status,
-            id,
-            restaurantId
-        );
-        if (product == null)
-        {
-            throw new ProductNotFoundException(id.Value);
-        }
-        ProductName oldName = product.Name;
+        Product? product =
+            await repository.FindByStatusNotAndIdAndRestaurantId(
+                ProductStatus.CreateDeleted(),
+                new Uuid(id),
+                new Uuid(restaurantId)
+            ) ?? throw new ProductNotFound(id);
+        string oldName = product.Name;
         product.Rename(name);
         await repository.Update(product);
         eventPublisher.Publish(product.PullEvents());
-        logger.Information(
-            $"The product name '{oldName.Value}' has been changed to '{name.Value}'."
-        );
+        logger.Information($"The product name '{oldName}' has been changed to '{name}'.");
     }
 
-    async private Task<bool> IsProductNameCreatedInRestaurant(
-        ProductName name,
-        RestaurantId restaurantId
-    )
+    async private Task<bool> IsProductNameCreatedInRestaurant(string name, string restaurantId)
     {
-        ProductStatus status = ProductStatus.CreateDeleted();
-        return await repository.ExistByStatusNotAndNameAndRestaurantId(status, name, restaurantId);
+        return await repository.ExistByStatusNotAndNameAndRestaurantId(
+            ProductStatus.CreateDeleted(),
+            new NonEmptyString(name),
+            new Uuid(restaurantId)
+        );
     }
 }

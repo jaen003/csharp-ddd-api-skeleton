@@ -4,18 +4,21 @@ namespace Src.Core.Products.Domain.Events;
 
 public class ProductDeleted : DomainEvent
 {
-    public long Id { get; }
+    public string Id { get; }
     public override string EventName => "product.deleted";
 
-    public ProductDeleted() { }
+    public ProductDeleted()
+    {
+        Id = string.Empty;
+    }
 
-    public ProductDeleted(long id, string eventId, int timestamp)
+    public ProductDeleted(string id, string eventId, int timestamp)
         : base(eventId, timestamp)
     {
         Id = id;
     }
 
-    public ProductDeleted(long id)
+    public ProductDeleted(string id)
     {
         Id = id;
     }
@@ -26,7 +29,7 @@ public class ProductDeleted : DomainEvent
         Dictionary<string, object> data
     )
     {
-        return new ProductDeleted(long.Parse(data["id"].ToString()!), eventId, timestamp);
+        return new ProductDeleted(data["id"].ToString()!, eventId, timestamp);
     }
 
     public override Dictionary<string, object> ToPrimitives()

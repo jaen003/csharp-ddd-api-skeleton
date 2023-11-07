@@ -1,73 +1,172 @@
 using Src.Core.Products.Domain.Events;
 using Src.Core.Products.Domain.ValueObjects;
-using Src.Core.Restaurants.Domain.ValueObjects;
+using Src.Core.Shared.Domain.ValueObjects;
 using Src.Core.Shared.Domain.Aggregates;
+using ApplicationException = Src.Core.Shared.Domain.Exceptions.ApplicationException;
+using Src.Core.Shared.Domain.Exceptions;
 
 namespace Src.Core.Products.Domain.Aggregates;
 
 public class Product : AggregateRoot
 {
-    public ProductId Id { get; }
-    public ProductName Name { get; private set; }
-    public ProductPrice Price { get; private set; }
-    public ProductDescription Description { get; private set; }
-    public ProductStatus Status { get; private set; }
-    public RestaurantId RestaurantId { get; }
+    private readonly Uuid id;
+    private NonEmptyString name;
+    private NonNegativeInt price;
+    private NonEmptyString description;
+    private ProductStatus status;
+    private readonly Uuid restaurantId;
+
+    public string Id
+    {
+        get { return id.Value; }
+    }
+    public string Name
+    {
+        get { return name.Value; }
+    }
+    public int Price
+    {
+        get { return price.Value; }
+    }
+    public string Description
+    {
+        get { return description.Value; }
+    }
+    public short Status
+    {
+        get { return status.Value; }
+    }
+    public string RestaurantId
+    {
+        get { return restaurantId.Value; }
+    }
 
     public Product(
-        ProductId id,
-        ProductName name,
-        ProductPrice price,
-        ProductDescription description,
-        ProductStatus status,
-        RestaurantId restaurantId
+        string id,
+        string name,
+        int price,
+        string description,
+        short status,
+        string restaurantId
     )
     {
-        Id = id;
-        Name = name;
-        Price = price;
-        Description = description;
-        Status = status;
-        RestaurantId = restaurantId;
+        this.id = new Uuid(id);
+        this.name = new NonEmptyString(name);
+        this.price = new NonNegativeInt(price);
+        this.description = new NonEmptyString(description);
+        this.status = new ProductStatus(status);
+        this.restaurantId = new Uuid(restaurantId);
+    }
+
+    private Product(
+        Uuid productId,
+        NonEmptyString productName,
+        NonNegativeInt productPrice,
+        NonEmptyString productDescription,
+        ProductStatus productStatus,
+        Uuid productRestaurantId
+    )
+    {
+        id = productId;
+        name = productName;
+        price = productPrice;
+        description = productDescription;
+        status = productStatus;
+        restaurantId = productRestaurantId;
     }
 
     public static Product Create(
-        ProductId id,
-        ProductName name,
-        ProductPrice price,
-        ProductDescription description,
-        RestaurantId restaurantId
+        string id,
+        string name,
+        int price,
+        string description,
+        string restaurantId
     )
     {
+        List<ApplicationException> exceptions = new();
+        Uuid? productId = null;
+        NonEmptyString? productName = null;
+        NonNegativeInt? productPrice = null;
+        NonEmptyString? productDescription = null;
+        Uuid? productRestaurantId = null;
+        try
+        {
+            productId = new Uuid(id);
+        }
+        catch (ApplicationException exception)
+        {
+            exceptions.Add(exception);
+        }
+        try
+        {
+            productName = new NonEmptyString(name);
+        }
+        catch (ApplicationException exception)
+        {
+            exceptions.Add(exception);
+        }
+        try
+        {
+            productPrice = new NonNegativeInt(price);
+        }
+        catch (ApplicationException exception)
+        {
+            exceptions.Add(exception);
+        }
+        try
+        {
+            productDescription = new NonEmptyString(description);
+        }
+        catch (ApplicationException exception)
+        {
+            exceptions.Add(exception);
+        }
+        try
+        {
+            productRestaurantId = new Uuid(restaurantId);
+        }
+        catch (ApplicationException exception)
+        {
+            exceptions.Add(exception);
+        }
+        if (exceptions.Count > 0)
+        {
+            throw new MultipleApplicationException(exceptions);
+        }
         Product product =
-            new(id, name, price, description, ProductStatus.CreateActived(), restaurantId);
-        product.RecordEvent(
-            new ProductCreated(id.Value, name.Value, price.Value, description.Value)
-        );
+            new(
+                productId!,
+                productName!,
+                productPrice!,
+                productDescription!,
+                ProductStatus.CreateActived(),
+                productRestaurantId!
+            );
+        product.RecordEvent(new ProductCreated(id, name, price, description));
         return product;
     }
 
-    public void ChangePrice(ProductPrice newPrice)
+    public void ChangePrice(int newPrice)
     {
-        Price = newPrice;
-        RecordEvent(new ProductPriceChanged(Id.Value, Price.Value));
+        price = new NonNegativeInt(newPrice);
+        RecordEvent(new ProductPriceChanged(id.Value, price.Value));
     }
 
     public void Delete()
     {
-        Status = ProductStatus.CreateDeleted();
-        RecordEvent(new ProductDeleted(Id.Value));
+        status = ProductStatus.CreateDeleted();
+        RecordEvent(new ProductDeleted(id.Value));
     }
 
-    public void ChangeDescription(ProductDescription newDescription)
+    public void ChangeDescription(string newDescription)
     {
-        Description = newDescription;
-        RecordEvent(new ProductDescriptionChanged(Id.Value, Description.Value));
+        description = new NonEmptyString(newDescription);
+        RecordEvent(new ProductDescriptionChanged(id.Value, description.Value));
     }
 
-    public void Rename(ProductName newName)
+    public void Rename(string newName)
     {
-        Name = newName;
-        RecordEvent(new ProductRenamed(Id.Value, Name.Value));
+        name = new NonEmptyString(newName);
+        RecordEvent(new ProductRenamed(id.Value, name.Value));
     }
 }

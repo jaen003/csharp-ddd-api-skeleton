@@ -1,14 +1,21 @@
+using Src.Core.Products.Domain.Exceptions;
 using Src.Core.Shared.Domain.ValueObjects;
 
 namespace Src.Core.Products.Domain.ValueObjects;
 
-public class ProductStatus : NonNegativeShortValueObject
+public class ProductStatus : NonNegativeShort
 {
     private const short ACTIVED = 1;
     private const short DELETED = 2;
 
     public ProductStatus(short value)
-        : base(value) { }
+        : base(value)
+    {
+        if (!IsValid())
+        {
+            throw new InvalidProductStatus(value);
+        }
+    }
 
     public static ProductStatus CreateActived()
     {
@@ -22,6 +29,11 @@ public class ProductStatus : NonNegativeShortValueObject
 
     public bool IsActived()
     {
-        return Equals(new ShortValueObject(ACTIVED));
+        return Equals(ACTIVED);
+    }
+
+    private bool IsValid()
+    {
+        return Equals(ACTIVED) || Equals(DELETED);
     }
 }

@@ -2,6 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using Src.Core.Shared.Domain.Events;
+using ApplicationException = Src.Core.Shared.Domain.Exceptions.ApplicationException;
 using Src.Core.Shared.Domain.Exceptions;
 using Src.Core.Shared.Infrastructure.Events;
 
@@ -11,14 +12,14 @@ public class RabbitmqDomainEventConsumer
 {
     private readonly RabbitmqEventBusConnection eventBusConnection;
     private readonly DomainEventInformationCollection eventInformationCollection;
-    private readonly DomainExceptionHandler exceptionHandler;
+    private readonly ApplicationExceptionHandler exceptionHandler;
     private readonly RabbitmqConsumptionErrorHandler consumptionErrorHandler;
     private readonly IServiceProvider serviceProvider;
 
     public RabbitmqDomainEventConsumer(
         RabbitmqEventBusConnection eventBusConnection,
         DomainEventInformationCollection eventInformationCollection,
-        DomainExceptionHandler exceptionHandler,
+        ApplicationExceptionHandler exceptionHandler,
         RabbitmqConsumptionErrorHandler consumptionErrorHandler,
         IServiceProvider serviceProvider
     )
@@ -54,7 +55,7 @@ public class RabbitmqDomainEventConsumer
         }
         catch (Exception exception)
         {
-            throw new EventBusErrorException(exception.ToString());
+            throw new EventBusError(exception.ToString());
         }
     }
 
@@ -76,9 +77,17 @@ public class RabbitmqDomainEventConsumer
                 await eventHandler.Handle(_event);
             }
         }
-        catch (DomainException exception)
+        catch (ApplicationException exception)
         {
             exceptionHandler.Handle(exception);
+            consumptionErrorHandler.Handle(deliverEventArgs, eventInformation);
+        }
+        catch (MultipleApplicationException multipleException)
+        {
+            foreach (ApplicationException exception in multipleException.Exceptions)
+            {
+                exceptionHandler.Handle(exception);
+            }
             consumptionErrorHandler.Handle(deliverEventArgs, eventInformation);
         }
     }
