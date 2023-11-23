@@ -26,6 +26,8 @@ It is built with clean architecture, SOLID principles, and love ❤️.
 * Product update (price, description, name)
 * Product deletion.
 * Automatic object mapping with Mapperly.
+* Swagger integration for interactive API exploration and testing.
+* Download OpenAPI specification in JSON format using Swagger.
 
 <a name="setup"></a>
 ## 🔧 Setup
@@ -63,6 +65,24 @@ docker-compose up -d
 
 **NOTE:** This project runs inside a private network and does not expose a public port to access the API. It is recommended to access the API through an API gateway.
 
+## 📚 API Documentation
+
+Explore the API using Swagger UI. The API documentation is generated dynamically and can be accessed through the Swagger UI interface. Additionally, you can download the OpenAPI specification in JSON format.
+
+### Swagger UI
+
+Access the Swagger UI to interactively explore and test the API endpoints.
+
+* **Swagger UI URL:** [http://localhost:5004/swagger](http://localhost:5004/swagger)
+
+### OpenAPI Specification (JSON)
+
+Download the OpenAPI specification in JSON format to use with other tools.
+
+* **Swagger JSON URL:** [http://localhost:5004/swagger/v1/swagger.json](http://localhost:5004/swagger/v1/swagger.json)
+
+**NOTE:** Access to documentation is limited to the development environment only. If you also want to extend it to the production environment, it is advisable to implement an identity server.
+
 ## 🗃️ Migrations
 
 To create a new migration, run the following command:
@@ -80,6 +100,8 @@ dotnet ef migrations add AddProductNameColumn -p Src/Core -o Shared/Infrastructu
 ## ⚙️ Environment Variables
 
 You can modify any environment variables in the `.env` file.
+
+**NOTE:** If you are considering using this application in production you should include the '.env' file in your '.gitignore' so as not to expose the security of the application.
 
 ## 🧪 Running Tests
 
