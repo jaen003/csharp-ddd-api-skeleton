@@ -12,6 +12,7 @@
   <ItemGroup>
     <PackageReference Include="dotenv.net" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
+    <PackageReference Include="Swashbuckle.AspNetCore" />
   </ItemGroup>
 
   <ItemGroup>
