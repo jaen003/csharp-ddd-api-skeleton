@@ -28,6 +28,7 @@ It is built with clean architecture, SOLID principles, and love ❤️.
 * Automatic object mapping with Mapperly.
 * Swagger integration for interactive API exploration and testing.
 * Download OpenAPI specification in JSON format using Swagger.
+* GitHub Action to run the test suite before merging into the master branch.
 
 <a name="setup"></a>
 ## 🔧 Setup
