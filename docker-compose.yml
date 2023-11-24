@@ -1,15 +1,14 @@
 version: '3.7'
 
 services:
-
-    backoffice:
-        build: .
-        hostname: backoffice
-        restart: unless-stopped
-        volumes:
-            - ./Logs:/home/backoffice/Logs
+  backoffice:
+    build: .
+    hostname: backoffice
+    restart: unless-stopped
+    volumes:
+      - ./Logs:/home/backoffice/Logs
 
 networks:
-    default:
-        name: csharp_ddd_api_skeleton_network
-        external: true
+  default:
+    name: csharp_ddd_api_skeleton_network
+    external: true
