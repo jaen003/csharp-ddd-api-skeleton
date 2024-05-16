@@ -5,10 +5,10 @@ using Src.Core.Restaurants.Domain.ValueObjects;
 using Src.Core.Shared.Domain.Exceptions;
 using Src.Core.Shared.Domain.ValueObjects;
 using Src.Core.Shared.Infrastructure.Database;
-using Src.Core.Shared.Infrastructure.Mappers;
-using RestaurantModel = Src.Core.Shared.Infrastructure.Database.Models.Restaurant;
+using Src.Core.Restaurants.Infrastructure.Mappers;
+using RestaurantModel = Src.Core.Restaurants.Infrastructure.Database.Models.Restaurant;
 
-namespace Src.Core.Restaurants.Infrastructure;
+namespace Src.Core.Restaurants.Infrastructure.Database.Repositories;
 
 public class PostgresqlRestaurantRepository : IRestaurantRepository
 {

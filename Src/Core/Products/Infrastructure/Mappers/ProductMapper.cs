@@ -1,8 +1,8 @@
 using Riok.Mapperly.Abstractions;
-using ProductModel = Src.Core.Shared.Infrastructure.Database.Models.Product;
+using ProductModel = Src.Core.Products.Infrastructure.Database.Models.Product;
 using Src.Core.Products.Domain.Aggregates;
 
-namespace Src.Core.Shared.Infrastructure.Mappers;
+namespace Src.Core.Products.Infrastructure.Mappers;
 
 [Mapper]
 public partial class ProductMapper

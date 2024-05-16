@@ -6,10 +6,10 @@ using Src.Core.Shared.Domain.Exceptions;
 using Src.Core.Shared.Domain.Paginations;
 using Src.Core.Shared.Domain.ValueObjects;
 using Src.Core.Shared.Infrastructure.Database;
-using Src.Core.Shared.Infrastructure.Mappers;
-using ProductModel = Src.Core.Shared.Infrastructure.Database.Models.Product;
+using Src.Core.Products.Infrastructure.Mappers;
+using ProductModel = Src.Core.Products.Infrastructure.Database.Models.Product;
 
-namespace Src.Core.Products.Infrastructure;
+namespace Src.Core.Products.Infrastructure.Database.Repositories;
 
 public class PostgresqlProductRepository : IProductRepository
 {
