@@ -25,9 +25,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ProductMapper, ProductMapper>();
 builder.Services.AddTransient<RestaurantMapper, RestaurantMapper>();
-builder.Services.AddSingleton<ApplicationLoggerCreator, ApplicationLoggerCreator>();
+builder.Services.AddSingleton<LoggerCreator>(
+    builder.Environment.IsDevelopment() ? new ConsoleLoggerCreator() : new FileLoggerCreator()
+);
 builder.Services.AddTransient<ILogger>(
-    serviceProvider => serviceProvider.GetRequiredService<ApplicationLoggerCreator>().Create()
+    serviceProvider => serviceProvider.GetRequiredService<LoggerCreator>().Create()
 );
 builder.Services.AddTransient<ApplicationExceptionHandler, ApplicationExceptionHandler>();
 builder.Services.AddSingleton<RabbitmqEventBusConnection, RabbitmqEventBusConnection>();
