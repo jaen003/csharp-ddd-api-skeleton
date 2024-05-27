@@ -33,7 +33,7 @@ public class PostgresqlProductRepository : IProductRepository
     {
         try
         {
-            using PostgresqlDatabaseContext databaseContext =
+            await using PostgresqlDatabaseContext databaseContext =
                 await databaseContextFactory.CreateDbContextAsync();
             return await databaseContext.Products.AnyAsync(
                 t =>
@@ -56,7 +56,7 @@ public class PostgresqlProductRepository : IProductRepository
     {
         try
         {
-            using PostgresqlDatabaseContext databaseContext =
+            await using PostgresqlDatabaseContext databaseContext =
                 await databaseContextFactory.CreateDbContextAsync();
             ProductModel? productModel = await databaseContext.Products.FirstOrDefaultAsync(
                 t =>
@@ -80,7 +80,7 @@ public class PostgresqlProductRepository : IProductRepository
     {
         try
         {
-            using PostgresqlDatabaseContext databaseContext =
+            await using PostgresqlDatabaseContext databaseContext =
                 await databaseContextFactory.CreateDbContextAsync();
             ProductModel productModel = mapper.ToModel(product);
             await databaseContext.Products.AddAsync(productModel);
@@ -96,7 +96,7 @@ public class PostgresqlProductRepository : IProductRepository
     {
         try
         {
-            using PostgresqlDatabaseContext databaseContext =
+            await using PostgresqlDatabaseContext databaseContext =
                 await databaseContextFactory.CreateDbContextAsync();
             ProductModel productModel = await databaseContext.Products.FirstAsync(
                 t => t.Id == product.Id
@@ -121,7 +121,7 @@ public class PostgresqlProductRepository : IProductRepository
     {
         try
         {
-            using PostgresqlDatabaseContext databaseContext =
+            await using PostgresqlDatabaseContext databaseContext =
                 await databaseContextFactory.CreateDbContextAsync();
             List<ProductModel> productModels = await databaseContext.Products
                 .Where(t => t.Status != status.Value && t.RestaurantId == restaurantId.Value)

@@ -29,7 +29,7 @@ public class PostgresqlRestaurantRepository : IRestaurantRepository
     {
         try
         {
-            using PostgresqlDatabaseContext databaseContext =
+            await using PostgresqlDatabaseContext databaseContext =
                 await databaseContextFactory.CreateDbContextAsync();
             return await databaseContext.Restaurants.AnyAsync(
                 t => t.Status != status.Value && t.Id == id.Value
@@ -45,7 +45,7 @@ public class PostgresqlRestaurantRepository : IRestaurantRepository
     {
         try
         {
-            using PostgresqlDatabaseContext databaseContext =
+            await using PostgresqlDatabaseContext databaseContext =
                 await databaseContextFactory.CreateDbContextAsync();
             RestaurantModel restaurantModel = mapper.ToModel(restaurant);
             await databaseContext.Restaurants.AddAsync(restaurantModel);
