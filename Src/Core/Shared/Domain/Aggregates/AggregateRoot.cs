@@ -11,8 +11,7 @@ public class AggregateRoot
         events = new List<DomainEvent>();
     }
 
-    // REFACTOR: Change method access modifier to 'protected'
-    public void RecordEvent(DomainEvent _event)
+    protected void RecordEvent(DomainEvent _event)
     {
         events.Add(_event);
     }
