@@ -53,7 +53,7 @@ public class ProductCreator
         logger.Information($"The product '{id}' has been created.");
     }
 
-    async private Task<bool> IsRestaurantCreated(string restaurantId)
+    private async Task<bool> IsRestaurantCreated(string restaurantId)
     {
         return await restaurantRepository.ExistsByStatusNotAndId(
             RestaurantStatus.CreateDeleted(),
@@ -61,7 +61,7 @@ public class ProductCreator
         );
     }
 
-    async private Task<bool> IsProductNameCreatedInRestaurant(string name, string restaurantId)
+    private async Task<bool> IsProductNameCreatedInRestaurant(string name, string restaurantId)
     {
         return await repository.ExistByStatusNotAndNameAndRestaurantId(
             ProductStatus.CreateDeleted(),

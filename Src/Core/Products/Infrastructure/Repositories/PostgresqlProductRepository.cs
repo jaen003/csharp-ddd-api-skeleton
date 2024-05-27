@@ -25,7 +25,7 @@ public class PostgresqlProductRepository : IProductRepository
         this.mapper = mapper;
     }
 
-    async public Task<bool> ExistByStatusNotAndNameAndRestaurantId(
+    public async Task<bool> ExistByStatusNotAndNameAndRestaurantId(
         ProductStatus status,
         NonEmptyString name,
         Uuid restaurantId
@@ -76,7 +76,7 @@ public class PostgresqlProductRepository : IProductRepository
         }
     }
 
-    async public Task Save(Product product)
+    public async Task Save(Product product)
     {
         try
         {
@@ -92,7 +92,7 @@ public class PostgresqlProductRepository : IProductRepository
         }
     }
 
-    async public Task Update(Product product)
+    public async Task Update(Product product)
     {
         try
         {
@@ -113,7 +113,7 @@ public class PostgresqlProductRepository : IProductRepository
         }
     }
 
-    async public Task<List<Product>> FindByStatusNotAndRestaurantIdAndPagination(
+    public async Task<List<Product>> FindByStatusNotAndRestaurantIdAndPagination(
         ProductStatus status,
         Uuid restaurantId,
         Pagination pagination

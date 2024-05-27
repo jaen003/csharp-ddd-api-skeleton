@@ -27,7 +27,7 @@ public class RestaurantCreator
         }
     }
 
-    async private Task<bool> IsRestaurantCreated(string id)
+    private async Task<bool> IsRestaurantCreated(string id)
     {
         return await repository.ExistsByStatusNotAndId(
             RestaurantStatus.CreateDeleted(),

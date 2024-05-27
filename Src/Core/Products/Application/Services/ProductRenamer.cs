@@ -44,7 +44,7 @@ public class ProductRenamer
         logger.Information($"The product name '{oldName}' has been changed to '{name}'.");
     }
 
-    async private Task<bool> IsProductNameCreatedInRestaurant(string name, string restaurantId)
+    private async Task<bool> IsProductNameCreatedInRestaurant(string name, string restaurantId)
     {
         return await repository.ExistByStatusNotAndNameAndRestaurantId(
             ProductStatus.CreateDeleted(),
