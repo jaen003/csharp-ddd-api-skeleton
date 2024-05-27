@@ -16,7 +16,6 @@ public class RabbitmqMessagePublisher
         );
     }
 
-    // REFACTOR: Remove the canal closure
     public void Publish(string exchangeName, byte[] body, IBasicProperties? properties = null)
     {
         try
@@ -28,7 +27,6 @@ public class RabbitmqMessagePublisher
                 properties.DeliveryMode = (byte)messageDeliveryMode;
             }
             channel.BasicPublish(exchangeName, "", properties, body);
-            channel.Close();
         }
         catch (Exception exception)
         {
