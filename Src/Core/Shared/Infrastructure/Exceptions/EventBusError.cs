@@ -1,4 +1,4 @@
-namespace Src.Core.Shared.Domain.Exceptions;
+namespace Src.Core.Shared.Infrastructure.Exceptions;
 
 public class EventBusError : InternalError
 {

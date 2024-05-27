@@ -1,5 +1,5 @@
 using RabbitMQ.Client;
-using Src.Core.Shared.Domain.Exceptions;
+using Src.Core.Shared.Infrastructure.Exceptions;
 
 namespace Src.Core.Shared.Infrastructure.EventBus;
 
@@ -16,6 +16,7 @@ public class RabbitmqMessagePublisher
         );
     }
 
+    // REFACTOR: Remove the canal closure
     public void Publish(string exchangeName, byte[] body, IBasicProperties? properties = null)
     {
         try

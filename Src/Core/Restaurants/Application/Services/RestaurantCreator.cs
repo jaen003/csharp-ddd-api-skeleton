@@ -1,7 +1,7 @@
-using Src.Core.Restaurants.Domain;
+using Src.Core.Restaurants.Domain.Repositories;
 using Src.Core.Restaurants.Domain.Aggregates;
 using Src.Core.Restaurants.Domain.ValueObjects;
-using Src.Core.Shared.Domain.Logging;
+using Src.Core.Shared.Application.Logging;
 using Src.Core.Shared.Domain.ValueObjects;
 
 namespace Src.Core.Restaurants.Application.Services;

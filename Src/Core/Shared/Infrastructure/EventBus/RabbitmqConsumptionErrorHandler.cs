@@ -1,7 +1,7 @@
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using Src.Core.Shared.Domain.Events;
-using Src.Core.Shared.Domain.Exceptions;
+using Src.Core.Shared.Application.Events;
+using Src.Core.Shared.Application.Exceptions;
 using ApplicationException = Src.Core.Shared.Domain.Exceptions.ApplicationException;
 using Src.Core.Shared.Domain.Geneators;
 

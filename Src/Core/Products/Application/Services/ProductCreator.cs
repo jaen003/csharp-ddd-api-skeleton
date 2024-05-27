@@ -1,12 +1,12 @@
-using Src.Core.Products.Domain;
+using Src.Core.Products.Domain.Repositories;
 using Src.Core.Products.Domain.Aggregates;
 using Src.Core.Products.Domain.Exceptions;
 using Src.Core.Products.Domain.ValueObjects;
-using Src.Core.Restaurants.Domain;
+using Src.Core.Restaurants.Domain.Repositories;
 using Src.Core.Restaurants.Domain.Exceptions;
 using Src.Core.Restaurants.Domain.ValueObjects;
-using Src.Core.Shared.Domain.EventBus;
-using Src.Core.Shared.Domain.Logging;
+using Src.Core.Shared.Application.EventBus;
+using Src.Core.Shared.Application.Logging;
 using Src.Core.Shared.Domain.ValueObjects;
 
 namespace Src.Core.Products.Application.Services;

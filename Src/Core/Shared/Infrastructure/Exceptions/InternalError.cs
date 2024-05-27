@@ -1,4 +1,6 @@
-namespace Src.Core.Shared.Domain.Exceptions;
+using ApplicationException = Src.Core.Shared.Domain.Exceptions.ApplicationException;
+
+namespace Src.Core.Shared.Infrastructure.Exceptions;
 
 public abstract class InternalError : ApplicationException
 {

@@ -1,14 +1,14 @@
 using Microsoft.EntityFrameworkCore;
-using Src.Core.Restaurants.Domain;
+using Src.Core.Restaurants.Domain.Repositories;
 using Src.Core.Restaurants.Domain.Aggregates;
 using Src.Core.Restaurants.Domain.ValueObjects;
-using Src.Core.Shared.Domain.Exceptions;
+using Src.Core.Shared.Infrastructure.Exceptions;
 using Src.Core.Shared.Domain.ValueObjects;
 using Src.Core.Shared.Infrastructure.Database;
 using Src.Core.Restaurants.Infrastructure.Mappers;
-using RestaurantModel = Src.Core.Restaurants.Infrastructure.Database.Models.Restaurant;
+using RestaurantModel = Src.Core.Restaurants.Infrastructure.Models.Restaurant;
 
-namespace Src.Core.Restaurants.Infrastructure.Database.Repositories;
+namespace Src.Core.Restaurants.Infrastructure.Repositories;
 
 public class PostgresqlRestaurantRepository : IRestaurantRepository
 {

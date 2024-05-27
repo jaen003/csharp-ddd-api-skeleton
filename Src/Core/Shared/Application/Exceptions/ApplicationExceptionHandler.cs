@@ -1,6 +1,7 @@
-using Src.Core.Shared.Domain.Logging;
+using Src.Core.Shared.Application.Logging;
+using ApplicationException = Src.Core.Shared.Domain.Exceptions.ApplicationException;
 
-namespace Src.Core.Shared.Domain.Exceptions;
+namespace Src.Core.Shared.Application.Exceptions;
 
 public class ApplicationExceptionHandler
 {

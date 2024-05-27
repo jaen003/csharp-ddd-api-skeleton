@@ -1,15 +1,15 @@
 using Microsoft.EntityFrameworkCore;
-using Src.Core.Products.Domain;
+using Src.Core.Products.Domain.Repositories;
 using Src.Core.Products.Domain.Aggregates;
 using Src.Core.Products.Domain.ValueObjects;
-using Src.Core.Shared.Domain.Exceptions;
+using Src.Core.Shared.Infrastructure.Exceptions;
 using Src.Core.Shared.Domain.Paginations;
 using Src.Core.Shared.Domain.ValueObjects;
 using Src.Core.Shared.Infrastructure.Database;
 using Src.Core.Products.Infrastructure.Mappers;
-using ProductModel = Src.Core.Products.Infrastructure.Database.Models.Product;
+using ProductModel = Src.Core.Products.Infrastructure.Models.Product;
 
-namespace Src.Core.Products.Infrastructure.Database.Repositories;
+namespace Src.Core.Products.Infrastructure.Repositories;
 
 public class PostgresqlProductRepository : IProductRepository
 {

@@ -11,6 +11,7 @@ public class Restaurant
     private readonly NonEmptyString name;
     private readonly RestaurantStatus status;
 
+    // REFACTOR: Use lambda expressions for properties
     public string Id
     {
         get { return id.Value; }

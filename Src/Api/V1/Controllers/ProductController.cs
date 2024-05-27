@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using Src.Api.V1.Schemas;
 using Src.Api.V1.Schemas.Products;
 using Src.Core.Products.Application.Services;
-using Src.Core.Products.Domain;
-using Src.Core.Restaurants.Domain;
-using Src.Core.Shared.Domain.EventBus;
+using Src.Core.Products.Domain.Repositories;
+using Src.Core.Restaurants.Domain.Repositories;
+using Src.Core.Shared.Application.EventBus;
 using Src.Core.Shared.Domain.Paginations;
-using ILogger = Src.Core.Shared.Domain.Logging.ILogger;
+using ILogger = Src.Core.Shared.Application.Logging.ILogger;
 
 namespace Src.Api.V1.Controllers;
 

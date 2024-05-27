@@ -1,7 +1,7 @@
 using System.Reflection;
-using Src.Core.Shared.Domain.Events;
+using Src.Core.Shared.Application.EventHandlers;
 
-namespace Src.Core.Shared.Infrastructure.Events;
+namespace Src.Core.Shared.Infrastructure.EventHandlers;
 
 public static class DomainEventHandlerFinder
 {

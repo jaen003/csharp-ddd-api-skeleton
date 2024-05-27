@@ -1,5 +1,5 @@
 using ISerilogLogger = Serilog.ILogger;
-using Src.Core.Shared.Domain.Logging;
+using Src.Core.Shared.Application.Logging;
 
 namespace Src.Core.Shared.Infrastructure.Logging;
 

@@ -1,3 +1,4 @@
+using Src.Core.Shared.Application.Exceptions;
 using Src.Core.Shared.Domain.Exceptions;
 using ApplicationException = Src.Core.Shared.Domain.Exceptions.ApplicationException;
 

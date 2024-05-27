@@ -2,9 +2,9 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Src.Core.Restaurants.Infrastructure.Database.Models;
+using Src.Core.Restaurants.Infrastructure.Models;
 
-namespace Src.Core.Products.Infrastructure.Database.Models;
+namespace Src.Core.Products.Infrastructure.Models;
 
 [Table("product")]
 [Index(nameof(Name), nameof(Status), nameof(RestaurantId))]

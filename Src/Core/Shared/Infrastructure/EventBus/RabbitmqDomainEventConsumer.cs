@@ -5,6 +5,10 @@ using Src.Core.Shared.Domain.Events;
 using ApplicationException = Src.Core.Shared.Domain.Exceptions.ApplicationException;
 using Src.Core.Shared.Domain.Exceptions;
 using Src.Core.Shared.Infrastructure.Events;
+using Src.Core.Shared.Application.Exceptions;
+using Src.Core.Shared.Infrastructure.Exceptions;
+using Src.Core.Shared.Application.EventHandlers;
+using Src.Core.Shared.Application.Events;
 
 namespace Src.Core.Shared.Infrastructure.EventBus;
 

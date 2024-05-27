@@ -16,6 +16,7 @@ public class Product : AggregateRoot
     private ProductStatus status;
     private readonly Uuid restaurantId;
 
+    // REFACTOR: Use lambda expressions for properties
     public string Id
     {
         get { return id.Value; }

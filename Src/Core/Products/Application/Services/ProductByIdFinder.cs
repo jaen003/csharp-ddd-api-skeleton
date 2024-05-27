@@ -1,4 +1,4 @@
-using Src.Core.Products.Domain;
+using Src.Core.Products.Domain.Repositories;
 using Src.Core.Products.Domain.Aggregates;
 using Src.Core.Products.Domain.Exceptions;
 using Src.Core.Products.Domain.ValueObjects;

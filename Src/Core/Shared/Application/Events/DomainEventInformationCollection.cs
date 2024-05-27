@@ -1,4 +1,4 @@
-namespace Src.Core.Shared.Domain.Events;
+namespace Src.Core.Shared.Application.Events;
 
 public class DomainEventInformationCollection
 {

@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace Src.Core.Restaurants.Infrastructure.Database.Models;
+namespace Src.Core.Restaurants.Infrastructure.Models;
 
 [Table("restaurant")]
 [Index(nameof(Id), nameof(Status))]

@@ -3,7 +3,7 @@ using Src.Core.Products.Domain.ValueObjects;
 using Src.Core.Shared.Domain.Paginations;
 using Src.Core.Shared.Domain.ValueObjects;
 
-namespace Src.Core.Products.Domain;
+namespace Src.Core.Products.Domain.Repositories;
 
 public interface IProductRepository
 {

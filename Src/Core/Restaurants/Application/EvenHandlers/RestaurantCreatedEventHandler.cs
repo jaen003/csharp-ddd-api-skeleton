@@ -1,6 +1,6 @@
 using Src.Core.Restaurants.Application.Services;
 using Src.Core.Restaurants.Domain.Events;
-using Src.Core.Shared.Domain.Events;
+using Src.Core.Shared.Application.EventHandlers;
 
 namespace Src.Core.Restaurants.Application.EvenHandlers;
 

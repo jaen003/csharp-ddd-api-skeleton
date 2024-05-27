@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using Src.Core.Products.Infrastructure.Database.Models;
-using Src.Core.Restaurants.Infrastructure.Database.Models;
+using Src.Core.Products.Infrastructure.Models;
+using Src.Core.Restaurants.Infrastructure.Models;
 
 namespace Src.Core.Shared.Infrastructure.Database;
 

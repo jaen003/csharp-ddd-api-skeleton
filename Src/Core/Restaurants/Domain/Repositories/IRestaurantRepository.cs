@@ -2,7 +2,7 @@ using Src.Core.Restaurants.Domain.Aggregates;
 using Src.Core.Restaurants.Domain.ValueObjects;
 using Src.Core.Shared.Domain.ValueObjects;
 
-namespace Src.Core.Restaurants.Domain;
+namespace Src.Core.Restaurants.Domain.Repositories;
 
 public interface IRestaurantRepository
 {

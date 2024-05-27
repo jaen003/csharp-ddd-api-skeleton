@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
-using Src.Core.Shared.Domain.Events;
+using Src.Core.Shared.Application.Events;
+using Src.Core.Shared.Infrastructure.EventHandlers;
 
 namespace Src.Core.Shared.Infrastructure.Events;
 

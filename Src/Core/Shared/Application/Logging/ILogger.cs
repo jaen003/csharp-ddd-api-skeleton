@@ -1,4 +1,4 @@
-namespace Src.Core.Shared.Domain.Logging;
+namespace Src.Core.Shared.Application.Logging;
 
 public interface ILogger
 {

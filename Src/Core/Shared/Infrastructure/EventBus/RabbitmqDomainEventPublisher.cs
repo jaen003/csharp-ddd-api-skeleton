@@ -1,6 +1,6 @@
-using Src.Core.Shared.Domain.EventBus;
+using Src.Core.Shared.Application.EventBus;
 using Src.Core.Shared.Domain.Events;
-using Src.Core.Shared.Domain.Exceptions;
+using Src.Core.Shared.Application.Exceptions;
 using ApplicationException = Src.Core.Shared.Domain.Exceptions.ApplicationException;
 using Src.Core.Shared.Infrastructure.Events;
 
@@ -28,6 +28,7 @@ public class RabbitmqDomainEventPublisher : IDomainEventPublisher
         }
     }
 
+    // REFACTOR: Change the name of this method to 'Publish'
     private void PublishEvent(DomainEvent _event)
     {
         byte[] messageBody = JsonDomainEventSerializer.Serialize(_event);

@@ -1,4 +1,4 @@
-using Src.Core.Shared.Domain.Events;
+using Src.Core.Shared.Application.Events;
 
 namespace Src.Core.Shared.Infrastructure.EventBus;
 
