@@ -24,30 +24,30 @@ DotEnv.Load();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<ProductMapper, ProductMapper>();
-builder.Services.AddTransient<RestaurantMapper, RestaurantMapper>();
+builder.Services.AddScoped<ProductMapper>();
+builder.Services.AddTransient<RestaurantMapper>();
 builder.Services.AddSingleton<LoggerCreator>(
     builder.Environment.IsDevelopment() ? new ConsoleLoggerCreator() : new FileLoggerCreator()
 );
 builder.Services.AddTransient<ILogger>(
     serviceProvider => serviceProvider.GetRequiredService<LoggerCreator>().Create()
 );
-builder.Services.AddTransient<ApplicationExceptionHandler, ApplicationExceptionHandler>();
-builder.Services.AddSingleton<RabbitmqEventBusConnection, RabbitmqEventBusConnection>();
-builder.Services.AddTransient<RabbitmqMessagePublisher, RabbitmqMessagePublisher>();
-builder.Services.AddTransient<RabbitmqConsumptionErrorHandler, RabbitmqConsumptionErrorHandler>();
+builder.Services.AddTransient<ApplicationExceptionHandler>();
+builder.Services.AddSingleton<RabbitmqEventBusConnection>();
+builder.Services.AddTransient<RabbitmqMessagePublisher>();
+builder.Services.AddTransient<RabbitmqConsumptionErrorHandler>();
 builder.Services.CollectDomainEventInformation();
-builder.Services.AddTransient<RabbitmqEventBusConfigurer, RabbitmqEventBusConfigurer>();
-builder.Services.AddSingleton<RabbitmqDomainEventConsumer, RabbitmqDomainEventConsumer>();
+builder.Services.AddTransient<RabbitmqEventBusConfigurer>();
+builder.Services.AddSingleton<RabbitmqDomainEventConsumer>();
 PostgresqlDatabaseConnectionData databaseConnectionData = new();
 builder.Services.AddPooledDbContextFactory<PostgresqlDatabaseContext>(
     options => options.UseNpgsql(databaseConnectionData.ConnectionString),
     databaseConnectionData.PoolSize
 );
-builder.Services.AddTransient<PostgresqlDatabaseMigrator, PostgresqlDatabaseMigrator>();
+builder.Services.AddTransient<PostgresqlDatabaseMigrator>();
 builder.Services.AddScoped<IDomainEventPublisher, RabbitmqDomainEventPublisher>();
 builder.Services.AddTransient<IRestaurantRepository, PostgresqlRestaurantRepository>();
-builder.Services.AddTransient<RestaurantCreator, RestaurantCreator>();
+builder.Services.AddTransient<RestaurantCreator>();
 builder.Services.AddScoped<IProductRepository, PostgresqlProductRepository>();
 var app = builder.Build();
 
