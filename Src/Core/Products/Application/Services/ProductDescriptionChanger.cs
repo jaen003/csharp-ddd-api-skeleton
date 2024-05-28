@@ -36,7 +36,7 @@ public class ProductDescriptionChanger
         string oldDescription = product.Description;
         product.ChangeDescription(description);
         await repository.Update(product);
-        eventPublisher.Publish(product.PullEvents());
+        await eventPublisher.Publish(product.PullEvents());
         logger.Information(
             $"The product description '{oldDescription}' has been changed to " + $"'{description}'."
         );

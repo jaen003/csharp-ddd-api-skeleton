@@ -35,7 +35,7 @@ public class ProductDeletor
             ) ?? throw new ProductNotFound(id);
         product.Delete();
         await repository.Update(product);
-        eventPublisher.Publish(product.PullEvents());
+        await eventPublisher.Publish(product.PullEvents());
         logger.Information($"The product '{id}' has been deleted.");
     }
 }

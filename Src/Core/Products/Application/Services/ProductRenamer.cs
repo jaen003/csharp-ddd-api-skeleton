@@ -40,7 +40,7 @@ public class ProductRenamer
         string oldName = product.Name;
         product.Rename(name);
         await repository.Update(product);
-        eventPublisher.Publish(product.PullEvents());
+        await eventPublisher.Publish(product.PullEvents());
         logger.Information($"The product name '{oldName}' has been changed to '{name}'.");
     }
 

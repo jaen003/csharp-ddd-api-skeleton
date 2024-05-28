@@ -20,22 +20,19 @@ public class RabbitmqDomainEventPublisher : IDomainEventPublisher
         this.exceptionHandler = exceptionHandler;
     }
 
-    public async void Publish(List<DomainEvent> events)
+    public async Task Publish(List<DomainEvent> events)
     {
-        foreach (DomainEvent _event in events)
-        {
-            await Task.Run(() => PublishEvent(_event));
-        }
+        Task[] publishingTasks = events.Select(Publish).ToArray();
+        await Task.WhenAll(publishingTasks);
     }
 
-    // REFACTOR: Change the name of this method to 'Publish'
-    private void PublishEvent(DomainEvent _event)
+    private async Task Publish(DomainEvent _event)
     {
         byte[] messageBody = JsonDomainEventSerializer.Serialize(_event);
         string eventName = _event.EventName;
         try
         {
-            messagePublisher.Publish(eventName, messageBody);
+            await Task.Run(() => messagePublisher.Publish(eventName, messageBody));
         }
         catch (ApplicationException exception)
         {

@@ -36,7 +36,7 @@ public class ProductPriceChanger
         int oldPrice = product.Price;
         product.ChangePrice(price);
         await repository.Update(product);
-        eventPublisher.Publish(product.PullEvents());
+        await eventPublisher.Publish(product.PullEvents());
         logger.Information($"The product price '{oldPrice}' has been changed to '{price}'.");
     }
 }

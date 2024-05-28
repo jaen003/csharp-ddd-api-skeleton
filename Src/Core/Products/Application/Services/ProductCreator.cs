@@ -49,7 +49,7 @@ public class ProductCreator
         }
         Product product = Product.Create(id, name, price, description, restaurantId);
         await repository.Save(product);
-        eventPublisher.Publish(product.PullEvents());
+        await eventPublisher.Publish(product.PullEvents());
         logger.Information($"The product '{id}' has been created.");
     }
 
