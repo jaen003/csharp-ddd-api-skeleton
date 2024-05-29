@@ -7,7 +7,7 @@ using Src.Core.Shared.Domain.Paginations;
 using Src.Core.Shared.Domain.ValueObjects;
 using Src.Core.Shared.Infrastructure.Database;
 using Src.Core.Products.Infrastructure.Mappers;
-using ProductModel = Src.Core.Products.Infrastructure.Models.Product;
+using Src.Core.Products.Infrastructure.Models;
 
 namespace Src.Core.Products.Infrastructure.Repositories;
 

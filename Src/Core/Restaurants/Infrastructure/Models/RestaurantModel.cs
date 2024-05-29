@@ -6,7 +6,7 @@ namespace Src.Core.Restaurants.Infrastructure.Models;
 
 [Table("restaurant")]
 [Index(nameof(Id), nameof(Status))]
-public class Restaurant
+public class RestaurantModel
 {
     [Key, Column("id"), MaxLength(36), DatabaseGenerated(DatabaseGeneratedOption.None)]
     public string Id { get; set; }
@@ -17,7 +17,7 @@ public class Restaurant
     [Column("status")]
     public short Status { get; set; }
 
-    public Restaurant()
+    public RestaurantModel()
     {
         Name = string.Empty;
         Id = string.Empty;

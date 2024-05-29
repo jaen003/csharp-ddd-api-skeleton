@@ -6,7 +6,7 @@ using Src.Core.Shared.Infrastructure.Exceptions;
 using Src.Core.Shared.Domain.ValueObjects;
 using Src.Core.Shared.Infrastructure.Database;
 using Src.Core.Restaurants.Infrastructure.Mappers;
-using RestaurantModel = Src.Core.Restaurants.Infrastructure.Models.Restaurant;
+using Src.Core.Restaurants.Infrastructure.Models;
 
 namespace Src.Core.Restaurants.Infrastructure.Repositories;
 

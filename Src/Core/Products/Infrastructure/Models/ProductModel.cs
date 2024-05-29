@@ -8,7 +8,7 @@ namespace Src.Core.Products.Infrastructure.Models;
 
 [Table("product")]
 [Index(nameof(Name), nameof(Status), nameof(RestaurantId))]
-public class Product
+public class ProductModel
 {
     [Key, Column("id"), MaxLength(36), DatabaseGenerated(DatabaseGeneratedOption.None)]
     public string Id { get; set; }
@@ -28,17 +28,17 @@ public class Product
     [Column("restaurant_id"), MaxLength(36)]
     public string RestaurantId { get; set; }
 
-    private Restaurant? restaurant;
+    private RestaurantModel? restaurant;
 
     private readonly ILazyLoader lazyLoader = null!;
 
-    public Restaurant Restaurant
+    public RestaurantModel Restaurant
     {
         get => lazyLoader.Load(this, ref restaurant)!;
         set => restaurant = value;
     }
 
-    public Product(ILazyLoader lazyLoader)
+    public ProductModel(ILazyLoader lazyLoader)
     {
         this.lazyLoader = lazyLoader;
         Id = string.Empty;
@@ -47,7 +47,7 @@ public class Product
         RestaurantId = string.Empty;
     }
 
-    public Product()
+    public ProductModel()
     {
         Id = string.Empty;
         Name = string.Empty;

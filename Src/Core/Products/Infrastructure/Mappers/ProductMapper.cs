@@ -1,5 +1,5 @@
 using Riok.Mapperly.Abstractions;
-using ProductModel = Src.Core.Products.Infrastructure.Models.Product;
+using Src.Core.Products.Infrastructure.Models;
 using Src.Core.Products.Domain.Aggregates;
 
 namespace Src.Core.Products.Infrastructure.Mappers;
