@@ -4,6 +4,11 @@ namespace Src.Core.Products.Domain.Events;
 
 public class ProductCreated : DomainEvent
 {
+    private const string ID_FIELD = "id";
+    private const string NAME_FIELD = "name";
+    private const string PRICE_FIELD = "price";
+    private const string DESCRIPTION_FIELD = "description";
+
     public string Id { get; }
     public string Name { get; }
     public int Price { get; }
@@ -17,7 +22,7 @@ public class ProductCreated : DomainEvent
         Description = string.Empty;
     }
 
-    public ProductCreated(
+    private ProductCreated(
         string id,
         string name,
         int price,
@@ -48,10 +53,10 @@ public class ProductCreated : DomainEvent
     )
     {
         return new ProductCreated(
-            data["id"].ToString()!,
-            data["name"].ToString()!,
-            int.Parse(data["price"].ToString()!),
-            data["description"].ToString()!,
+            data[ID_FIELD].ToString()!,
+            data[NAME_FIELD].ToString()!,
+            int.Parse(data[PRICE_FIELD].ToString()!),
+            data[DESCRIPTION_FIELD].ToString()!,
             eventId,
             timestamp
         );
@@ -61,10 +66,10 @@ public class ProductCreated : DomainEvent
     {
         return new Dictionary<string, object>
         {
-            { "id", Id },
-            { "name", Name },
-            { "price", Price },
-            { "description", Description }
+            { ID_FIELD, Id },
+            { NAME_FIELD, Name },
+            { PRICE_FIELD, Price },
+            { DESCRIPTION_FIELD, Description }
         };
     }
 }
