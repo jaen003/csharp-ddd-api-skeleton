@@ -1,12 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
-using Src.Api.V1.Schemas;
 using Src.Api.V1.Schemas.Products;
 using Src.Core.Products.Application.Services;
 using Src.Core.Products.Domain.Repositories;
 using Src.Core.Restaurants.Domain.Repositories;
 using Src.Core.Shared.Application.EventBus;
-using Src.Core.Shared.Domain.Paginations;
+using Src.Core.Shared.Application.Paginations;
 using ILogger = Src.Core.Shared.Application.Logging.ILogger;
 
 namespace Src.Api.V1.Controllers;
@@ -51,18 +50,12 @@ public class ProductController : ControllerBase
 
     [HttpGet]
     public async Task<ActionResult<List<Dictionary<string, object>>>> FindAll(
-        [FromQuery] PaginationSchema paginationSchema,
+        [FromQuery] PaginationDto paginationDto,
         [Required, FromHeader(Name = "restaurant_id")] string? restaurantId
     )
     {
         AllProductsFinder finder = new(repository);
-        Pagination pagination = Pagination.FromPrimitives(
-            paginationSchema.Limit,
-            paginationSchema.StartIndex,
-            paginationSchema.SortingField,
-            paginationSchema.SortingType
-        );
-        return await finder.Find(restaurantId!, pagination);
+        return await finder.Find(restaurantId!, paginationDto);
     }
 
     [HttpGet("{id}")]

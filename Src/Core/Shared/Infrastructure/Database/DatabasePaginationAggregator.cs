@@ -13,26 +13,25 @@ public static class DatabasePaginationAggregator
     {
         if (pagination.HasSorting())
         {
-            Sorting sorting = pagination.Sorting!;
-            string sortingString = sorting.Field.Value;
-            if (sorting.Type.IsDescending())
+            string sortingString = pagination.SortingField;
+            if (pagination.IsDescendingSortingType())
             {
                 sortingString += " DESC";
             }
             if (pagination.HasStartIndex())
             {
                 string comparationOperator = ">";
-                if (sorting.Type.IsDescending())
+                if (pagination.IsDescendingSortingType())
                 {
                     comparationOperator = "<";
                 }
                 collection = collection.Where(
-                    $"{sorting.Field.Value} {comparationOperator} "
-                        + $"\"{pagination.StartIndex!.Value}\""
+                    $"{pagination.SortingField} {comparationOperator} "
+                        + $"\"{pagination.StartIndex}\""
                 );
             }
             collection = collection.OrderBy(sortingString);
         }
-        return collection.Take(pagination.Limit.Value);
+        return collection.Take(pagination.Limit);
     }
 }

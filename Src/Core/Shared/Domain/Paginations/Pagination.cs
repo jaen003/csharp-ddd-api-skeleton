@@ -4,28 +4,37 @@ namespace Src.Core.Shared.Domain.Paginations;
 
 public class Pagination
 {
-    public PaginationLimit Limit { get; }
-    public PaginationStartIndex? StartIndex { get; }
-    public Sorting? Sorting { get; }
+    private readonly PaginationLimit limit;
+    private readonly PaginationStartIndex? startIndex;
+    private readonly Sorting? sorting;
 
-    public Pagination(PaginationLimit limit, PaginationStartIndex? startIndex, Sorting? sorting)
+    public string SortingField => sorting!.Field;
+    public string StartIndex => startIndex!.Value;
+    public int Limit => limit.Value;
+
+    private Pagination(PaginationLimit limit, PaginationStartIndex? startIndex, Sorting? sorting)
     {
-        Limit = limit;
-        StartIndex = startIndex;
-        Sorting = sorting;
+        this.limit = limit;
+        this.startIndex = startIndex;
+        this.sorting = sorting;
     }
 
     public bool HasSorting()
     {
-        return Sorting != null;
+        return sorting != null;
     }
 
     public bool HasStartIndex()
     {
-        return StartIndex != null;
+        return startIndex != null;
     }
 
-    public static Pagination FromPrimitives(
+    public bool IsDescendingSortingType()
+    {
+        return sorting!.IsDescending();
+    }
+
+    public static Pagination Create(
         int limit,
         string? startIndex,
         string? sortingField,

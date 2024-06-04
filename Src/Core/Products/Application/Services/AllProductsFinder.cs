@@ -3,6 +3,7 @@ using Src.Core.Products.Domain.Aggregates;
 using Src.Core.Products.Domain.ValueObjects;
 using Src.Core.Shared.Domain.Paginations;
 using Src.Core.Shared.Domain.ValueObjects;
+using Src.Core.Shared.Application.Paginations;
 
 namespace Src.Core.Products.Application.Services;
 
@@ -17,9 +18,15 @@ public class AllProductsFinder
 
     public async Task<List<Dictionary<string, object>>> Find(
         string restaurantId,
-        Pagination pagination
+        PaginationDto paginationDto
     )
     {
+        Pagination pagination = Pagination.Create(
+            paginationDto.Limit,
+            paginationDto.StartIndex,
+            paginationDto.SortingField,
+            paginationDto.SortingType
+        );
         List<Product> products = await repository.FindByStatusNotAndRestaurantIdAndPagination(
             ProductStatus.CreateDeleted(),
             new Uuid(restaurantId),

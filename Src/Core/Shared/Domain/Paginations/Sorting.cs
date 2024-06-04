@@ -2,15 +2,22 @@ using Src.Core.Shared.Domain.Exceptions;
 
 namespace Src.Core.Shared.Domain.Paginations;
 
-public class Sorting
+internal class Sorting
 {
-    public SortingField Field { get; }
-    public SortingType Type { get; }
+    private readonly SortingField field;
+    private readonly SortingType type;
 
-    public Sorting(SortingField field, SortingType type)
+    public string Field => field.Value;
+
+    private Sorting(SortingField field, SortingType type)
     {
-        Field = field;
-        Type = type;
+        this.field = field;
+        this.type = type;
+    }
+
+    public bool IsDescending()
+    {
+        return type.IsDescending();
     }
 
     public static Sorting? Create(string? field, string? type)
