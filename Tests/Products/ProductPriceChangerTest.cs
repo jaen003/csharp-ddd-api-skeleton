@@ -4,7 +4,7 @@ using Src.Core.Products.Domain.Repositories;
 using Src.Core.Products.Domain.Aggregates;
 using Src.Core.Products.Domain.ValueObjects;
 using Src.Core.Shared.Application.EventBus;
-using ApplicationException = Src.Core.Shared.Domain.Exceptions.ApplicationException;
+using Src.Core.Shared.Domain.Exceptions;
 using Src.Core.Shared.Application.Logging;
 using Src.Core.Shared.Domain.ValueObjects;
 
@@ -47,7 +47,7 @@ public class ProductPriceChangerTest
             ProductPriceChanger changer = new(repository, eventPublisher, logger);
             await changer.Change(product.Id, product.Price, product.RestaurantId);
         }
-        catch (ApplicationException exception)
+        catch (CustomException exception)
         {
             exceptionCode = exception.Code;
         }
@@ -71,7 +71,7 @@ public class ProductPriceChangerTest
             ProductPriceChanger changer = new(repository, eventPublisher, logger);
             await changer.Change(product.Id, product.Price, product.RestaurantId);
         }
-        catch (ApplicationException exception)
+        catch (CustomException exception)
         {
             exceptionCode = exception.Code;
         }

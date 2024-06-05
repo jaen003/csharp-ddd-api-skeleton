@@ -32,7 +32,7 @@ builder.Services.AddSingleton<LoggerCreator>(
 builder.Services.AddTransient<ILogger>(
     serviceProvider => serviceProvider.GetRequiredService<LoggerCreator>().Create()
 );
-builder.Services.AddTransient<ApplicationExceptionHandler>();
+builder.Services.AddTransient<CustomExceptionHandler>();
 builder.Services.AddSingleton<RabbitmqEventBusConnection>();
 builder.Services.AddTransient<RabbitmqMessagePublisher>();
 builder.Services.AddTransient<RabbitmqConsumptionErrorHandler>();
@@ -53,7 +53,7 @@ var app = builder.Build();
 
 // Add middlewares
 
-app.UseMiddleware<ExceptionMiddleware>();
+app.UseMiddleware<CustomExceptionMiddleware>();
 
 // Init services
 

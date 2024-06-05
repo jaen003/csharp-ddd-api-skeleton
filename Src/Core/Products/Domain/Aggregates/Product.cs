@@ -2,7 +2,6 @@ using Src.Core.Products.Domain.Events;
 using Src.Core.Products.Domain.ValueObjects;
 using Src.Core.Shared.Domain.ValueObjects;
 using Src.Core.Shared.Domain.Aggregates;
-using ApplicationException = Src.Core.Shared.Domain.Exceptions.ApplicationException;
 using Src.Core.Shared.Domain.Exceptions;
 
 namespace Src.Core.Products.Domain.Aggregates;
@@ -65,7 +64,7 @@ public class Product : AggregateRoot
         string restaurantId
     )
     {
-        List<ApplicationException> exceptions = new();
+        List<CustomException> exceptions = new();
         Uuid? productId = null;
         NonEmptyString? productName = null;
         NonNegativeInt? productPrice = null;
@@ -75,7 +74,7 @@ public class Product : AggregateRoot
         {
             productId = new Uuid(id);
         }
-        catch (ApplicationException exception)
+        catch (CustomException exception)
         {
             exceptions.Add(exception);
         }
@@ -83,7 +82,7 @@ public class Product : AggregateRoot
         {
             productName = new NonEmptyString(name);
         }
-        catch (ApplicationException exception)
+        catch (CustomException exception)
         {
             exceptions.Add(exception);
         }
@@ -91,7 +90,7 @@ public class Product : AggregateRoot
         {
             productPrice = new NonNegativeInt(price);
         }
-        catch (ApplicationException exception)
+        catch (CustomException exception)
         {
             exceptions.Add(exception);
         }
@@ -99,7 +98,7 @@ public class Product : AggregateRoot
         {
             productDescription = new NonEmptyString(description);
         }
-        catch (ApplicationException exception)
+        catch (CustomException exception)
         {
             exceptions.Add(exception);
         }
@@ -107,13 +106,13 @@ public class Product : AggregateRoot
         {
             productRestaurantId = new Uuid(restaurantId);
         }
-        catch (ApplicationException exception)
+        catch (CustomException exception)
         {
             exceptions.Add(exception);
         }
         if (exceptions.Count > 0)
         {
-            throw new MultipleApplicationException(exceptions);
+            throw new MultipleCustomException(exceptions);
         }
         Product product =
             new(

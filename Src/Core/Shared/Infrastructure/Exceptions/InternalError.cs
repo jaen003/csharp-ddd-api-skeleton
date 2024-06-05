@@ -1,8 +1,8 @@
-using ApplicationException = Src.Core.Shared.Domain.Exceptions.ApplicationException;
+using Src.Core.Shared.Domain.Exceptions;
 
 namespace Src.Core.Shared.Infrastructure.Exceptions;
 
-public abstract class InternalError : ApplicationException
+public abstract class InternalError : CustomException
 {
     private const int CODE = 2;
 

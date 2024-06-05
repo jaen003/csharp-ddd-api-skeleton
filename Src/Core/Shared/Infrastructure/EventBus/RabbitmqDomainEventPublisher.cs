@@ -1,7 +1,7 @@
 using Src.Core.Shared.Application.EventBus;
 using Src.Core.Shared.Domain.Events;
 using Src.Core.Shared.Application.Exceptions;
-using ApplicationException = Src.Core.Shared.Domain.Exceptions.ApplicationException;
+using Src.Core.Shared.Domain.Exceptions;
 using Src.Core.Shared.Infrastructure.Events;
 
 namespace Src.Core.Shared.Infrastructure.EventBus;
@@ -9,11 +9,11 @@ namespace Src.Core.Shared.Infrastructure.EventBus;
 public class RabbitmqDomainEventPublisher : IDomainEventPublisher
 {
     private readonly RabbitmqMessagePublisher messagePublisher;
-    private readonly ApplicationExceptionHandler exceptionHandler;
+    private readonly CustomExceptionHandler exceptionHandler;
 
     public RabbitmqDomainEventPublisher(
         RabbitmqMessagePublisher messagePublisher,
-        ApplicationExceptionHandler exceptionHandler
+        CustomExceptionHandler exceptionHandler
     )
     {
         this.messagePublisher = messagePublisher;
@@ -34,7 +34,7 @@ public class RabbitmqDomainEventPublisher : IDomainEventPublisher
         {
             await Task.Run(() => messagePublisher.Publish(eventName, messageBody));
         }
-        catch (ApplicationException exception)
+        catch (CustomException exception)
         {
             exceptionHandler.Handle(exception);
         }

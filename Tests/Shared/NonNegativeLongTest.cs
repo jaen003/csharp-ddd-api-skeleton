@@ -1,4 +1,4 @@
-using ApplicationException = Src.Core.Shared.Domain.Exceptions.ApplicationException;
+using Src.Core.Shared.Domain.Exceptions;
 using Src.Core.Shared.Domain.ValueObjects;
 
 namespace Tests.Shared;
@@ -103,7 +103,7 @@ public class NonNegativeLongTest
         {
             NonNegativeLong valueObject = new(-1);
         }
-        catch (ApplicationException exception)
+        catch (CustomException exception)
         {
             exceptionCode = exception.Code;
         }
@@ -120,7 +120,7 @@ public class NonNegativeLongTest
         {
             NonNegativeLong valueObject = new(value);
         }
-        catch (ApplicationException exception)
+        catch (CustomException exception)
         {
             exceptionCode = exception.Code;
         }

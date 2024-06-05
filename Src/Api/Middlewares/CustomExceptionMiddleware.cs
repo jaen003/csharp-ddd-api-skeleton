@@ -1,15 +1,14 @@
 using Src.Core.Shared.Application.Exceptions;
 using Src.Core.Shared.Domain.Exceptions;
-using ApplicationException = Src.Core.Shared.Domain.Exceptions.ApplicationException;
 
 namespace Src.Api.Middlewares;
 
-public class ExceptionMiddleware
+public class CustomExceptionMiddleware
 {
     private readonly RequestDelegate next;
-    private readonly ApplicationExceptionHandler exceptionHandler;
+    private readonly CustomExceptionHandler exceptionHandler;
 
-    public ExceptionMiddleware(RequestDelegate next, ApplicationExceptionHandler exceptionHandler)
+    public CustomExceptionMiddleware(RequestDelegate next, CustomExceptionHandler exceptionHandler)
     {
         this.next = next;
         this.exceptionHandler = exceptionHandler;
@@ -21,20 +20,17 @@ public class ExceptionMiddleware
         {
             await next(context);
         }
-        catch (ApplicationException exception)
+        catch (CustomException exception)
         {
-            await HandleApplicationException(context, exception);
+            await HandleCustomException(context, exception);
         }
-        catch (MultipleApplicationException multipleException)
+        catch (MultipleCustomException multipleException)
         {
-            await HandleMultipleApplicationException(context, multipleException);
+            await HandleMultipleCustomException(context, multipleException);
         }
     }
 
-    private async Task HandleApplicationException(
-        HttpContext context,
-        ApplicationException exception
-    )
+    private async Task HandleCustomException(HttpContext context, CustomException exception)
     {
         exceptionHandler.Handle(exception);
         context.Response.StatusCode = StatusCodes.Status400BadRequest;
@@ -43,14 +39,14 @@ public class ExceptionMiddleware
         );
     }
 
-    private async Task HandleMultipleApplicationException(
+    private async Task HandleMultipleCustomException(
         HttpContext context,
-        MultipleApplicationException multipleException
+        MultipleCustomException multipleException
     )
     {
         context.Response.StatusCode = StatusCodes.Status400BadRequest;
         List<Dictionary<string, object>> response = new();
-        foreach (ApplicationException exception in multipleException.Exceptions)
+        foreach (CustomException exception in multipleException.Exceptions)
         {
             exceptionHandler.Handle(exception);
             response.Add(new Dictionary<string, object> { { "code", exception.Code } });

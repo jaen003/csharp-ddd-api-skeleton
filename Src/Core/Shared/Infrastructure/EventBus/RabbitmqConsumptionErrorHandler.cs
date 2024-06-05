@@ -2,7 +2,7 @@ using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using Src.Core.Shared.Application.Events;
 using Src.Core.Shared.Application.Exceptions;
-using ApplicationException = Src.Core.Shared.Domain.Exceptions.ApplicationException;
+using Src.Core.Shared.Domain.Exceptions;
 using Src.Core.Shared.Domain.Geneators;
 
 namespace Src.Core.Shared.Infrastructure.EventBus;
@@ -15,14 +15,14 @@ public class RabbitmqConsumptionErrorHandler
     private const string DELIVERY_DELAY_HEADER = "x-delay";
 
     private readonly RabbitmqMessagePublisher messagePublisher;
-    private readonly ApplicationExceptionHandler exceptionHandler;
+    private readonly CustomExceptionHandler exceptionHandler;
     private readonly int messageDeliveryMode;
     private readonly int messageDeliveryLimit;
     private readonly int messageRedeliveryDelay;
 
     public RabbitmqConsumptionErrorHandler(
         RabbitmqMessagePublisher messagePublisher,
-        ApplicationExceptionHandler exceptionHandler
+        CustomExceptionHandler exceptionHandler
     )
     {
         this.messagePublisher = messagePublisher;
@@ -54,7 +54,7 @@ public class RabbitmqConsumptionErrorHandler
                 SendToRetry(deliverEventArgs, eventInformation);
             }
         }
-        catch (ApplicationException exception)
+        catch (CustomException exception)
         {
             exceptionHandler.Handle(exception);
         }

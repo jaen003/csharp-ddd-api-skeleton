@@ -1,5 +1,5 @@
 using Src.Core.Products.Domain.ValueObjects;
-using ApplicationException = Src.Core.Shared.Domain.Exceptions.ApplicationException;
+using Src.Core.Shared.Domain.Exceptions;
 
 namespace Tests.Products;
 
@@ -30,7 +30,7 @@ public class ProductStatusTest
         {
             ProductStatus valueObject = new(value);
         }
-        catch (ApplicationException exception)
+        catch (CustomException exception)
         {
             exceptionCode = exception.Code;
         }
@@ -47,7 +47,7 @@ public class ProductStatusTest
         {
             ProductStatus valueObject = new(value);
         }
-        catch (ApplicationException exception)
+        catch (CustomException exception)
         {
             exceptionCode = exception.Code;
         }

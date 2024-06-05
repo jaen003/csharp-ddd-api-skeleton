@@ -6,7 +6,7 @@ using Src.Core.Products.Domain.ValueObjects;
 using Src.Core.Restaurants.Domain.Repositories;
 using Src.Core.Restaurants.Domain.ValueObjects;
 using Src.Core.Shared.Application.EventBus;
-using ApplicationException = Src.Core.Shared.Domain.Exceptions.ApplicationException;
+using Src.Core.Shared.Domain.Exceptions;
 using Src.Core.Shared.Application.Logging;
 using Src.Core.Shared.Domain.ValueObjects;
 
@@ -60,7 +60,7 @@ public class ProductCreatorTest
                 product.RestaurantId
             );
         }
-        catch (ApplicationException exception)
+        catch (CustomException exception)
         {
             exceptionCode = exception.Code;
         }
@@ -88,7 +88,7 @@ public class ProductCreatorTest
                 product.RestaurantId
             );
         }
-        catch (ApplicationException exception)
+        catch (CustomException exception)
         {
             exceptionCode = exception.Code;
         }
@@ -123,7 +123,7 @@ public class ProductCreatorTest
                 product.RestaurantId
             );
         }
-        catch (ApplicationException exception)
+        catch (CustomException exception)
         {
             exceptionCode = exception.Code;
         }

@@ -1,18 +1,18 @@
 using Src.Core.Shared.Application.Logging;
-using ApplicationException = Src.Core.Shared.Domain.Exceptions.ApplicationException;
+using Src.Core.Shared.Domain.Exceptions;
 
 namespace Src.Core.Shared.Application.Exceptions;
 
-public class ApplicationExceptionHandler
+public class CustomExceptionHandler
 {
     private readonly ILogger logger;
 
-    public ApplicationExceptionHandler(ILogger logger)
+    public CustomExceptionHandler(ILogger logger)
     {
         this.logger = logger;
     }
 
-    public void Handle(ApplicationException exception)
+    public void Handle(CustomException exception)
     {
         if (exception.IsDebug())
         {

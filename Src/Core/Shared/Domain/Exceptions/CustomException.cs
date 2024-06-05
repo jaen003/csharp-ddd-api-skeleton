@@ -1,6 +1,6 @@
 namespace Src.Core.Shared.Domain.Exceptions;
 
-public abstract class ApplicationException : Exception
+public abstract class CustomException : Exception
 {
     protected const int CRITICAL = 1;
     protected const int ERROR = 2;
@@ -11,7 +11,7 @@ public abstract class ApplicationException : Exception
     public int Code { get; }
     private readonly int type;
 
-    protected ApplicationException(int code, int type, string message)
+    protected CustomException(int code, int type, string message)
         : base(message)
     {
         Code = code;

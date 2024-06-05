@@ -1,4 +1,4 @@
-using ApplicationException = Src.Core.Shared.Domain.Exceptions.ApplicationException;
+using Src.Core.Shared.Domain.Exceptions;
 using Src.Core.Shared.Domain.ValueObjects;
 
 namespace Tests.Shared;
@@ -17,7 +17,7 @@ public class EmailTest
         {
             Email valueObject = new(value);
         }
-        catch (ApplicationException exception)
+        catch (CustomException exception)
         {
             exceptionCode = exception.Code;
         }
@@ -47,7 +47,7 @@ public class EmailTest
         {
             Email valueObject = new(value);
         }
-        catch (ApplicationException exception)
+        catch (CustomException exception)
         {
             exceptionCode = exception.Code;
         }
