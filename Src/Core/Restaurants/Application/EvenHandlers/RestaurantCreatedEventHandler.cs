@@ -13,8 +13,8 @@ public class RestaurantCreatedEventHandler : IDomainEventHandler<RestaurantCreat
         this.creator = creator;
     }
 
-    public async Task Handle(RestaurantCreated _event)
+    public async Task Handle(RestaurantCreated domainEvent)
     {
-        await creator.Create(_event.Id, _event.Name);
+        await creator.Create(domainEvent.Id, domainEvent.Name);
     }
 }

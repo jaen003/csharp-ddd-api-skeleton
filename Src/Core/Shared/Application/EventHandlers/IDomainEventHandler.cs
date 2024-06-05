@@ -5,11 +5,11 @@ namespace Src.Core.Shared.Application.EventHandlers;
 public interface IDomainEventHandler<T> : IDomainEventHandlerBase
     where T : DomainEvent
 {
-    Task Handle(T _event);
+    Task Handle(T domainEvent);
 
-    async Task IDomainEventHandlerBase.Handle(DomainEvent _event)
+    async Task IDomainEventHandlerBase.Handle(DomainEvent domainEvent)
     {
-        if (_event is T genericEvent)
+        if (domainEvent is T genericEvent)
         {
             await Handle(genericEvent);
         }

@@ -19,8 +19,8 @@ public class DomainEventInformation
 
     private string GenerateEventName()
     {
-        DomainEvent? _event = (DomainEvent?)Activator.CreateInstance(EventClass);
-        return _event!.EventName;
+        DomainEvent? domainEvent = (DomainEvent?)Activator.CreateInstance(EventClass);
+        return domainEvent!.EventName;
     }
 
     public bool HasEventHandlers()

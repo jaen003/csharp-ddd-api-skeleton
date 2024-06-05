@@ -4,5 +4,5 @@ namespace Src.Core.Shared.Application.EventHandlers;
 
 public interface IDomainEventHandlerBase
 {
-    Task Handle(DomainEvent _event);
+    Task Handle(DomainEvent domainEvent);
 }

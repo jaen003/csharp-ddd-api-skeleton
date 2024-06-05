@@ -70,7 +70,7 @@ public class RabbitmqDomainEventConsumer
     {
         try
         {
-            DomainEvent _event = JsonDomainEventDeserializer.Deserialize(
+            DomainEvent domainEvent = JsonDomainEventDeserializer.Deserialize(
                 deliverEventArgs.Body.ToArray(),
                 eventInformation.EventClass
             );
@@ -78,7 +78,7 @@ public class RabbitmqDomainEventConsumer
             {
                 IDomainEventHandlerBase eventHandler = (IDomainEventHandlerBase)
                     serviceProvider.GetRequiredService(handlerClass);
-                await eventHandler.Handle(_event);
+                await eventHandler.Handle(domainEvent);
             }
         }
         catch (ApplicationException exception)

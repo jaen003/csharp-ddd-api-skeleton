@@ -26,10 +26,10 @@ public class RabbitmqDomainEventPublisher : IDomainEventPublisher
         await Task.WhenAll(publishingTasks);
     }
 
-    private async Task Publish(DomainEvent _event)
+    private async Task Publish(DomainEvent domainEvent)
     {
-        byte[] messageBody = JsonDomainEventSerializer.Serialize(_event);
-        string eventName = _event.EventName;
+        byte[] messageBody = JsonDomainEventSerializer.Serialize(domainEvent);
+        string eventName = domainEvent.EventName;
         try
         {
             await Task.Run(() => messagePublisher.Publish(eventName, messageBody));

@@ -6,15 +6,15 @@ namespace Src.Core.Shared.Infrastructure.Events;
 
 public static class JsonDomainEventSerializer
 {
-    public static byte[] Serialize(DomainEvent _event)
+    public static byte[] Serialize(DomainEvent domainEvent)
     {
         Dictionary<string, object> messageData =
             new()
             {
-                { "id", _event.EventId },
-                { "name", _event.EventName },
-                { "timestamp", _event.Timestamp },
-                { "data", _event.ToPrimitives() }
+                { "id", domainEvent.EventId },
+                { "name", domainEvent.EventName },
+                { "timestamp", domainEvent.Timestamp },
+                { "data", domainEvent.ToPrimitives() }
             };
         return Encoding.UTF8.GetBytes(JsonSerializer.Serialize(messageData));
     }

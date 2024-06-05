@@ -11,9 +11,9 @@ public class AggregateRoot
         events = new List<DomainEvent>();
     }
 
-    protected void RecordEvent(DomainEvent _event)
+    protected void RecordEvent(DomainEvent domainEvent)
     {
-        events.Add(_event);
+        events.Add(domainEvent);
     }
 
     // REFACTOR: Change the return type to 'IReadOnlyList<DomainEvent>'
