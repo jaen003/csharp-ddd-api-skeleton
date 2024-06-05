@@ -1,6 +1,6 @@
 namespace Src.Core.Shared.Domain.Exceptions;
 
-public class UnexpectedNullSortingField : ValidationError
+public class UnexpectedNullSortingField : DomainException
 {
     private const int CODE = 10;
 

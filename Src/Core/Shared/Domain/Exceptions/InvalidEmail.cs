@@ -1,6 +1,6 @@
 namespace Src.Core.Shared.Domain.Exceptions;
 
-public class InvalidEmail : ValidationError
+public class InvalidEmail : DomainException
 {
     private const int CODE = 6;
 

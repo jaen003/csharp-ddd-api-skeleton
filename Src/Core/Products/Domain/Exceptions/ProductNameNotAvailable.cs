@@ -2,7 +2,7 @@ using Src.Core.Shared.Domain.Exceptions;
 
 namespace Src.Core.Products.Domain.Exceptions;
 
-public class ProductNameNotAvailable : ValidationError
+public class ProductNameNotAvailable : DomainException
 {
     private const int CODE = 201;
 

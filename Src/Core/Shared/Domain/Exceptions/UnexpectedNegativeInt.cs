@@ -1,6 +1,6 @@
 namespace Src.Core.Shared.Domain.Exceptions;
 
-public class UnexpectedNegativeInt : ValidationError
+public class UnexpectedNegativeInt : DomainException
 {
     private const int CODE = 4;
 

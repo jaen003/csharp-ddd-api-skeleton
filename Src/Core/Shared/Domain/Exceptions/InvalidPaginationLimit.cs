@@ -1,6 +1,6 @@
 namespace Src.Core.Shared.Domain.Exceptions;
 
-public class InvalidPaginationLimit : ValidationError
+public class InvalidPaginationLimit : DomainException
 {
     private const int CODE = 7;
 

@@ -2,7 +2,7 @@ using Src.Core.Shared.Domain.Exceptions;
 
 namespace Src.Core.Products.Domain.Exceptions;
 
-public class InvalidProductStatus : ValidationError
+public class InvalidProductStatus : DomainException
 {
     private const int CODE = 203;
 

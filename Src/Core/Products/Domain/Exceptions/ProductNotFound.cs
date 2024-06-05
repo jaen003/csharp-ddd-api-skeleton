@@ -2,7 +2,7 @@ using Src.Core.Shared.Domain.Exceptions;
 
 namespace Src.Core.Products.Domain.Exceptions;
 
-public class ProductNotFound : ValidationError
+public class ProductNotFound : DomainException
 {
     private const int CODE = 202;
 

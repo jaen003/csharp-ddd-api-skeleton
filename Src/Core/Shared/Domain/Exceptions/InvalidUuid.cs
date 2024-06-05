@@ -1,6 +1,6 @@
 namespace Src.Core.Shared.Domain.Exceptions;
 
-public class InvalidUuid : ValidationError
+public class InvalidUuid : DomainException
 {
     private const int CODE = 13;
 

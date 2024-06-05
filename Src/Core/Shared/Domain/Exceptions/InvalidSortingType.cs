@@ -1,6 +1,6 @@
 namespace Src.Core.Shared.Domain.Exceptions;
 
-public class InvalidSortingType : ValidationError
+public class InvalidSortingType : DomainException
 {
     private const int CODE = 9;
 

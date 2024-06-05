@@ -1,6 +1,6 @@
 namespace Src.Core.Shared.Domain.Exceptions;
 
-public class UnexpectedEmptyString : ValidationError
+public class UnexpectedEmptyString : DomainException
 {
     private const int CODE = 5;
 
