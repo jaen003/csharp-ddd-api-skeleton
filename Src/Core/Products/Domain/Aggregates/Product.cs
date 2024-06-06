@@ -120,7 +120,7 @@ public class Product : AggregateRoot
                 productName!,
                 productPrice!,
                 productDescription!,
-                ProductStatus.CreateActived(),
+                ProductStatus.CreateActive(),
                 productRestaurantId!
             );
         product.RecordEvent(new ProductCreated(id, name, price, description));

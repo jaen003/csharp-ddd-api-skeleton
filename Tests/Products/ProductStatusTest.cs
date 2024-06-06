@@ -6,23 +6,23 @@ namespace Tests.Products;
 public class ProductStatusTest
 {
     [Fact]
-    public void IsActived()
+    public void IsActive()
     {
-        ProductStatus valueObject = ProductStatus.CreateActived();
-        Assert.True(valueObject.IsActived());
-        Assert.Equal(1, valueObject.Value);
+        ProductStatus valueObject = ProductStatus.CreateActive();
+        Assert.True(valueObject.IsActive());
+        Assert.Equal(0, valueObject.Value);
     }
 
     [Fact]
     public void IsDeleted()
     {
         ProductStatus valueObject = ProductStatus.CreateDeleted();
-        Assert.Equal(2, valueObject.Value);
+        Assert.Equal(1, valueObject.Value);
     }
 
     [Theory]
+    [InlineData(0)]
     [InlineData(1)]
-    [InlineData(2)]
     public void IsValid(short value)
     {
         int exceptionCode = 0;
@@ -38,8 +38,7 @@ public class ProductStatusTest
     }
 
     [Theory]
-    [InlineData(0)]
-    [InlineData(3)]
+    [InlineData(2)]
     public void IsInvalid(short value)
     {
         int exceptionCode = 0;

@@ -57,6 +57,6 @@ public class Restaurant
         {
             throw new MultipleCustomException(exceptions);
         }
-        return new(restaurantId!, restaurantName!, RestaurantStatus.CreateActived());
+        return new(restaurantId!, restaurantName!, RestaurantStatus.CreateActive());
     }
 }

@@ -6,23 +6,23 @@ namespace Tests.Resturants;
 public class RestaurantStatusTest
 {
     [Fact]
-    public void IsActived()
+    public void IsActive()
     {
-        RestaurantStatus valueObject = RestaurantStatus.CreateActived();
-        Assert.True(valueObject.IsActived());
-        Assert.Equal(1, valueObject.Value);
+        RestaurantStatus valueObject = RestaurantStatus.CreateActive();
+        Assert.True(valueObject.IsActive());
+        Assert.Equal(0, valueObject.Value);
     }
 
     [Fact]
     public void IsDeleted()
     {
         RestaurantStatus valueObject = RestaurantStatus.CreateDeleted();
-        Assert.Equal(2, valueObject.Value);
+        Assert.Equal(1, valueObject.Value);
     }
 
     [Theory]
+    [InlineData(0)]
     [InlineData(1)]
-    [InlineData(2)]
     public void IsValid(short value)
     {
         int exceptionCode = 0;
@@ -38,8 +38,7 @@ public class RestaurantStatusTest
     }
 
     [Theory]
-    [InlineData(0)]
-    [InlineData(3)]
+    [InlineData(2)]
     public void IsInvalid(short value)
     {
         int exceptionCode = 0;
