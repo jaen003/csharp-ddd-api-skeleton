@@ -2,9 +2,8 @@
 	"name": "Development environment",
 	"image": "mcr.microsoft.com/dotnet/sdk:7.0",
 	"features": {
-		"ghcr.io/jungaretti/features/make" : {
-			"version": "latest"
-		}
+		"ghcr.io/jungaretti/features/make" : "latest",
+		"ghcr.io/devcontainers/features/sshd": "latest"
 	},
 	"customizations": {
 		"vscode": {
