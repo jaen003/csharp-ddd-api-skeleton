@@ -2,44 +2,48 @@ namespace Src.Core.Shared.Domain.Exceptions;
 
 public abstract class CustomException : Exception
 {
-    protected const int CRITICAL = 1;
-    protected const int ERROR = 2;
-    protected const int WARNING = 3;
-    protected const int INFORMATION = 4;
-    protected const int DEBUG = 5;
+    protected enum SeverityLevel
+    {
+        Critical,
+        Error,
+        Warning,
+        Information,
+        Debug
+    }
+
+    private readonly SeverityLevel severityLevel;
 
     public int Code { get; }
-    private readonly int type;
 
-    protected CustomException(int code, int type, string message)
+    protected CustomException(int code, SeverityLevel severityLevel, string message)
         : base(message)
     {
         Code = code;
-        this.type = type;
+        this.severityLevel = severityLevel;
     }
 
     public bool IsCritical()
     {
-        return type == CRITICAL;
+        return severityLevel == SeverityLevel.Critical;
     }
 
     public bool IsError()
     {
-        return type == ERROR;
+        return severityLevel == SeverityLevel.Error;
     }
 
     public bool IsWarning()
     {
-        return type == WARNING;
+        return severityLevel == SeverityLevel.Warning;
     }
 
     public bool IsInformation()
     {
-        return type == INFORMATION;
+        return severityLevel == SeverityLevel.Information;
     }
 
     public bool IsDebug()
     {
-        return type == DEBUG;
+        return severityLevel == SeverityLevel.Debug;
     }
 }

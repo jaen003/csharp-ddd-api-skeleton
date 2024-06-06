@@ -7,5 +7,5 @@ public abstract class InternalError : CustomException
     private const int CODE = 2;
 
     protected InternalError(string message)
-        : base(CODE, CRITICAL, message) { }
+        : base(CODE, SeverityLevel.Critical, message) { }
 }
