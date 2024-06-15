@@ -2,8 +2,6 @@ namespace Src.Core.Shared.Domain.Exceptions;
 
 public class UnexpectedEmptyString : DomainException
 {
-    private const int CODE = 5;
-
     public UnexpectedEmptyString()
-        : base(CODE, "The string must not be empty.") { }
+        : base(CustomExceptionCode.UnexpectedEmptyString, "The string must not be empty.") { }
 }

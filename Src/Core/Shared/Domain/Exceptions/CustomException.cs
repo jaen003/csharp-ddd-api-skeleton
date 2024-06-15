@@ -2,7 +2,7 @@ namespace Src.Core.Shared.Domain.Exceptions;
 
 public abstract class CustomException : Exception
 {
-    protected enum SeverityLevel
+    protected enum SeverityLevel : short
     {
         Critical,
         Error,
@@ -12,13 +12,14 @@ public abstract class CustomException : Exception
     }
 
     private readonly SeverityLevel severityLevel;
+    private readonly CustomExceptionCode code;
 
-    public int Code { get; }
+    public int Code => (int)code;
 
-    protected CustomException(int code, SeverityLevel severityLevel, string message)
+    protected CustomException(CustomExceptionCode code, SeverityLevel severityLevel, string message)
         : base(message)
     {
-        Code = code;
+        this.code = code;
         this.severityLevel = severityLevel;
     }
 

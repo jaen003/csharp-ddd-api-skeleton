@@ -4,8 +4,6 @@ namespace Src.Core.Shared.Infrastructure.Exceptions;
 
 public abstract class InternalError : CustomException
 {
-    private const int CODE = 2;
-
     protected InternalError(string message)
-        : base(CODE, SeverityLevel.Critical, message) { }
+        : base(CustomExceptionCode.InternalError, SeverityLevel.Critical, message) { }
 }
