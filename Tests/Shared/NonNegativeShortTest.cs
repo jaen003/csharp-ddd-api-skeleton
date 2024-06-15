@@ -107,7 +107,7 @@ public class NonNegativeShortTest
         {
             exceptionCode = exception.Code;
         }
-        Assert.Equal(12, exceptionCode);
+        Assert.Equal(8, exceptionCode);
     }
 
     [Theory]

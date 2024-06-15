@@ -33,7 +33,7 @@ public class NonEmptyStringTest
         {
             exceptionCode = exception.Code;
         }
-        Assert.Equal(5, exceptionCode);
+        Assert.Equal(2, exceptionCode);
     }
 
     [Fact]

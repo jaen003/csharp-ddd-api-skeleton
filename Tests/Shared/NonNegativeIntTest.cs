@@ -107,7 +107,7 @@ public class NonNegativeIntTest
         {
             exceptionCode = exception.Code;
         }
-        Assert.Equal(4, exceptionCode);
+        Assert.Equal(1, exceptionCode);
     }
 
     [Theory]

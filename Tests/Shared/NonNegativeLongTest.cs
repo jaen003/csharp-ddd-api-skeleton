@@ -107,7 +107,7 @@ public class NonNegativeLongTest
         {
             exceptionCode = exception.Code;
         }
-        Assert.Equal(11, exceptionCode);
+        Assert.Equal(7, exceptionCode);
     }
 
     [Theory]

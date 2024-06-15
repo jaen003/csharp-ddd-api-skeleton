@@ -38,7 +38,7 @@ public class SortingTypeTest
         {
             exceptionCode = exception.Code;
         }
-        Assert.Equal(9, exceptionCode);
+        Assert.Equal(5, exceptionCode);
     }
 
     [Theory]

@@ -51,6 +51,6 @@ public class EmailTest
         {
             exceptionCode = exception.Code;
         }
-        Assert.Equal(6, exceptionCode);
+        Assert.Equal(3, exceptionCode);
     }
 }
