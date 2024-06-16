@@ -16,7 +16,6 @@ public class AggregateRoot
         events.Add(domainEvent);
     }
 
-    // REFACTOR: Change the return type to 'IReadOnlyList<DomainEvent>'
     public List<DomainEvent> PullEvents()
     {
         return events;
