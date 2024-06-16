@@ -30,7 +30,7 @@ public class RabbitmqMessagePublisher
         }
         catch (Exception exception)
         {
-            throw new EventBusError(exception.ToString());
+            throw new EventBusMessagePublishingFailed(exception.ToString());
         }
     }
 }

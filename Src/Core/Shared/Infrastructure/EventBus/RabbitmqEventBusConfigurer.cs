@@ -31,7 +31,7 @@ public class RabbitmqEventBusConfigurer
         }
         catch (Exception exception)
         {
-            throw new EventBusError(exception.ToString());
+            throw new EventBusNotConfigured(exception.ToString());
         }
     }
 

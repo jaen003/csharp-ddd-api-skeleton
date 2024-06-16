@@ -44,7 +44,7 @@ public class PostgresqlProductRepository : IProductRepository
         }
         catch (Exception exception)
         {
-            throw new DatabaseError(exception.ToString());
+            throw new DatabaseOperationFailed(exception.ToString());
         }
     }
 
@@ -72,7 +72,7 @@ public class PostgresqlProductRepository : IProductRepository
         }
         catch (Exception exception)
         {
-            throw new DatabaseError(exception.ToString());
+            throw new DatabaseOperationFailed(exception.ToString());
         }
     }
 
@@ -88,7 +88,7 @@ public class PostgresqlProductRepository : IProductRepository
         }
         catch (Exception exception)
         {
-            throw new DatabaseError(exception.ToString());
+            throw new DatabaseOperationFailed(exception.ToString());
         }
     }
 
@@ -109,7 +109,7 @@ public class PostgresqlProductRepository : IProductRepository
         }
         catch (Exception exception)
         {
-            throw new DatabaseError(exception.ToString());
+            throw new DatabaseOperationFailed(exception.ToString());
         }
     }
 
@@ -131,7 +131,7 @@ public class PostgresqlProductRepository : IProductRepository
         }
         catch (Exception exception)
         {
-            throw new DatabaseError(exception.ToString());
+            throw new DatabaseOperationFailed(exception.ToString());
         }
     }
 }
