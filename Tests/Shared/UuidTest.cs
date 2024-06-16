@@ -45,6 +45,6 @@ public class UuidTest
         {
             exceptionCode = exception.Code;
         }
-        Assert.Equal(9, exceptionCode);
+        Assert.Equal(7, exceptionCode);
     }
 }
