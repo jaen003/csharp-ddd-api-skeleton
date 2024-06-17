@@ -5,6 +5,7 @@ using Src.Core.Products.Domain.ValueObjects;
 using Src.Core.Shared.Application.EventBus;
 using Src.Core.Shared.Application.Logging;
 using Src.Core.Shared.Domain.ValueObjects;
+using Src.Core.Products.Application.Dtos;
 
 namespace Src.Core.Products.Application.Services;
 
@@ -25,20 +26,21 @@ public class ProductDescriptionChanger
         this.logger = logger;
     }
 
-    public async Task Change(string id, string description, string restaurantId)
+    public async Task Change(ProductDescriptionChangeDto changeDto)
     {
         Product? product =
             await repository.FindByStatusNotAndIdAndRestaurantId(
                 ProductStatus.CreateDeleted(),
-                new Uuid(id),
-                new Uuid(restaurantId)
-            ) ?? throw new ProductNotFound(id);
+                new Uuid(changeDto.Id),
+                new Uuid(changeDto.RestaurantId)
+            ) ?? throw new ProductNotFound(changeDto.Id);
         string oldDescription = product.Description;
-        product.ChangeDescription(description);
+        product.ChangeDescription(changeDto.Description);
         await repository.Update(product);
         await eventPublisher.Publish(product.PullEvents());
         logger.Information(
-            $"The product description '{oldDescription}' has been changed to " + $"'{description}'."
+            $"The product description '{oldDescription}' has been changed to "
+                + $"'{changeDto.Description}'."
         );
     }
 }

@@ -8,49 +8,50 @@ using Src.Core.Restaurants.Domain.ValueObjects;
 using Src.Core.Shared.Application.EventBus;
 using Src.Core.Shared.Application.Logging;
 using Src.Core.Shared.Domain.ValueObjects;
+using Src.Core.Products.Application.Dtos;
 
 namespace Src.Core.Products.Application.Services;
 
 public class ProductCreator
 {
-    private readonly IProductRepository repository;
+    private readonly IProductRepository productRepository;
     private readonly IRestaurantRepository restaurantRepository;
     private readonly IDomainEventPublisher eventPublisher;
     private readonly ILogger logger;
 
     public ProductCreator(
-        IProductRepository repository,
+        IProductRepository productRepository,
         IRestaurantRepository restaurantRepository,
         IDomainEventPublisher eventPublisher,
         ILogger logger
     )
     {
-        this.repository = repository;
+        this.productRepository = productRepository;
         this.restaurantRepository = restaurantRepository;
         this.eventPublisher = eventPublisher;
         this.logger = logger;
     }
 
-    public async Task Create(
-        string id,
-        string name,
-        int price,
-        string description,
-        string restaurantId
-    )
+    public async Task Create(ProductCreationDto creationDto)
     {
-        if (!await IsRestaurantCreated(restaurantId))
+        if (!await IsRestaurantCreated(creationDto.RestaurantId))
         {
-            throw new RestaurantNotFound(restaurantId);
+            throw new RestaurantNotFound(creationDto.RestaurantId);
         }
-        if (await IsProductNameCreatedInRestaurant(name, restaurantId))
+        if (await IsProductNameCreatedInRestaurant(creationDto.Name, creationDto.RestaurantId))
         {
-            throw new ProductNameNotAvailable(name);
+            throw new ProductNameNotAvailable(creationDto.Name);
         }
-        Product product = Product.Create(id, name, price, description, restaurantId);
-        await repository.Save(product);
+        Product product = Product.Create(
+            creationDto.Id,
+            creationDto.Name,
+            creationDto.Price,
+            creationDto.Description,
+            creationDto.RestaurantId
+        );
+        await productRepository.Save(product);
         await eventPublisher.Publish(product.PullEvents());
-        logger.Information($"The product '{id}' has been created.");
+        logger.Information($"The product '{creationDto.Id}' has been created.");
     }
 
     private async Task<bool> IsRestaurantCreated(string restaurantId)
@@ -63,7 +64,7 @@ public class ProductCreator
 
     private async Task<bool> IsProductNameCreatedInRestaurant(string name, string restaurantId)
     {
-        return await repository.ExistByStatusNotAndNameAndRestaurantId(
+        return await productRepository.ExistByStatusNotAndNameAndRestaurantId(
             ProductStatus.CreateDeleted(),
             new NonEmptyString(name),
             new Uuid(restaurantId)

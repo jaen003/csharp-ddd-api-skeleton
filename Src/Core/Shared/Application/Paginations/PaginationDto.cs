@@ -1,9 +1,17 @@
 namespace Src.Core.Shared.Application.Paginations;
 
-public class PaginationDto
+public record PaginationDto
 {
-    public int Limit { get; set; }
-    public string? StartIndex { get; set; }
-    public string? SortingField { get; set; }
-    public string? SortingType { get; set; }
+    public int Limit { get; }
+    public string? StartIndex { get; }
+    public string? SortingField { get; }
+    public string? SortingType { get; }
+
+    public PaginationDto(int limit, string? startIndex, string? sortingField, string? sortingType)
+    {
+        Limit = limit;
+        StartIndex = startIndex;
+        SortingField = sortingField;
+        SortingType = sortingType;
+    }
 }

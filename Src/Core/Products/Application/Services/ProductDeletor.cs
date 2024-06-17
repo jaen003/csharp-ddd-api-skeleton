@@ -5,6 +5,7 @@ using Src.Core.Products.Domain.ValueObjects;
 using Src.Core.Shared.Application.EventBus;
 using Src.Core.Shared.Application.Logging;
 using Src.Core.Shared.Domain.ValueObjects;
+using Src.Core.Products.Application.Dtos;
 
 namespace Src.Core.Products.Application.Services;
 
@@ -25,17 +26,17 @@ public class ProductDeletor
         this.logger = logger;
     }
 
-    public async Task Delete(string id, string restaurantId)
+    public async Task Delete(ProductDeletionDto deletionDto)
     {
         Product? product =
             await repository.FindByStatusNotAndIdAndRestaurantId(
                 ProductStatus.CreateDeleted(),
-                new Uuid(id),
-                new Uuid(restaurantId)
-            ) ?? throw new ProductNotFound(id);
+                new Uuid(deletionDto.Id),
+                new Uuid(deletionDto.RestaurantId)
+            ) ?? throw new ProductNotFound(deletionDto.Id);
         product.Delete();
         await repository.Update(product);
         await eventPublisher.Publish(product.PullEvents());
-        logger.Information($"The product '{id}' has been deleted.");
+        logger.Information($"The product '{deletionDto.Id}' has been deleted.");
     }
 }

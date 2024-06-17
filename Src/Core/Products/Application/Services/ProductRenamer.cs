@@ -5,6 +5,7 @@ using Src.Core.Products.Domain.ValueObjects;
 using Src.Core.Shared.Application.EventBus;
 using Src.Core.Shared.Application.Logging;
 using Src.Core.Shared.Domain.ValueObjects;
+using Src.Core.Products.Application.Dtos;
 
 namespace Src.Core.Products.Application.Services;
 
@@ -25,23 +26,23 @@ public class ProductRenamer
         this.logger = logger;
     }
 
-    public async Task Rename(string id, string name, string restaurantId)
+    public async Task Rename(ProductNameChangeDto changeDto)
     {
-        if (await IsProductNameCreatedInRestaurant(name, restaurantId))
+        if (await IsProductNameCreatedInRestaurant(changeDto.Name, changeDto.RestaurantId))
         {
-            throw new ProductNameNotAvailable(name);
+            throw new ProductNameNotAvailable(changeDto.Name);
         }
         Product? product =
             await repository.FindByStatusNotAndIdAndRestaurantId(
                 ProductStatus.CreateDeleted(),
-                new Uuid(id),
-                new Uuid(restaurantId)
-            ) ?? throw new ProductNotFound(id);
+                new Uuid(changeDto.Id),
+                new Uuid(changeDto.RestaurantId)
+            ) ?? throw new ProductNotFound(changeDto.Id);
         string oldName = product.Name;
-        product.Rename(name);
+        product.Rename(changeDto.Name);
         await repository.Update(product);
         await eventPublisher.Publish(product.PullEvents());
-        logger.Information($"The product name '{oldName}' has been changed to '{name}'.");
+        logger.Information($"The product name '{oldName}' has been changed to '{changeDto.Name}'.");
     }
 
     private async Task<bool> IsProductNameCreatedInRestaurant(string name, string restaurantId)
