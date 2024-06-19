@@ -126,6 +126,7 @@ public class PostgresqlProductRepository : IProductRepository
             List<ProductModel> productModels = await databaseContext.Products
                 .Where(t => t.Status != status.Value && t.RestaurantId == restaurantId.Value)
                 .AddPagination(pagination)
+                .AsNoTracking()
                 .ToListAsync();
             return mapper.ToEntities(productModels);
         }
