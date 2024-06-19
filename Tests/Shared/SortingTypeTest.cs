@@ -1,5 +1,5 @@
 using Src.Core.Shared.Domain.Paginations;
-using ApplicationException = Src.Core.Shared.Domain.Exceptions.ApplicationException;
+using Src.Core.Shared.Domain.Exceptions;
 
 namespace Tests.Shared;
 
@@ -16,7 +16,7 @@ public class SortingTypeTest
         {
             SortingType sortingType = new(value);
         }
-        catch (ApplicationException exception)
+        catch (CustomException exception)
         {
             exceptionCode = exception.Code;
         }
@@ -34,11 +34,11 @@ public class SortingTypeTest
         {
             SortingType sortingType = new(value);
         }
-        catch (ApplicationException exception)
+        catch (CustomException exception)
         {
             exceptionCode = exception.Code;
         }
-        Assert.Equal(9, exceptionCode);
+        Assert.Equal(5, exceptionCode);
     }
 
     [Theory]

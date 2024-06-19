@@ -1,9 +1,7 @@
 namespace Src.Core.Shared.Domain.Exceptions;
 
-public class InvalidEmail : ValidationError
+public class InvalidEmail : DomainException
 {
-    private const int CODE = 6;
-
     public InvalidEmail(string email)
-        : base(CODE, $"The email '{email}' is invalid.") { }
+        : base(CustomExceptionCode.InvalidEmail, $"The email '{email}' is invalid.") { }
 }

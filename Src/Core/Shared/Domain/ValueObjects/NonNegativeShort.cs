@@ -1,62 +1,14 @@
-using Src.Core.Shared.Domain.Exceptions;
-
 namespace Src.Core.Shared.Domain.ValueObjects;
 
-public class NonNegativeShort : ValueObject<short>
+public class NonNegativeShort : NonNegativeNumber<short>
 {
-    private const short MINIMUN = 0;
+    private const short MINIMUM_VALUE = 0;
 
     public NonNegativeShort(short value)
-        : base(value)
-    {
-        if (IsNegative())
-        {
-            throw new UnexpectedNegativeShort(value);
-        }
-    }
+        : base(value) { }
 
-    private bool IsNegative()
+    protected override bool IsNegative()
     {
-        return IsLessThan(MINIMUN);
-    }
-
-    public bool IsLessThan(NonNegativeShort other)
-    {
-        return Value < other.Value;
-    }
-
-    public bool IsLessThan(short other)
-    {
-        return Value < other;
-    }
-
-    public bool IsGreaterThan(NonNegativeShort other)
-    {
-        return Value > other.Value;
-    }
-
-    public bool IsGreaterThan(short other)
-    {
-        return Value > other;
-    }
-
-    public bool IsLessThanOrEqual(NonNegativeShort other)
-    {
-        return Value <= other.Value;
-    }
-
-    public bool IsLessThanOrEqual(short other)
-    {
-        return Value <= other;
-    }
-
-    public bool IsGreaterThanOrEqual(NonNegativeShort other)
-    {
-        return Value >= other.Value;
-    }
-
-    public bool IsGreaterThanOrEqual(short other)
-    {
-        return Value >= other;
+        return IsLessThan(MINIMUM_VALUE);
     }
 }

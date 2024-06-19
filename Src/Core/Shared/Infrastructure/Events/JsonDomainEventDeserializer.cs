@@ -1,6 +1,6 @@
 using System.Text.Json;
 using Src.Core.Shared.Domain.Events;
-using Src.Core.Shared.Domain.Exceptions;
+using Src.Core.Shared.Infrastructure.Exceptions;
 
 namespace Src.Core.Shared.Infrastructure.Events;
 

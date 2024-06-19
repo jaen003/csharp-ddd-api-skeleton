@@ -1,18 +1,20 @@
 using Moq;
 using Src.Core.Products.Application.Services;
-using Src.Core.Products.Domain;
+using Src.Core.Products.Domain.Repositories;
 using Src.Core.Products.Domain.Aggregates;
 using Src.Core.Products.Domain.ValueObjects;
-using Src.Core.Shared.Domain.EventBus;
-using ApplicationException = Src.Core.Shared.Domain.Exceptions.ApplicationException;
-using Src.Core.Shared.Domain.Logging;
+using Src.Core.Shared.Application.EventBus;
+using Src.Core.Shared.Domain.Exceptions;
+using Src.Core.Shared.Application.Logging;
 using Src.Core.Shared.Domain.ValueObjects;
+using Src.Core.Products.Application.Dtos;
 
 namespace Tests.Products;
 
 public class ProductDeletorTest
 {
     private readonly Product product;
+    private readonly ProductDeletionDto deletionDto;
     private readonly ILogger logger;
     private readonly IDomainEventPublisher eventPublisher;
 
@@ -24,6 +26,10 @@ public class ProductDeletorTest
             3,
             "Bread, Onion, Tomato, Chicken",
             1,
+            "82022d1f-b0fa-4b70-86ae-e99c3101fb47"
+        );
+        deletionDto = new ProductDeletionDto(
+            "a1433e47-9708-4e61-adfc-6de2ad462f82",
             "82022d1f-b0fa-4b70-86ae-e99c3101fb47"
         );
         logger = Mock.Of<ILogger>();
@@ -45,9 +51,9 @@ public class ProductDeletorTest
         try
         {
             ProductDeletor deletor = new(repository, eventPublisher, logger);
-            await deletor.Delete(product.Id, product.RestaurantId);
+            await deletor.Delete(deletionDto);
         }
-        catch (ApplicationException exception)
+        catch (CustomException exception)
         {
             exceptionCode = exception.Code;
         }
@@ -69,9 +75,9 @@ public class ProductDeletorTest
         try
         {
             ProductDeletor deletor = new(repository, eventPublisher, logger);
-            await deletor.Delete(product.Id, product.RestaurantId);
+            await deletor.Delete(deletionDto);
         }
-        catch (ApplicationException exception)
+        catch (CustomException exception)
         {
             exceptionCode = exception.Code;
         }

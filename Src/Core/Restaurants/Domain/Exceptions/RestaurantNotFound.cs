@@ -2,10 +2,9 @@ using Src.Core.Shared.Domain.Exceptions;
 
 namespace Src.Core.Restaurants.Domain.Exceptions;
 
-public class RestaurantNotFound : ValidationError
+public class RestaurantNotFound : DomainException
 {
-    private const int CODE = 101;
-
     public RestaurantNotFound(string id)
-        : base(CODE, $"The restaurant '{id}' has not been found.") { }
+        : base(CustomExceptionCode.RestaurantNotFound, $"The restaurant '{id}' has not been found.")
+    { }
 }

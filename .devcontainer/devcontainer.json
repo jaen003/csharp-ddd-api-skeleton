@@ -1,8 +1,10 @@
 {
 	"name": "Development environment",
-	"dockerComposeFile": "docker-compose.yml",
-	"service": "backend",
-	"workspaceFolder": "/workspaces/backoffice",
+	"image": "mcr.microsoft.com/dotnet/sdk:7.0",
+	"features": {
+		"ghcr.io/jungaretti/features/make" : "latest",
+		"ghcr.io/devcontainers/features/sshd": "latest"
+	},
 	"customizations": {
 		"vscode": {
 			"extensions": [
@@ -11,9 +13,14 @@
 				"adrianwilczynski.namespace",
 				"josefpihrt-vscode.roslynator",
 				"csharpier.csharpier-vscode",
-				"ms-vscode.makefile-tools",
-				"formulahendry.dotnet-test-explorer"
+				"ms-dotnettools.csdevkit",
+				"ms-vscode.makefile-tools"
 			]
 		}
-	}
+	},
+	"appPort": ["5004:8000"],
+	"runArgs": [
+		"--network=csharp_ddd_api_skeleton_network"
+	],
+	"postCreateCommand": "bash .devcontainer/post_create.sh"
 }

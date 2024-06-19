@@ -15,7 +15,7 @@ public class PostgresqlDatabaseMigrator
 
     public async Task Migrate()
     {
-        using PostgresqlDatabaseContext databaseContext =
+        await using PostgresqlDatabaseContext databaseContext =
             await databaseContextFactory.CreateDbContextAsync();
         await databaseContext.Database.MigrateAsync();
     }

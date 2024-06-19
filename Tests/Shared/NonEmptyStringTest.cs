@@ -1,4 +1,4 @@
-using ApplicationException = Src.Core.Shared.Domain.Exceptions.ApplicationException;
+using Src.Core.Shared.Domain.Exceptions;
 using Src.Core.Shared.Domain.ValueObjects;
 
 namespace Tests.Shared;
@@ -29,11 +29,11 @@ public class NonEmptyStringTest
         {
             NonEmptyString valueObject = new("");
         }
-        catch (ApplicationException exception)
+        catch (CustomException exception)
         {
             exceptionCode = exception.Code;
         }
-        Assert.Equal(5, exceptionCode);
+        Assert.Equal(2, exceptionCode);
     }
 
     [Fact]
@@ -44,7 +44,7 @@ public class NonEmptyStringTest
         {
             NonEmptyString valueObject = new("H");
         }
-        catch (ApplicationException exception)
+        catch (CustomException exception)
         {
             exceptionCode = exception.Code;
         }

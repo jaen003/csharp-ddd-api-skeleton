@@ -2,7 +2,6 @@ using Src.Core.Products.Domain.Events;
 using Src.Core.Products.Domain.ValueObjects;
 using Src.Core.Shared.Domain.ValueObjects;
 using Src.Core.Shared.Domain.Aggregates;
-using ApplicationException = Src.Core.Shared.Domain.Exceptions.ApplicationException;
 using Src.Core.Shared.Domain.Exceptions;
 
 namespace Src.Core.Products.Domain.Aggregates;
@@ -16,30 +15,12 @@ public class Product : AggregateRoot
     private ProductStatus status;
     private readonly Uuid restaurantId;
 
-    public string Id
-    {
-        get { return id.Value; }
-    }
-    public string Name
-    {
-        get { return name.Value; }
-    }
-    public int Price
-    {
-        get { return price.Value; }
-    }
-    public string Description
-    {
-        get { return description.Value; }
-    }
-    public short Status
-    {
-        get { return status.Value; }
-    }
-    public string RestaurantId
-    {
-        get { return restaurantId.Value; }
-    }
+    public string Id => id.Value;
+    public string Name => name.Value;
+    public int Price => price.Value;
+    public string Description => description.Value;
+    public short Status => status.Value;
+    public string RestaurantId => restaurantId.Value;
 
     public Product(
         string id,
@@ -83,7 +64,7 @@ public class Product : AggregateRoot
         string restaurantId
     )
     {
-        List<ApplicationException> exceptions = new();
+        List<CustomException> exceptions = new();
         Uuid? productId = null;
         NonEmptyString? productName = null;
         NonNegativeInt? productPrice = null;
@@ -93,7 +74,7 @@ public class Product : AggregateRoot
         {
             productId = new Uuid(id);
         }
-        catch (ApplicationException exception)
+        catch (CustomException exception)
         {
             exceptions.Add(exception);
         }
@@ -101,7 +82,7 @@ public class Product : AggregateRoot
         {
             productName = new NonEmptyString(name);
         }
-        catch (ApplicationException exception)
+        catch (CustomException exception)
         {
             exceptions.Add(exception);
         }
@@ -109,7 +90,7 @@ public class Product : AggregateRoot
         {
             productPrice = new NonNegativeInt(price);
         }
-        catch (ApplicationException exception)
+        catch (CustomException exception)
         {
             exceptions.Add(exception);
         }
@@ -117,7 +98,7 @@ public class Product : AggregateRoot
         {
             productDescription = new NonEmptyString(description);
         }
-        catch (ApplicationException exception)
+        catch (CustomException exception)
         {
             exceptions.Add(exception);
         }
@@ -125,13 +106,13 @@ public class Product : AggregateRoot
         {
             productRestaurantId = new Uuid(restaurantId);
         }
-        catch (ApplicationException exception)
+        catch (CustomException exception)
         {
             exceptions.Add(exception);
         }
         if (exceptions.Count > 0)
         {
-            throw new MultipleApplicationException(exceptions);
+            throw new MultipleCustomException(exceptions);
         }
         Product product =
             new(
@@ -139,7 +120,7 @@ public class Product : AggregateRoot
                 productName!,
                 productPrice!,
                 productDescription!,
-                ProductStatus.CreateActived(),
+                ProductStatus.CreateActive(),
                 productRestaurantId!
             );
         product.RecordEvent(new ProductCreated(id, name, price, description));

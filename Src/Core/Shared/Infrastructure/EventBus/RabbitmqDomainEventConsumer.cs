@@ -2,9 +2,12 @@ using Microsoft.Extensions.DependencyInjection;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using Src.Core.Shared.Domain.Events;
-using ApplicationException = Src.Core.Shared.Domain.Exceptions.ApplicationException;
 using Src.Core.Shared.Domain.Exceptions;
 using Src.Core.Shared.Infrastructure.Events;
+using Src.Core.Shared.Application.Exceptions;
+using Src.Core.Shared.Infrastructure.Exceptions;
+using Src.Core.Shared.Application.EventHandlers;
+using Src.Core.Shared.Application.Events;
 
 namespace Src.Core.Shared.Infrastructure.EventBus;
 
@@ -12,14 +15,14 @@ public class RabbitmqDomainEventConsumer
 {
     private readonly RabbitmqEventBusConnection eventBusConnection;
     private readonly DomainEventInformationCollection eventInformationCollection;
-    private readonly ApplicationExceptionHandler exceptionHandler;
+    private readonly CustomExceptionHandler exceptionHandler;
     private readonly RabbitmqConsumptionErrorHandler consumptionErrorHandler;
     private readonly IServiceProvider serviceProvider;
 
     public RabbitmqDomainEventConsumer(
         RabbitmqEventBusConnection eventBusConnection,
         DomainEventInformationCollection eventInformationCollection,
-        ApplicationExceptionHandler exceptionHandler,
+        CustomExceptionHandler exceptionHandler,
         RabbitmqConsumptionErrorHandler consumptionErrorHandler,
         IServiceProvider serviceProvider
     )
@@ -55,7 +58,7 @@ public class RabbitmqDomainEventConsumer
         }
         catch (Exception exception)
         {
-            throw new EventBusError(exception.ToString());
+            throw new DomainEventConsumptionFailed(exception.ToString());
         }
     }
 
@@ -66,7 +69,7 @@ public class RabbitmqDomainEventConsumer
     {
         try
         {
-            DomainEvent _event = JsonDomainEventDeserializer.Deserialize(
+            DomainEvent domainEvent = JsonDomainEventDeserializer.Deserialize(
                 deliverEventArgs.Body.ToArray(),
                 eventInformation.EventClass
             );
@@ -74,17 +77,17 @@ public class RabbitmqDomainEventConsumer
             {
                 IDomainEventHandlerBase eventHandler = (IDomainEventHandlerBase)
                     serviceProvider.GetRequiredService(handlerClass);
-                await eventHandler.Handle(_event);
+                await eventHandler.Handle(domainEvent);
             }
         }
-        catch (ApplicationException exception)
+        catch (CustomException exception)
         {
             exceptionHandler.Handle(exception);
             consumptionErrorHandler.Handle(deliverEventArgs, eventInformation);
         }
-        catch (MultipleApplicationException multipleException)
+        catch (MultipleCustomException multipleException)
         {
-            foreach (ApplicationException exception in multipleException.Exceptions)
+            foreach (CustomException exception in multipleException.Exceptions)
             {
                 exceptionHandler.Handle(exception);
             }

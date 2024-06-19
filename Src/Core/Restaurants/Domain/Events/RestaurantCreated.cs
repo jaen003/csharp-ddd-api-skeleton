@@ -4,17 +4,14 @@ namespace Src.Core.Restaurants.Domain.Events;
 
 public class RestaurantCreated : DomainEvent
 {
+    private const string ID_FIELD = "id";
+    private const string NAME_FIELD = "name";
+
     public string Id { get; }
     public string Name { get; }
     public override string EventName => "restaurant.created";
 
-    public RestaurantCreated(string id, string name)
-    {
-        Id = id;
-        Name = name;
-    }
-
-    public RestaurantCreated(string id, string name, string eventId, int timestamp)
+    private RestaurantCreated(string id, string name, string eventId, int timestamp)
         : base(eventId, timestamp)
     {
         Id = id;
@@ -34,8 +31,8 @@ public class RestaurantCreated : DomainEvent
     )
     {
         return new RestaurantCreated(
-            data["id"].ToString()!,
-            data["name"].ToString()!,
+            data[ID_FIELD].ToString()!,
+            data[NAME_FIELD].ToString()!,
             eventId,
             timestamp
         );
@@ -43,6 +40,6 @@ public class RestaurantCreated : DomainEvent
 
     public override Dictionary<string, object> ToPrimitives()
     {
-        return new Dictionary<string, object> { { "id", Id }, { "name", Name } };
+        return new Dictionary<string, object> { { ID_FIELD, Id }, { NAME_FIELD, Name } };
     }
 }

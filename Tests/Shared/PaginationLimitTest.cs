@@ -1,4 +1,4 @@
-using ApplicationException = Src.Core.Shared.Domain.Exceptions.ApplicationException;
+using Src.Core.Shared.Domain.Exceptions;
 using Src.Core.Shared.Domain.Paginations;
 
 namespace Tests.Shared;
@@ -15,7 +15,7 @@ public class PaginationLimitTest
         {
             PaginationLimit paginationLimit = new(value);
         }
-        catch (ApplicationException exception)
+        catch (CustomException exception)
         {
             exceptionCode = exception.Code;
         }
@@ -30,10 +30,10 @@ public class PaginationLimitTest
         {
             PaginationLimit valueObject = new(31);
         }
-        catch (ApplicationException exception)
+        catch (CustomException exception)
         {
             exceptionCode = exception.Code;
         }
-        Assert.Equal(7, exceptionCode);
+        Assert.Equal(4, exceptionCode);
     }
 }

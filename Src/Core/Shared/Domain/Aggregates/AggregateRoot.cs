@@ -11,9 +11,9 @@ public class AggregateRoot
         events = new List<DomainEvent>();
     }
 
-    public void RecordEvent(DomainEvent _event)
+    protected void RecordEvent(DomainEvent domainEvent)
     {
-        events.Add(_event);
+        events.Add(domainEvent);
     }
 
     public List<DomainEvent> PullEvents()

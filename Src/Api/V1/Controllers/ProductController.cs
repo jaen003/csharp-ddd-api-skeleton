@@ -1,13 +1,13 @@
-using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
-using Src.Api.V1.Schemas;
-using Src.Api.V1.Schemas.Products;
 using Src.Core.Products.Application.Services;
-using Src.Core.Products.Domain;
-using Src.Core.Restaurants.Domain;
-using Src.Core.Shared.Domain.EventBus;
-using Src.Core.Shared.Domain.Paginations;
-using ILogger = Src.Core.Shared.Domain.Logging.ILogger;
+using Src.Core.Products.Application.Dtos;
+using Src.Core.Products.Domain.Repositories;
+using Src.Core.Shared.Application.EventBus;
+using Src.Core.Shared.Application.Paginations;
+using ILogger = Src.Core.Shared.Application.Logging.ILogger;
+using Src.Api.V1.InputModels.Products;
+using Src.Api.V1.InputModels.Paginations;
+using Src.Core.Restaurants.Application.Services;
 
 namespace Src.Api.V1.Controllers;
 
@@ -16,105 +16,118 @@ namespace Src.Api.V1.Controllers;
 public class ProductController : ControllerBase
 {
     private readonly IProductRepository repository;
-    private readonly IRestaurantRepository restaurantRepository;
     private readonly IDomainEventPublisher eventPublisher;
     private readonly ILogger logger;
 
+    private readonly RestaurantExistenceValidator restaurantExistenceValidator;
+    private readonly ProductNameAvailabilityValidator productNameAvailabilityValidator;
+
     public ProductController(
         IProductRepository repository,
-        IRestaurantRepository restaurantRepository,
         IDomainEventPublisher eventPublisher,
-        ILogger logger
+        ILogger logger,
+        RestaurantExistenceValidator restaurantExistenceValidator,
+        ProductNameAvailabilityValidator productNameAvailabilityValidator
     )
     {
         this.repository = repository;
-        this.restaurantRepository = restaurantRepository;
         this.eventPublisher = eventPublisher;
         this.logger = logger;
+        this.restaurantExistenceValidator = restaurantExistenceValidator;
+        this.productNameAvailabilityValidator = productNameAvailabilityValidator;
     }
 
     [HttpPut("create")]
-    public async Task Create(
-        ProductCreationSchema schema,
-        [Required, FromHeader(Name = "restaurant_id")] string? restaurantId
-    )
+    public async Task Create([FromBody] ProductCreationInputModel inputModel)
     {
-        ProductCreator creator = new(repository, restaurantRepository, eventPublisher, logger);
-        await creator.Create(
-            schema.Id,
-            schema.Name,
-            schema.Price,
-            schema.Description,
-            restaurantId!
-        );
+        ProductCreator creator =
+            new(
+                repository,
+                eventPublisher,
+                logger,
+                restaurantExistenceValidator,
+                productNameAvailabilityValidator
+            );
+        ProductCreationDto creationDto =
+            new(
+                inputModel.Id,
+                inputModel.Name,
+                inputModel.Price,
+                inputModel.Description,
+                inputModel.RestaurantId
+            );
+        await creator.Create(creationDto);
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<Dictionary<string, object>>>> FindAll(
-        [FromQuery] PaginationSchema paginationSchema,
-        [Required, FromHeader(Name = "restaurant_id")] string? restaurantId
+    public async Task<ActionResult<List<ProductDto>>> FindAll(
+        [FromQuery] PaginationInputModel paginationInputModel,
+        [FromBody] AllProductsQueryInputModel allProductsQueryInputModel
     )
     {
         AllProductsFinder finder = new(repository);
-        Pagination pagination = Pagination.FromPrimitives(
-            paginationSchema.Limit,
-            paginationSchema.StartIndex,
-            paginationSchema.SortingField,
-            paginationSchema.SortingType
-        );
-        return await finder.Find(restaurantId!, pagination);
+        PaginationDto paginationDto =
+            new(
+                paginationInputModel.Limit,
+                paginationInputModel.StartIndex,
+                paginationInputModel.SortingField,
+                paginationInputModel.SortingType
+            );
+        AllProductsQueryDto queryDto = new(paginationDto, allProductsQueryInputModel.RestaurantId);
+        return await finder.Find(queryDto);
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<Dictionary<string, object>>> FindById(
+    public async Task<ActionResult<ProductDto>> FindById(
         [FromRoute] string id,
-        [Required, FromHeader(Name = "restaurant_id")] string? restaurantId
+        [FromBody] ProductByIdQueryInputModel inputModel
     )
     {
         ProductByIdFinder finder = new(repository);
-        return await finder.Find(id, restaurantId!);
+        ProductByIdQueryDto queryDto = new(id, inputModel.RestaurantId);
+        return await finder.Find(queryDto);
     }
 
     [HttpPut("{id}/change/price")]
     public async Task ChangePrice(
         [FromRoute] string id,
-        ProductPriceChangerSchema schema,
-        [Required, FromHeader(Name = "restaurant_id")] string? restaurantId
+        [FromBody] ProductPriceChangeInputModel inputModel
     )
     {
         ProductPriceChanger changer = new(repository, eventPublisher, logger);
-        await changer.Change(id, schema.Price, restaurantId!);
+        ProductPriceChangeDto changeDto = new(id, inputModel.Price, inputModel.RestaurantId);
+        await changer.Change(changeDto);
     }
 
     [HttpDelete("{id}")]
-    public async Task Delete(
-        [FromRoute] string id,
-        [Required, FromHeader(Name = "restaurant_id")] string? restaurantId
-    )
+    public async Task Delete([FromRoute] string id, [FromBody] ProductDeletionInputModel inputModel)
     {
         ProductDeletor deletor = new(repository, eventPublisher, logger);
-        await deletor.Delete(id, restaurantId!);
+        ProductDeletionDto deletionDto = new(id, inputModel.RestaurantId);
+        await deletor.Delete(deletionDto);
     }
 
     [HttpPut("{id}/change/description")]
     public async Task ChangeDescription(
         [FromRoute] string id,
-        ProductDescriptionChangeSchema schema,
-        [Required, FromHeader(Name = "restaurant_id")] string? restaurantId
+        [FromBody] ProductDescriptionChangeInputModel inputModel
     )
     {
         ProductDescriptionChanger changer = new(repository, eventPublisher, logger);
-        await changer.Change(id, schema.Description, restaurantId!);
+        ProductDescriptionChangeDto changeDto =
+            new(id, inputModel.Description, inputModel.RestaurantId);
+        await changer.Change(changeDto);
     }
 
     [HttpPut("{id}/rename")]
     public async Task Rename(
-        string id,
-        ProductNameChangeSchema schema,
-        [Required, FromHeader(Name = "restaurant_id")] string? restaurantId
+        [FromRoute] string id,
+        [FromBody] ProductNameChangeInputModel inputModel
     )
     {
-        ProductRenamer renamer = new(repository, eventPublisher, logger);
-        await renamer.Rename(id, schema.Name, restaurantId!);
+        ProductRenamer renamer =
+            new(repository, eventPublisher, logger, productNameAvailabilityValidator);
+        ProductNameChangeDto changeDto = new(id, inputModel.Name, inputModel.RestaurantId);
+        await renamer.Rename(changeDto);
     }
 }

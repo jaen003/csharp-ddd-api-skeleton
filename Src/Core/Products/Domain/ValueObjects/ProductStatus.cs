@@ -5,8 +5,11 @@ namespace Src.Core.Products.Domain.ValueObjects;
 
 public class ProductStatus : NonNegativeShort
 {
-    private const short ACTIVED = 1;
-    private const short DELETED = 2;
+    private enum Type : short
+    {
+        Active,
+        Deleted
+    }
 
     public ProductStatus(short value)
         : base(value)
@@ -17,23 +20,23 @@ public class ProductStatus : NonNegativeShort
         }
     }
 
-    public static ProductStatus CreateActived()
+    public static ProductStatus CreateActive()
     {
-        return new ProductStatus(ACTIVED);
+        return new ProductStatus((short)Type.Active);
     }
 
     public static ProductStatus CreateDeleted()
     {
-        return new ProductStatus(DELETED);
+        return new ProductStatus((short)Type.Deleted);
     }
 
-    public bool IsActived()
+    public bool IsActive()
     {
-        return Equals(ACTIVED);
+        return Equals((short)Type.Active);
     }
 
     private bool IsValid()
     {
-        return Equals(ACTIVED) || Equals(DELETED);
+        return Equals((short)Type.Active) || Equals((short)Type.Deleted);
     }
 }

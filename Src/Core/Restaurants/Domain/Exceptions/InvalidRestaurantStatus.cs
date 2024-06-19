@@ -2,10 +2,11 @@ using Src.Core.Shared.Domain.Exceptions;
 
 namespace Src.Core.Restaurants.Domain.Exceptions;
 
-public class InvalidRestaurantStatus : ValidationError
+public class InvalidRestaurantStatus : DomainException
 {
-    private const int CODE = 102;
-
     public InvalidRestaurantStatus(short status)
-        : base(CODE, $"The restaurant status '{status}' is invalid.") { }
+        : base(
+            CustomExceptionCode.InvalidRestaurantStatus,
+            $"The restaurant status '{status}' is invalid."
+        ) { }
 }

@@ -1,8 +1,9 @@
-using Src.Core.Products.Domain;
+using Src.Core.Products.Domain.Repositories;
 using Src.Core.Products.Domain.Aggregates;
 using Src.Core.Products.Domain.ValueObjects;
 using Src.Core.Shared.Domain.Paginations;
 using Src.Core.Shared.Domain.ValueObjects;
+using Src.Core.Products.Application.Dtos;
 
 namespace Src.Core.Products.Application.Services;
 
@@ -15,22 +16,23 @@ public class AllProductsFinder
         this.repository = repository;
     }
 
-    public async Task<List<Dictionary<string, object>>> Find(
-        string restaurantId,
-        Pagination pagination
-    )
+    public async Task<List<ProductDto>> Find(AllProductsQueryDto queryDto)
     {
+        Pagination pagination = Pagination.Create(
+            queryDto.PaginationDto.Limit,
+            queryDto.PaginationDto.StartIndex,
+            queryDto.PaginationDto.SortingField,
+            queryDto.PaginationDto.SortingType
+        );
         List<Product> products = await repository.FindByStatusNotAndRestaurantIdAndPagination(
             ProductStatus.CreateDeleted(),
-            new Uuid(restaurantId),
+            new Uuid(queryDto.RestaurantId),
             pagination
         );
-        List<Dictionary<string, object>> result = new();
+        List<ProductDto> result = new();
         foreach (Product product in products)
         {
-            result.Add(
-                new() { { "id", product.Id }, { "name", product.Name }, { "price", product.Price } }
-            );
+            result.Add(new(product.Id, product.Name, product.Price, product.Description));
         }
         return result;
     }

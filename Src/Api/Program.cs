@@ -1,19 +1,21 @@
 using dotenv.net;
 using Microsoft.EntityFrameworkCore;
 using Src.Api.Middlewares;
-using Src.Core.Products.Domain;
-using Src.Core.Products.Infrastructure;
+using Src.Core.Products.Domain.Repositories;
+using Src.Core.Products.Infrastructure.Repositories;
 using Src.Core.Restaurants.Application.Services;
-using Src.Core.Restaurants.Domain;
-using Src.Core.Restaurants.Infrastructure;
-using Src.Core.Shared.Domain.EventBus;
-using Src.Core.Shared.Domain.Exceptions;
+using Src.Core.Restaurants.Domain.Repositories;
+using Src.Core.Restaurants.Infrastructure.Repositories;
+using Src.Core.Shared.Application.EventBus;
+using Src.Core.Shared.Application.Exceptions;
 using Src.Core.Shared.Infrastructure.Database;
 using Src.Core.Shared.Infrastructure.EventBus;
 using Src.Core.Shared.Infrastructure.Events;
 using Src.Core.Shared.Infrastructure.Logging;
-using Src.Core.Shared.Infrastructure.Mappers;
-using ILogger = Src.Core.Shared.Domain.Logging.ILogger;
+using Src.Core.Products.Infrastructure.Mappers;
+using Src.Core.Restaurants.Infrastructure.Mappers;
+using ILogger = Src.Core.Shared.Application.Logging.ILogger;
+using Src.Core.Products.Application.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 DotEnv.Load();
@@ -23,34 +25,38 @@ DotEnv.Load();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<ProductMapper, ProductMapper>();
-builder.Services.AddTransient<RestaurantMapper, RestaurantMapper>();
-builder.Services.AddSingleton<ApplicationLoggerCreator, ApplicationLoggerCreator>();
-builder.Services.AddTransient<ILogger>(
-    serviceProvider => serviceProvider.GetRequiredService<ApplicationLoggerCreator>().Create()
+builder.Services.AddScoped<ProductMapper>();
+builder.Services.AddTransient<RestaurantMapper>();
+builder.Services.AddSingleton<LoggerCreator>(
+    builder.Environment.IsDevelopment() ? new ConsoleLoggerCreator() : new FileLoggerCreator()
 );
-builder.Services.AddTransient<ApplicationExceptionHandler, ApplicationExceptionHandler>();
-builder.Services.AddSingleton<RabbitmqEventBusConnection, RabbitmqEventBusConnection>();
-builder.Services.AddTransient<RabbitmqMessagePublisher, RabbitmqMessagePublisher>();
-builder.Services.AddTransient<RabbitmqConsumptionErrorHandler, RabbitmqConsumptionErrorHandler>();
+builder.Services.AddTransient<ILogger>(
+    serviceProvider => serviceProvider.GetRequiredService<LoggerCreator>().Create()
+);
+builder.Services.AddTransient<CustomExceptionHandler>();
+builder.Services.AddSingleton<RabbitmqEventBusConnection>();
+builder.Services.AddTransient<RabbitmqMessagePublisher>();
+builder.Services.AddTransient<RabbitmqConsumptionErrorHandler>();
 builder.Services.CollectDomainEventInformation();
-builder.Services.AddTransient<RabbitmqEventBusConfigurer, RabbitmqEventBusConfigurer>();
-builder.Services.AddSingleton<RabbitmqDomainEventConsumer, RabbitmqDomainEventConsumer>();
+builder.Services.AddTransient<RabbitmqEventBusConfigurer>();
+builder.Services.AddSingleton<RabbitmqDomainEventConsumer>();
 PostgresqlDatabaseConnectionData databaseConnectionData = new();
 builder.Services.AddPooledDbContextFactory<PostgresqlDatabaseContext>(
     options => options.UseNpgsql(databaseConnectionData.ConnectionString),
     databaseConnectionData.PoolSize
 );
-builder.Services.AddTransient<PostgresqlDatabaseMigrator, PostgresqlDatabaseMigrator>();
+builder.Services.AddTransient<PostgresqlDatabaseMigrator>();
 builder.Services.AddScoped<IDomainEventPublisher, RabbitmqDomainEventPublisher>();
 builder.Services.AddTransient<IRestaurantRepository, PostgresqlRestaurantRepository>();
-builder.Services.AddTransient<RestaurantCreator, RestaurantCreator>();
+builder.Services.AddTransient<RestaurantCreator>();
+builder.Services.AddScoped<RestaurantExistenceValidator>();
 builder.Services.AddScoped<IProductRepository, PostgresqlProductRepository>();
+builder.Services.AddScoped<ProductNameAvailabilityValidator>();
 var app = builder.Build();
 
 // Add middlewares
 
-app.UseMiddleware<ExceptionMiddleware>();
+app.UseMiddleware<CustomExceptionMiddleware>();
 
 // Init services
 

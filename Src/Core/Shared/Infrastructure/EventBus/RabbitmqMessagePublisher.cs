@@ -1,5 +1,5 @@
 using RabbitMQ.Client;
-using Src.Core.Shared.Domain.Exceptions;
+using Src.Core.Shared.Infrastructure.Exceptions;
 
 namespace Src.Core.Shared.Infrastructure.EventBus;
 
@@ -27,11 +27,10 @@ public class RabbitmqMessagePublisher
                 properties.DeliveryMode = (byte)messageDeliveryMode;
             }
             channel.BasicPublish(exchangeName, "", properties, body);
-            channel.Close();
         }
         catch (Exception exception)
         {
-            throw new EventBusError(exception.ToString());
+            throw new EventBusMessagePublishingFailed(exception.ToString());
         }
     }
 }

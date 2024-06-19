@@ -7,7 +7,6 @@
     "editor.rulers": [
         100
     ],
-    "dotnet-test-explorer.testProjectPath": "*Tests*",
     "[csharp]": {
         "editor.formatOnSave": true,
         "editor.defaultFormatter": "csharpier.csharpier-vscode"

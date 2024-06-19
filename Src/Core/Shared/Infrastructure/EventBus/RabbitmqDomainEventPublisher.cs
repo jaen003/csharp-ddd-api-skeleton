@@ -1,7 +1,7 @@
-using Src.Core.Shared.Domain.EventBus;
+using Src.Core.Shared.Application.EventBus;
 using Src.Core.Shared.Domain.Events;
+using Src.Core.Shared.Application.Exceptions;
 using Src.Core.Shared.Domain.Exceptions;
-using ApplicationException = Src.Core.Shared.Domain.Exceptions.ApplicationException;
 using Src.Core.Shared.Infrastructure.Events;
 
 namespace Src.Core.Shared.Infrastructure.EventBus;
@@ -9,34 +9,32 @@ namespace Src.Core.Shared.Infrastructure.EventBus;
 public class RabbitmqDomainEventPublisher : IDomainEventPublisher
 {
     private readonly RabbitmqMessagePublisher messagePublisher;
-    private readonly ApplicationExceptionHandler exceptionHandler;
+    private readonly CustomExceptionHandler exceptionHandler;
 
     public RabbitmqDomainEventPublisher(
         RabbitmqMessagePublisher messagePublisher,
-        ApplicationExceptionHandler exceptionHandler
+        CustomExceptionHandler exceptionHandler
     )
     {
         this.messagePublisher = messagePublisher;
         this.exceptionHandler = exceptionHandler;
     }
 
-    public async void Publish(List<DomainEvent> events)
+    public async Task Publish(List<DomainEvent> events)
     {
-        foreach (DomainEvent _event in events)
-        {
-            await Task.Run(() => PublishEvent(_event));
-        }
+        Task[] publishingTasks = events.Select(Publish).ToArray();
+        await Task.WhenAll(publishingTasks);
     }
 
-    private void PublishEvent(DomainEvent _event)
+    private async Task Publish(DomainEvent domainEvent)
     {
-        byte[] messageBody = JsonDomainEventSerializer.Serialize(_event);
-        string eventName = _event.EventName;
+        byte[] messageBody = JsonDomainEventSerializer.Serialize(domainEvent);
+        string eventName = domainEvent.EventName;
         try
         {
-            messagePublisher.Publish(eventName, messageBody);
+            await Task.Run(() => messagePublisher.Publish(eventName, messageBody));
         }
-        catch (ApplicationException exception)
+        catch (CustomException exception)
         {
             exceptionHandler.Handle(exception);
         }

@@ -1,6 +1,6 @@
 using RabbitMQ.Client;
-using Src.Core.Shared.Domain.Events;
-using Src.Core.Shared.Domain.Exceptions;
+using Src.Core.Shared.Application.Events;
+using Src.Core.Shared.Infrastructure.Exceptions;
 
 namespace Src.Core.Shared.Infrastructure.EventBus;
 
@@ -26,16 +26,17 @@ public class RabbitmqEventBusConfigurer
     {
         try
         {
-            await Task.Run(() => CreateDeadLetterQueue());
-            await Task.Run(() => CreateEvents());
+            using IModel channel = eventBusConnection.GetChannel()!;
+            await CreateDeadLetterQueue(channel);
+            await CreateDomainEvents(channel);
         }
         catch (Exception exception)
         {
-            throw new EventBusError(exception.ToString());
+            throw new EventBusNotConfigured(exception.ToString());
         }
     }
 
-    private void CreateDeadLetterQueue()
+    private async Task CreateDeadLetterQueue(IModel channel)
     {
         DomainEventInformation? eventInformation = eventInformationCollection.GetFirst();
         if (eventInformation != null)
@@ -46,59 +47,61 @@ public class RabbitmqEventBusConfigurer
             string deadLetterExchangeName = RabbitmqExchangeNameFormatter.FormatToDeadLetter(
                 eventInformation
             );
-            DeclareQueue(deadLetterQueueName);
-            DeclareExchange(deadLetterExchangeName);
-            BindQueue(deadLetterQueueName, deadLetterExchangeName);
+            await DeclareQueue(deadLetterQueueName, channel);
+            await DeclareExchange(deadLetterExchangeName, channel);
+            await BindQueue(deadLetterQueueName, deadLetterExchangeName, channel);
         }
     }
 
-    private void CreateEvents()
+    private async Task CreateDomainEvents(IModel channel)
     {
         foreach (DomainEventInformation eventInformation in eventInformationCollection.GetAll())
         {
             string exchangeName = RabbitmqExchangeNameFormatter.Format(eventInformation);
-            DeclareExchange(exchangeName);
+            await DeclareExchange(exchangeName, channel);
             if (eventInformation.HasEventHandlers())
             {
-                CreateEventQueues(eventInformation);
+                await CreateDomainEventQueues(eventInformation, channel);
             }
         }
     }
 
-    private void CreateEventQueues(DomainEventInformation eventInformation)
+    private static async Task CreateDomainEventQueues(
+        DomainEventInformation eventInformation,
+        IModel channel
+    )
     {
         string exchangeName = RabbitmqExchangeNameFormatter.Format(eventInformation);
         string queueName = RabbitmqQueueNameFormatter.Format(eventInformation);
-        DeclareQueue(queueName);
-        BindQueue(queueName, exchangeName);
+        await DeclareQueue(queueName, channel);
+        await BindQueue(queueName, exchangeName, channel);
         string retryExchangeName = RabbitmqExchangeNameFormatter.FormatToRetry(eventInformation);
-        DeclareDelayedExchange(retryExchangeName);
-        BindQueue(queueName, retryExchangeName);
+        await DeclareDelayedExchange(retryExchangeName, channel);
+        await BindQueue(queueName, retryExchangeName, channel);
     }
 
-    private void DeclareExchange(string exchangeName)
+    private static async Task DeclareExchange(string exchangeName, IModel channel)
     {
-        using IModel channel = eventBusConnection.GetChannel()!;
-        channel.ExchangeDeclare(exchangeName, EXCHANGE_TYPE, true);
+        await Task.Run(() => channel.ExchangeDeclare(exchangeName, EXCHANGE_TYPE, true));
     }
 
-    private void DeclareDelayedExchange(string exchangeName)
+    private static async Task DeclareDelayedExchange(string exchangeName, IModel channel)
     {
-        using IModel channel = eventBusConnection.GetChannel()!;
         Dictionary<string, object> arguments =
             new() { { DELAYED_EXCHANGE_TYPE_HEADER, EXCHANGE_TYPE } };
-        channel.ExchangeDeclare(exchangeName, DELAYED_EXCHANGE_TYPE, true, false, arguments);
+        await Task.Run(
+            () =>
+                channel.ExchangeDeclare(exchangeName, DELAYED_EXCHANGE_TYPE, true, false, arguments)
+        );
     }
 
-    private void BindQueue(string queueName, string exchangeName)
+    private static async Task BindQueue(string queueName, string exchangeName, IModel channel)
     {
-        using IModel channel = eventBusConnection.GetChannel()!;
-        channel.QueueBind(queueName, exchangeName, "");
+        await Task.Run(() => channel.QueueBind(queueName, exchangeName, ""));
     }
 
-    private void DeclareQueue(string queueName)
+    private static async Task DeclareQueue(string queueName, IModel channel)
     {
-        using IModel channel = eventBusConnection.GetChannel()!;
-        channel.QueueDeclare(queueName, true, false, false);
+        await Task.Run(() => channel.QueueDeclare(queueName, true, false, false));
     }
 }

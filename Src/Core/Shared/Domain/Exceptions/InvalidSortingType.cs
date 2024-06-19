@@ -1,9 +1,7 @@
 namespace Src.Core.Shared.Domain.Exceptions;
 
-public class InvalidSortingType : ValidationError
+public class InvalidSortingType : DomainException
 {
-    private const int CODE = 9;
-
     public InvalidSortingType(string type)
-        : base(CODE, $"The sorting type '{type}' is invalid.") { }
+        : base(CustomExceptionCode.InvalidSortingType, $"The sorting type '{type}' is invalid.") { }
 }
