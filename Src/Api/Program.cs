@@ -15,6 +15,7 @@ using Src.Core.Shared.Infrastructure.Logging;
 using Src.Core.Products.Infrastructure.Mappers;
 using Src.Core.Restaurants.Infrastructure.Mappers;
 using ILogger = Src.Core.Shared.Application.Logging.ILogger;
+using Src.Core.Products.Application.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 DotEnv.Load();
@@ -48,7 +49,9 @@ builder.Services.AddTransient<PostgresqlDatabaseMigrator>();
 builder.Services.AddScoped<IDomainEventPublisher, RabbitmqDomainEventPublisher>();
 builder.Services.AddTransient<IRestaurantRepository, PostgresqlRestaurantRepository>();
 builder.Services.AddTransient<RestaurantCreator>();
+builder.Services.AddScoped<RestaurantExistenceValidator>();
 builder.Services.AddScoped<IProductRepository, PostgresqlProductRepository>();
+builder.Services.AddScoped<ProductNameAvailabilityValidator>();
 var app = builder.Build();
 
 // Add middlewares

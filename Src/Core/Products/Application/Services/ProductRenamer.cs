@@ -14,24 +14,24 @@ public class ProductRenamer
     private readonly IProductRepository repository;
     private readonly IDomainEventPublisher eventPublisher;
     private readonly ILogger logger;
+    private readonly ProductNameAvailabilityValidator productNameAvailabilityValidator;
 
     public ProductRenamer(
         IProductRepository repository,
         IDomainEventPublisher eventPublisher,
-        ILogger logger
+        ILogger logger,
+        ProductNameAvailabilityValidator productNameAvailabilityValidator
     )
     {
         this.repository = repository;
         this.eventPublisher = eventPublisher;
         this.logger = logger;
+        this.productNameAvailabilityValidator = productNameAvailabilityValidator;
     }
 
     public async Task Rename(ProductNameChangeDto changeDto)
     {
-        if (await IsProductNameCreatedInRestaurant(changeDto.Name, changeDto.RestaurantId))
-        {
-            throw new ProductNameNotAvailable(changeDto.Name);
-        }
+        await productNameAvailabilityValidator.Validate(changeDto.Name, changeDto.RestaurantId);
         Product? product =
             await repository.FindByStatusNotAndIdAndRestaurantId(
                 ProductStatus.CreateDeleted(),
@@ -43,14 +43,5 @@ public class ProductRenamer
         await repository.Update(product);
         await eventPublisher.Publish(product.PullEvents());
         logger.Information($"The product name '{oldName}' has been changed to '{changeDto.Name}'.");
-    }
-
-    private async Task<bool> IsProductNameCreatedInRestaurant(string name, string restaurantId)
-    {
-        return await repository.ExistByStatusNotAndNameAndRestaurantId(
-            ProductStatus.CreateDeleted(),
-            new NonEmptyString(name),
-            new Uuid(restaurantId)
-        );
     }
 }

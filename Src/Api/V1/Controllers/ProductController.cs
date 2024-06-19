@@ -2,12 +2,12 @@ using Microsoft.AspNetCore.Mvc;
 using Src.Core.Products.Application.Services;
 using Src.Core.Products.Application.Dtos;
 using Src.Core.Products.Domain.Repositories;
-using Src.Core.Restaurants.Domain.Repositories;
 using Src.Core.Shared.Application.EventBus;
 using Src.Core.Shared.Application.Paginations;
 using ILogger = Src.Core.Shared.Application.Logging.ILogger;
 using Src.Api.V1.InputModels.Products;
 using Src.Api.V1.InputModels.Paginations;
+using Src.Core.Restaurants.Application.Services;
 
 namespace Src.Api.V1.Controllers;
 
@@ -16,27 +16,38 @@ namespace Src.Api.V1.Controllers;
 public class ProductController : ControllerBase
 {
     private readonly IProductRepository repository;
-    private readonly IRestaurantRepository restaurantRepository;
     private readonly IDomainEventPublisher eventPublisher;
     private readonly ILogger logger;
 
+    private readonly RestaurantExistenceValidator restaurantExistenceValidator;
+    private readonly ProductNameAvailabilityValidator productNameAvailabilityValidator;
+
     public ProductController(
         IProductRepository repository,
-        IRestaurantRepository restaurantRepository,
         IDomainEventPublisher eventPublisher,
-        ILogger logger
+        ILogger logger,
+        RestaurantExistenceValidator restaurantExistenceValidator,
+        ProductNameAvailabilityValidator productNameAvailabilityValidator
     )
     {
         this.repository = repository;
-        this.restaurantRepository = restaurantRepository;
         this.eventPublisher = eventPublisher;
         this.logger = logger;
+        this.restaurantExistenceValidator = restaurantExistenceValidator;
+        this.productNameAvailabilityValidator = productNameAvailabilityValidator;
     }
 
     [HttpPut("create")]
     public async Task Create([FromBody] ProductCreationInputModel inputModel)
     {
-        ProductCreator creator = new(repository, restaurantRepository, eventPublisher, logger);
+        ProductCreator creator =
+            new(
+                repository,
+                eventPublisher,
+                logger,
+                restaurantExistenceValidator,
+                productNameAvailabilityValidator
+            );
         ProductCreationDto creationDto =
             new(
                 inputModel.Id,
@@ -114,7 +125,8 @@ public class ProductController : ControllerBase
         [FromBody] ProductNameChangeInputModel inputModel
     )
     {
-        ProductRenamer renamer = new(repository, eventPublisher, logger);
+        ProductRenamer renamer =
+            new(repository, eventPublisher, logger, productNameAvailabilityValidator);
         ProductNameChangeDto changeDto = new(id, inputModel.Name, inputModel.RestaurantId);
         await renamer.Rename(changeDto);
     }
