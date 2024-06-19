@@ -1,4 +1,4 @@
-namespace Src.Core.Shared.Domain.Geneators;
+namespace Src.Core.Shared.Domain.Generators;
 
 public static class UuidGenerator
 {

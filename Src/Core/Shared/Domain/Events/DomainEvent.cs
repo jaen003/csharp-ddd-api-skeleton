@@ -1,4 +1,4 @@
-using Src.Core.Shared.Domain.Geneators;
+using Src.Core.Shared.Domain.Generators;
 
 namespace Src.Core.Shared.Domain.Events;
 
