@@ -9,6 +9,7 @@ using Src.Core.Shared.Domain.Exceptions;
 using Src.Core.Shared.Application.Logging;
 using Src.Core.Shared.Domain.ValueObjects;
 using Src.Core.Products.Application.Dtos;
+using Src.Core.Restaurants.Application.Services;
 
 namespace Tests.Products;
 
@@ -39,6 +40,7 @@ public class ProductCreatorTest
                 l.ExistsByStatusNotAndId(It.IsAny<RestaurantStatus>(), It.IsAny<Uuid>())
                 == Task.FromResult(true)
         );
+        RestaurantExistenceValidator restaurantExistenceValidator = new(restaurantRepository);
         IProductRepository repository = Mock.Of<IProductRepository>(
             l =>
                 l.ExistByStatusNotAndNameAndRestaurantId(
@@ -47,10 +49,18 @@ public class ProductCreatorTest
                     It.IsAny<Uuid>()
                 ) == Task.FromResult(false)
         );
+        ProductNameAvailabilityValidator productNameAvailabilityValidator = new(repository);
         int exceptionCode = 0;
         try
         {
-            ProductCreator creator = new(repository, restaurantRepository, eventPublisher, logger);
+            ProductCreator creator =
+                new(
+                    repository,
+                    eventPublisher,
+                    logger,
+                    restaurantExistenceValidator,
+                    productNameAvailabilityValidator
+                );
             await creator.Create(creationDto);
         }
         catch (CustomException exception)
@@ -68,11 +78,20 @@ public class ProductCreatorTest
                 l.ExistsByStatusNotAndId(It.IsAny<RestaurantStatus>(), It.IsAny<Uuid>())
                 == Task.FromResult(false)
         );
+        RestaurantExistenceValidator restaurantExistenceValidator = new(restaurantRepository);
         IProductRepository repository = Mock.Of<IProductRepository>();
+        ProductNameAvailabilityValidator productNameAvailabilityValidator = new(repository);
         int exceptionCode = 0;
         try
         {
-            ProductCreator creator = new(repository, restaurantRepository, eventPublisher, logger);
+            ProductCreator creator =
+                new(
+                    repository,
+                    eventPublisher,
+                    logger,
+                    restaurantExistenceValidator,
+                    productNameAvailabilityValidator
+                );
             await creator.Create(creationDto);
         }
         catch (CustomException exception)
@@ -90,6 +109,7 @@ public class ProductCreatorTest
                 l.ExistsByStatusNotAndId(It.IsAny<RestaurantStatus>(), It.IsAny<Uuid>())
                 == Task.FromResult(true)
         );
+        RestaurantExistenceValidator restaurantExistenceValidator = new(restaurantRepository);
         IProductRepository repository = Mock.Of<IProductRepository>(
             l =>
                 l.ExistByStatusNotAndNameAndRestaurantId(
@@ -98,10 +118,18 @@ public class ProductCreatorTest
                     It.IsAny<Uuid>()
                 ) == Task.FromResult(true)
         );
+        ProductNameAvailabilityValidator productNameAvailabilityValidator = new(repository);
         int exceptionCode = 0;
         try
         {
-            ProductCreator creator = new(repository, restaurantRepository, eventPublisher, logger);
+            ProductCreator creator =
+                new(
+                    repository,
+                    eventPublisher,
+                    logger,
+                    restaurantExistenceValidator,
+                    productNameAvailabilityValidator
+                );
             await creator.Create(creationDto);
         }
         catch (CustomException exception)

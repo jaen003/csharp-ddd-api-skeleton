@@ -53,10 +53,12 @@ public class ProductRenamerTest
                     It.IsAny<Uuid>()
                 ) == Task.FromResult(product)
         );
+        ProductNameAvailabilityValidator productNameAvailabilityValidator = new(repository);
         int exceptionCode = 0;
         try
         {
-            ProductRenamer renamer = new(repository, eventPublisher, logger);
+            ProductRenamer renamer =
+                new(repository, eventPublisher, logger, productNameAvailabilityValidator);
             await renamer.Rename(changeDto);
         }
         catch (CustomException exception)
@@ -77,10 +79,12 @@ public class ProductRenamerTest
                     It.IsAny<Uuid>()
                 ) == Task.FromResult(true)
         );
+        ProductNameAvailabilityValidator productNameAvailabilityValidator = new(repository);
         int exceptionCode = 0;
         try
         {
-            ProductRenamer renamer = new(repository, eventPublisher, logger);
+            ProductRenamer renamer =
+                new(repository, eventPublisher, logger, productNameAvailabilityValidator);
             await renamer.Rename(changeDto);
         }
         catch (CustomException exception)
@@ -106,10 +110,12 @@ public class ProductRenamerTest
                     It.IsAny<Uuid>()
                 ) == Task.FromResult<Product>(null!)
         );
+        ProductNameAvailabilityValidator productNameAvailabilityValidator = new(repository);
         int exceptionCode = 0;
         try
         {
-            ProductRenamer renamer = new(repository, eventPublisher, logger);
+            ProductRenamer renamer =
+                new(repository, eventPublisher, logger, productNameAvailabilityValidator);
             await renamer.Rename(changeDto);
         }
         catch (CustomException exception)
