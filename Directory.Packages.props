@@ -6,31 +6,67 @@
 
   <ItemGroup>
     <PackageVersion Include="dotenv.net" Version="3.1.2" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
-    <PackageVersion Include="xunit" Version="2.4.2" />
-    <PackageVersion Include="xunit.runner.visualstudio" Version="2.4.5">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.11.1">
+      <IncludeAssets>compile; runtime; build</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageVersion>
-    <PackageVersion Include="coverlet.collector" Version="3.1.2">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    <PackageVersion Include="xunit" Version="2.9.0">
+      <IncludeAssets>compile; runtime</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageVersion>
+    <PackageVersion Include="xunit.runner.visualstudio" Version="2.8.2">
+      <IncludeAssets>build</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageVersion>
+    <PackageVersion Include="coverlet.collector" Version="6.0.2">
+      <IncludeAssets>runtime; build</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageVersion>
     <PackageVersion Include="IdGen" Version="3.0.3" />
-    <PackageVersion Include="Serilog" Version="3.0.0-dev-01884" />
-    <PackageVersion Include="Serilog.Sinks.Console" Version="4.1.1-dev-00907" />
-    <PackageVersion Include="Serilog.Sinks.File" Version="5.0.1-dev-00947" />
-    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
-    <PackageVersion Include="RabbitMQ.Client" Version="6.4.0" />
-    <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.3" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.3">    
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    <PackageVersion Include="Serilog" Version="4.0.1">
+      <IncludeAssets>compile; runtime</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageVersion>
-    <PackageVersion Include="System.Linq.Dynamic.Core" Version="1.2.25" />
-    <PackageVersion Include="Moq" Version="4.18.4" />
-    <PackageVersion Include="Riok.Mapperly" Version="3.3.0-next.1" />
-    <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageVersion Include="Serilog.Sinks.Console" Version="6.0.0">
+      <IncludeAssets>compile; runtime</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageVersion>
+    <PackageVersion Include="Serilog.Sinks.File" Version="6.0.0">
+      <IncludeAssets>compile; runtime</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageVersion>
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0">
+      <IncludeAssets>compile; runtime</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageVersion>
+    <PackageVersion Include="RabbitMQ.Client" Version="6.8.1">
+      <IncludeAssets>compile; runtime</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageVersion>
+    <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.4">
+      <IncludeAssets>compile; runtime</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageVersion>
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.8">    
+      <IncludeAssets>build</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageVersion>
+    <PackageVersion Include="System.Linq.Dynamic.Core" Version="1.4.5">
+      <IncludeAssets>compile; runtime</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageVersion>
+    <PackageVersion Include="Moq" Version="4.20.72">
+      <IncludeAssets>compile; runtime</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageVersion>
+    <PackageVersion Include="Riok.Mapperly" Version="3.6.0">
+      <IncludeAssets>compile; build</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageVersion>
+    <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.7.3">
+      <IncludeAssets>compile; build</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageVersion>
   </ItemGroup>
   
 </Project>

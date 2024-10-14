@@ -3,19 +3,19 @@
   "isRoot": true,
   "tools": {
     "csharpier": {
-      "version": "0.22.1",
+      "version": "0.29.2",
       "commands": [
         "dotnet-csharpier"
       ]
     },
     "roslynator.dotnet.cli": {
-      "version": "0.5.0",
+      "version": "0.9.0",
       "commands": [
         "roslynator"
       ]
     },
     "dotnet-ef": {
-      "version": "7.0.3",
+      "version": "8.0.8",
       "commands": [
         "dotnet-ef"
       ]

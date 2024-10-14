@@ -1,9 +1,10 @@
-FROM mcr.microsoft.com/dotnet/sdk:7.0-alpine as base
+FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine as base
 WORKDIR /app
 COPY . .
 RUN dotnet restore; \
     dotnet publish -c Release -o Output --no-restore
 
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine
 FROM mcr.microsoft.com/dotnet/aspnet:7.0-alpine
 ARG USERNAME=backoffice
 WORKDIR /home/$USERNAME

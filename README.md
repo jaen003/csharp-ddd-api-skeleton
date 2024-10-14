@@ -42,11 +42,11 @@ It is built with clean architecture, SOLID principles, and love ❤️.
     ```
 3. Create a Docker container for the RabbitMQ event bus:
     ```bash
-    docker run -d -h rabbitmq --restart unless-stopped -v csharp_ddd_api_skeleton_rabbitmq_data:/var/lib/rabbitmq/ -e "RABBITMQ_DEFAULT_USER=guest" -e "RABBITMQ_DEFAULT_PASS=guest" --network csharp_ddd_api_skeleton_network heidiks/rabbitmq-delayed-message-exchange:3.10.2-management
+    docker run -d --name csharp_ddd_api_skeleton_event_bus -h eventbus.csharpdddapiskeleton --restart unless-stopped -v csharp_ddd_api_skeleton_rabbitmq_data:/var/lib/rabbitmq/ -e "RABBITMQ_DEFAULT_USER=guest" -e "RABBITMQ_DEFAULT_PASS=guest" --network csharp_ddd_api_skeleton_network -p 8083:15672 heidiks/rabbitmq-delayed-message-exchange:3.13.3-management
     ```
 4. Create a Docker container for the PostgreSQL database:
     ```bash
-    docker run -d -h postgresql --restart unless-stopped -v csharp_ddd_api_skeleton_postgresql_data:/var/lib/postgresql/data -e "POSTGRES_USER=root" -e "POSTGRES_PASSWORD=root" --network csharp_ddd_api_skeleton_network postgres:15.1-alpine
+    docker run -d --name csharp_ddd_api_skeleton_database -h database.csharpdddapiskeleton --restart unless-stopped -v csharp_ddd_api_skeleton_postgresql_data:/var/lib/postgresql/data -e "POSTGRES_USER=root" -e "POSTGRES_PASSWORD=root" --network csharp_ddd_api_skeleton_network -p 3254:5432 postgres:15.8-alpine
     ```
 5. Clone this project:
     ```bash 

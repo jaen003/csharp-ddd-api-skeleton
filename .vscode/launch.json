@@ -6,7 +6,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/Src/Api/bin/Debug/net7.0/Src.Api.dll"
+            "program": "${workspaceFolder}/Src/Api/bin/Debug/net8.0/Src.Api.dll"
         }
     ]
 }
