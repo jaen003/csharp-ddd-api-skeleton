@@ -9,7 +9,10 @@ format:
 .PHONY: test
 test:
 	@echo "Running the test suite of the project"
-	@dotnet test --no-restore
+	@dotnet test --no-restore --collect:"XPlat Code Coverage"
+	@dotnet reportgenerator -filefilters:"-*/Infrastructure/**/*.cs;-*.g.cs" \
+		-reports:"*/TestResults/**/*.xml" -targetdir:"coverage" -reporttypes:Html
+	@rm -rf */TestResults
 
 .PHONY: lint
 lint:
