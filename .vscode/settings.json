@@ -1,7 +1,7 @@
 {
     "terminal.integrated.profiles.linux": {
         "bash": {
-            "path": "/bin/bash",
+            "path": "/bin/bash"
         },
     },
     "editor.rulers": [
