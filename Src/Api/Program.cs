@@ -1,10 +1,12 @@
-using dotenv.net;
 using Microsoft.EntityFrameworkCore;
 using Src.Api.Middlewares;
+using Src.Core.Products.Application.Services;
 using Src.Core.Products.Domain.Repositories;
+using Src.Core.Products.Infrastructure.Mappers;
 using Src.Core.Products.Infrastructure.Repositories;
 using Src.Core.Restaurants.Application.Services;
 using Src.Core.Restaurants.Domain.Repositories;
+using Src.Core.Restaurants.Infrastructure.Mappers;
 using Src.Core.Restaurants.Infrastructure.Repositories;
 using Src.Core.Shared.Application.EventBus;
 using Src.Core.Shared.Application.Exceptions;
@@ -12,13 +14,9 @@ using Src.Core.Shared.Infrastructure.Database;
 using Src.Core.Shared.Infrastructure.EventBus;
 using Src.Core.Shared.Infrastructure.Events;
 using Src.Core.Shared.Infrastructure.Logging;
-using Src.Core.Products.Infrastructure.Mappers;
-using Src.Core.Restaurants.Infrastructure.Mappers;
-using ILogger = Src.Core.Shared.Application.Logging.ILogger;
-using Src.Core.Products.Application.Services;
+using LoggerFactory = Src.Core.Shared.Infrastructure.Logging.LoggerFactory;
 
 var builder = WebApplication.CreateBuilder(args);
-DotEnv.Load();
 
 // Add services to the container.
 
@@ -27,11 +25,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ProductMapper>();
 builder.Services.AddTransient<RestaurantMapper>();
-builder.Services.AddSingleton<LoggerCreator>(
-    builder.Environment.IsDevelopment() ? new ConsoleLoggerCreator() : new FileLoggerCreator()
+builder.Services.AddSingleton<LoggerFactory>(
+    builder.Environment.IsDevelopment() ? new ConsoleLoggerFactory() : new FileLoggerFactory()
 );
-builder.Services.AddTransient<ILogger>(
-    serviceProvider => serviceProvider.GetRequiredService<LoggerCreator>().Create()
+builder.Services.AddTransient(serviceProvider =>
+    serviceProvider.GetRequiredService<LoggerFactory>().Create()
 );
 builder.Services.AddTransient<CustomExceptionHandler>();
 builder.Services.AddSingleton<RabbitmqEventBusConnection>();

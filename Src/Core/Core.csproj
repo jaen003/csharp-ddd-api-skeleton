@@ -3,13 +3,11 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
     <AssemblyName>Src.Core</AssemblyName>
     <RootNamespace>Src.Core</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="IdGen" />
     <PackageReference Include="Serilog" />
     <PackageReference Include="Serilog.Sinks.Console" />
     <PackageReference Include="Serilog.Sinks.File" />
@@ -17,7 +15,6 @@
     <PackageReference Include="RabbitMQ.Client" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" />
-    <PackageReference Include="dotenv.net" />
     <PackageReference Include="System.Linq.Dynamic.Core" />
     <PackageReference Include="Riok.Mapperly" />
   </ItemGroup>

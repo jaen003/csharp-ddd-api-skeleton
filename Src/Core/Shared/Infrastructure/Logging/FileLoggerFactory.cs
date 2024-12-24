@@ -4,19 +4,21 @@ using ISerilogLogger = Serilog.ILogger;
 
 namespace Src.Core.Shared.Infrastructure.Logging;
 
-public class FileLoggerCreator : LoggerCreator
+public class FileLoggerFactory : LoggerFactory
 {
+    private const string LOG_FILE_DIRECTORY = "logs";
+
     private readonly string logFilePath;
 
-    public FileLoggerCreator()
+    public FileLoggerFactory()
     {
         logFilePath = GenerateLogFilePath();
     }
 
     public override ILogger Create()
     {
-        ISerilogLogger serilogLogger = new LoggerConfiguration().MinimumLevel
-            .ControlledBy(loggingLevelSwitch)
+        ISerilogLogger serilogLogger = new LoggerConfiguration()
+            .MinimumLevel.ControlledBy(loggingLevelSwitch)
             .WriteTo.File(logFilePath, rollingInterval: RollingInterval.Day)
             .CreateLogger();
         return new FileLogger(serilogLogger);
@@ -24,8 +26,7 @@ public class FileLoggerCreator : LoggerCreator
 
     private static string GenerateLogFilePath()
     {
-        string logsPath = Environment.GetEnvironmentVariable("LOGS_PATH")!;
         string logFileName = Environment.GetEnvironmentVariable("LOG_FILE_NAME")!;
-        return $"{logsPath}/{logFileName}.log";
+        return $"{LOG_FILE_DIRECTORY}/{logFileName}.log";
     }
 }

@@ -2,10 +2,11 @@
 
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageVersion Include="dotenv.net" Version="3.1.2" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.11.1">
       <IncludeAssets>compile; runtime; build</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
@@ -22,7 +23,6 @@
       <IncludeAssets>runtime; build</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageVersion>
-    <PackageVersion Include="IdGen" Version="3.0.3" />
     <PackageVersion Include="Serilog" Version="4.0.1">
       <IncludeAssets>compile; runtime</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>

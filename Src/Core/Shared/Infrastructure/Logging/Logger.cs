@@ -1,9 +1,9 @@
-using ISerilogLogger = Serilog.ILogger;
 using Src.Core.Shared.Application.Logging;
+using ISerilogLogger = Serilog.ILogger;
 
 namespace Src.Core.Shared.Infrastructure.Logging;
 
-public abstract class Logger : ILogger
+internal abstract class Logger : ILogger
 {
     private readonly ISerilogLogger serilogLogger;
 

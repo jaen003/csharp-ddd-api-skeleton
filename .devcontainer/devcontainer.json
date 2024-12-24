@@ -20,6 +20,8 @@
 	},
 	"appPort": ["5004:8000"],
 	"runArgs": [
+		"--name=csharp_ddd_api_skeleton_backend",		
+		"--env-file=.env",
 		"--network=csharp_ddd_api_skeleton_network"
 	],
 	"postCreateCommand": "bash .devcontainer/post_create.sh"

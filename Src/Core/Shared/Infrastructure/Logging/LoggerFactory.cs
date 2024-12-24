@@ -4,11 +4,11 @@ using Src.Core.Shared.Application.Logging;
 
 namespace Src.Core.Shared.Infrastructure.Logging;
 
-public abstract class LoggerCreator
+public abstract class LoggerFactory
 {
     protected readonly LoggingLevelSwitch loggingLevelSwitch;
 
-    protected LoggerCreator()
+    protected LoggerFactory()
     {
         loggingLevelSwitch = GenerateLoggingLevelSwitch();
     }

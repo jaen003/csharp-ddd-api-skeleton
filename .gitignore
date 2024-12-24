@@ -1,3 +1,6 @@
 obj/
 bin/
 *.log
+.env
+TestResults/
+coverage/

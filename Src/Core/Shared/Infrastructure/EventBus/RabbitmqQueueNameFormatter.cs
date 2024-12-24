@@ -8,14 +8,14 @@ public static class RabbitmqQueueNameFormatter
 
     public static string Format(DomainEventInformation eventInformation)
     {
-        string contextName = eventInformation.ContextName;
+        string contextName = DomainEventInformation.CONTEXT_NAME;
         string eventName = eventInformation.EventName;
         return $"{contextName}.{eventName}";
     }
 
-    public static string FormatToDeadLetter(DomainEventInformation eventInformation)
+    public static string FormatToDeadLetter()
     {
-        string contextName = eventInformation.ContextName;
+        string contextName = DomainEventInformation.CONTEXT_NAME;
         return $"{DEAD_LETTER_PREFIX}.{contextName}";
     }
 }

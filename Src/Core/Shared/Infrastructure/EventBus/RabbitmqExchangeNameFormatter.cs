@@ -12,15 +12,15 @@ public static class RabbitmqExchangeNameFormatter
         return eventInformation.EventName;
     }
 
-    public static string FormatToDeadLetter(DomainEventInformation eventInformation)
+    public static string FormatToDeadLetter()
     {
-        string contextName = eventInformation.ContextName;
+        string contextName = DomainEventInformation.CONTEXT_NAME;
         return $"{DEAD_LETTER_PREFIX}.{contextName}";
     }
 
     public static string FormatToRetry(DomainEventInformation eventInformation)
     {
-        string contextName = eventInformation.ContextName;
+        string contextName = DomainEventInformation.CONTEXT_NAME;
         string eventName = eventInformation.EventName;
         return $"{RETRY_PREFIX}.{contextName}.{eventName}";
     }

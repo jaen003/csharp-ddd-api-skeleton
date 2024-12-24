@@ -27,4 +27,9 @@ public class DomainEventInformationCollection
     {
         return items;
     }
+
+    public bool IsEmpty()
+    {
+        return items.Count == 0;
+    }
 }

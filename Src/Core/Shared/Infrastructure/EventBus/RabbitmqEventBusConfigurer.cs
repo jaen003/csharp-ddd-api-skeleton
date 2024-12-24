@@ -38,15 +38,10 @@ public class RabbitmqEventBusConfigurer
 
     private async Task CreateDeadLetterQueue(IModel channel)
     {
-        DomainEventInformation? eventInformation = eventInformationCollection.GetFirst();
-        if (eventInformation != null)
+        if (!eventInformationCollection.IsEmpty())
         {
-            string deadLetterQueueName = RabbitmqQueueNameFormatter.FormatToDeadLetter(
-                eventInformation
-            );
-            string deadLetterExchangeName = RabbitmqExchangeNameFormatter.FormatToDeadLetter(
-                eventInformation
-            );
+            string deadLetterQueueName = RabbitmqQueueNameFormatter.FormatToDeadLetter();
+            string deadLetterExchangeName = RabbitmqExchangeNameFormatter.FormatToDeadLetter();
             await DeclareQueue(deadLetterQueueName, channel);
             await DeclareExchange(deadLetterExchangeName, channel);
             await BindQueue(deadLetterQueueName, deadLetterExchangeName, channel);

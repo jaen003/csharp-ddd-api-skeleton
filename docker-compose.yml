@@ -5,10 +5,29 @@ services:
     build: .
     hostname: backoffice
     restart: unless-stopped
+    environment:
+      - DATABASE_HOST=${DATABASE_HOST}
+      - DATABASE_PORT=${DATABASE_PORT}
+      - DATABASE_NAME=${DATABASE_NAME}
+      - DATABASE_USER=${DATABASE_USER}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - DATABASE_CONNECTION_POOL_SIZE=${DATABASE_CONNECTION_POOL_SIZE}
+      - EVENT_BUS_HOST=${EVENT_BUS_HOST}
+      - EVENT_BUS_PORT=${EVENT_BUS_PORT}
+      - EVENT_BUS_USER=${EVENT_BUS_USER}
+      - EVENT_BUS_PASSWORD=${EVENT_BUS_PASSWORD}
+      - EVENT_BUS_RECONNECT_LIMIT=${EVENT_BUS_RECONNECT_LIMIT}
+      - EVENT_BUS_MESSAGE_DELIVERY_MODE=${EVENT_BUS_MESSAGE_DELIVERY_MODE}
+      - EVENT_BUS_RECONNECTION_TIME_IN_MILLISECONDS=${EVENT_BUS_RECONNECTION_TIME_IN_MILLISECONDS}
+      - EVENT_BUS_MESSAGE_DELIVERY_LIMIT=${EVENT_BUS_MESSAGE_DELIVERY_LIMIT}
+      - EVENT_BUS_MESSAGE_REDELIVERY_DELAY_IN_MILLISECONDS=${EVENT_BUS_MESSAGE_REDELIVERY_DELAY_IN_MILLISECONDS}
+      - LOG_FILE_NAME=${LOG_FILE_NAME}
+      - LOGGER_LEVEL=${LOGGER_LEVEL}
     volumes:
-      - ./Logs:/home/backoffice/Logs
+      - ${LOG_FILE_PATH}:/app/logs
+    networks:
+      - csharp_ddd_api_skeleton_network
 
 networks:
-  default:
-    name: csharp_ddd_api_skeleton_network
+  csharp_ddd_api_skeleton_network:
     external: true

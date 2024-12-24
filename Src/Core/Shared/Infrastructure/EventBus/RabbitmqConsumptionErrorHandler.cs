@@ -87,10 +87,10 @@ public class RabbitmqConsumptionErrorHandler
         properties.Headers = new Dictionary<string, object>()
         {
             { QUEUE_HEADER, queueName },
-            { TIMESTAMP_HEADER, TimestampGenerator.Generate() }
+            { TIMESTAMP_HEADER, TimestampGenerator.Generate() },
         };
         byte[] messageBody = deliverEventArgs.Body.ToArray();
-        string exchangeName = RabbitmqExchangeNameFormatter.FormatToDeadLetter(eventInformation);
+        string exchangeName = RabbitmqExchangeNameFormatter.FormatToDeadLetter();
         messagePublisher.Publish(exchangeName, messageBody, properties);
     }
 
@@ -106,7 +106,7 @@ public class RabbitmqConsumptionErrorHandler
         properties.Headers = new Dictionary<string, object>()
         {
             { DELIVERY_DELAY_HEADER, messageRedeliveryDelay },
-            { DELIVERY_ATTEMPTS_HEADER, deliveryAttempts }
+            { DELIVERY_ATTEMPTS_HEADER, deliveryAttempts },
         };
         byte[] messageBody = deliverEventArgs.Body.ToArray();
         string exchangeName = RabbitmqExchangeNameFormatter.FormatToRetry(eventInformation);
