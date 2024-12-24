@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using Src.Core.Products.Application;
 using Src.Core.Products.Domain.Aggregates;
-using Src.Core.Products.Domain.Repositories;
 using Src.Core.Products.Domain.ValueObjects;
 using Src.Core.Products.Infrastructure.Mappers;
 using Src.Core.Products.Infrastructure.Models;

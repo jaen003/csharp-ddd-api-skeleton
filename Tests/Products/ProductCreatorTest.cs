@@ -1,10 +1,10 @@
 using Moq;
+using Src.Core.Products.Application;
 using Src.Core.Products.Application.Dtos;
 using Src.Core.Products.Application.Services;
-using Src.Core.Products.Domain.Repositories;
 using Src.Core.Products.Domain.ValueObjects;
+using Src.Core.Restaurants.Application;
 using Src.Core.Restaurants.Application.Services;
-using Src.Core.Restaurants.Domain.Repositories;
 using Src.Core.Restaurants.Domain.ValueObjects;
 using Src.Core.Shared.Application.EventBus;
 using Src.Core.Shared.Application.Logging;

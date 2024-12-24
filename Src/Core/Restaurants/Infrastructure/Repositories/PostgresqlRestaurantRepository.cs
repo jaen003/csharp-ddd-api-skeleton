@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using Src.Core.Restaurants.Application;
 using Src.Core.Restaurants.Domain.Aggregates;
-using Src.Core.Restaurants.Domain.Repositories;
 using Src.Core.Restaurants.Domain.ValueObjects;
 using Src.Core.Restaurants.Infrastructure.Mappers;
 using Src.Core.Restaurants.Infrastructure.Models;
