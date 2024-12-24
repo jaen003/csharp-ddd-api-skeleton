@@ -14,7 +14,7 @@ It is built with clean architecture, SOLID principles, and love ❤️.
 * Domain event information collection using reflection.
 * Domain event JSON serialization and deserialization.
 * Asynchronous consumption and publishing of domain events using RabbitMQ.
-* Retry queue to reprocess failed event bus messages (delivery time can be modified from the `EVENT_BUS_MESSAGE_REDELIVERY_DELAY` environment variable in the `.env` file).
+* Retry queue to reprocess failed event bus messages (delivery time can be modified from the `EVENT_BUS_MESSAGE_REDELIVERY_DELAY_IN_MILLISECONDS` environment variable in the `.env` file).
 * Dead letter queue to publish failed domain event messages after exceeding the retry limit (message delivery limit can be modified from the `EVENT_BUS_MESSAGE_DELIVERY_LIMIT` environment variable in the `.env` file).
 * Connection pool in Entity Framework (pool size can be modified. from the `DATABASE_CONNECTION_POOL_SIZE` environment variable in the `.env` file).
 * Database migrations with Entity Framework.
@@ -56,6 +56,9 @@ It is built with clean architecture, SOLID principles, and love ❤️.
     ```bash
     cd csharp-ddd-api-skeleton
     ```
+7. Create a `.env` file:
+
+    Use the `.env.example` file as a guide to create your `.env` file. add all necessary environment variables. You can modify any preset environment variables if you consider it necessary.
 
 ## 🚀 Deployment
 
@@ -95,12 +98,6 @@ For example, to create a migration that adds a new column to the `Products` tabl
 ```bash
 dotnet ef migrations add AddProductNameColumn -p Src/Core -o Shared/Infrastructure/Database/Migrations
 ```
-
-## ⚙️ Environment Variables
-
-You can modify any environment variables in the `.env` file.
-
-**NOTE:** If you are considering using this application in production you should include the `.env` file in your `.gitignore` so as not to expose the security of the application.
 
 ## 🧪 Running Tests
 
