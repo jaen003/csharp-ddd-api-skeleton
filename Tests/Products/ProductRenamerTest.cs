@@ -1,13 +1,13 @@
 using Moq;
+using Src.Core.Products.Application.Dtos;
 using Src.Core.Products.Application.Services;
-using Src.Core.Products.Domain.Repositories;
 using Src.Core.Products.Domain.Aggregates;
+using Src.Core.Products.Domain.Repositories;
 using Src.Core.Products.Domain.ValueObjects;
 using Src.Core.Shared.Application.EventBus;
-using Src.Core.Shared.Domain.Exceptions;
 using Src.Core.Shared.Application.Logging;
+using Src.Core.Shared.Domain.Exceptions;
 using Src.Core.Shared.Domain.ValueObjects;
-using Src.Core.Products.Application.Dtos;
 
 namespace Tests.Products;
 
@@ -40,18 +40,17 @@ public class ProductRenamerTest
     [Fact]
     public async Task IsRenamedSuccessfully()
     {
-        IProductRepository repository = Mock.Of<IProductRepository>(
-            l =>
-                l.ExistByStatusNotAndNameAndRestaurantId(
-                    It.IsAny<ProductStatus>(),
-                    It.IsAny<NonEmptyString>(),
-                    It.IsAny<Uuid>()
-                ) == Task.FromResult(false)
-                && l.FindByStatusNotAndIdAndRestaurantId(
-                    It.IsAny<ProductStatus>(),
-                    It.IsAny<Uuid>(),
-                    It.IsAny<Uuid>()
-                ) == Task.FromResult(product)
+        IProductRepository repository = Mock.Of<IProductRepository>(l =>
+            l.ExistByStatusNotAndNameAndRestaurantId(
+                It.IsAny<ProductStatus>(),
+                It.IsAny<NonEmptyString>(),
+                It.IsAny<Uuid>()
+            ) == Task.FromResult(false)
+            && l.FindByStatusNotAndIdAndRestaurantId(
+                It.IsAny<ProductStatus>(),
+                It.IsAny<Uuid>(),
+                It.IsAny<Uuid>()
+            ) == Task.FromResult(product)
         );
         ProductNameAvailabilityValidator productNameAvailabilityValidator = new(repository);
         int exceptionCode = 0;
@@ -71,13 +70,12 @@ public class ProductRenamerTest
     [Fact]
     public async Task IsNotRenamedIfNameAlreadyExists()
     {
-        IProductRepository repository = Mock.Of<IProductRepository>(
-            l =>
-                l.ExistByStatusNotAndNameAndRestaurantId(
-                    It.IsAny<ProductStatus>(),
-                    It.IsAny<NonEmptyString>(),
-                    It.IsAny<Uuid>()
-                ) == Task.FromResult(true)
+        IProductRepository repository = Mock.Of<IProductRepository>(l =>
+            l.ExistByStatusNotAndNameAndRestaurantId(
+                It.IsAny<ProductStatus>(),
+                It.IsAny<NonEmptyString>(),
+                It.IsAny<Uuid>()
+            ) == Task.FromResult(true)
         );
         ProductNameAvailabilityValidator productNameAvailabilityValidator = new(repository);
         int exceptionCode = 0;
@@ -97,18 +95,17 @@ public class ProductRenamerTest
     [Fact]
     public async Task IsNotRenamedIfProductWasNotFound()
     {
-        IProductRepository repository = Mock.Of<IProductRepository>(
-            l =>
-                l.ExistByStatusNotAndNameAndRestaurantId(
-                    It.IsAny<ProductStatus>(),
-                    It.IsAny<NonEmptyString>(),
-                    It.IsAny<Uuid>()
-                ) == Task.FromResult(false)
-                && l.FindByStatusNotAndIdAndRestaurantId(
-                    It.IsAny<ProductStatus>(),
-                    It.IsAny<Uuid>(),
-                    It.IsAny<Uuid>()
-                ) == Task.FromResult<Product>(null!)
+        IProductRepository repository = Mock.Of<IProductRepository>(l =>
+            l.ExistByStatusNotAndNameAndRestaurantId(
+                It.IsAny<ProductStatus>(),
+                It.IsAny<NonEmptyString>(),
+                It.IsAny<Uuid>()
+            ) == Task.FromResult(false)
+            && l.FindByStatusNotAndIdAndRestaurantId(
+                It.IsAny<ProductStatus>(),
+                It.IsAny<Uuid>(),
+                It.IsAny<Uuid>()
+            ) == Task.FromResult<Product>(null!)
         );
         ProductNameAvailabilityValidator productNameAvailabilityValidator = new(repository);
         int exceptionCode = 0;

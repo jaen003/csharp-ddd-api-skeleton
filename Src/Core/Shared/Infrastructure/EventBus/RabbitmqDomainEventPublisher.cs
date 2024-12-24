@@ -1,6 +1,6 @@
 using Src.Core.Shared.Application.EventBus;
-using Src.Core.Shared.Domain.Events;
 using Src.Core.Shared.Application.Exceptions;
+using Src.Core.Shared.Domain.Events;
 using Src.Core.Shared.Domain.Exceptions;
 using Src.Core.Shared.Infrastructure.Events;
 

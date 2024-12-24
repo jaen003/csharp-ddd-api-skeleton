@@ -34,7 +34,9 @@ public class RabbitmqConsumptionErrorHandler
             Environment.GetEnvironmentVariable("EVENT_BUS_MESSAGE_DELIVERY_LIMIT")!
         );
         messageRedeliveryDelay = int.Parse(
-            Environment.GetEnvironmentVariable("EVENT_BUS_MESSAGE_REDELIVERY_DELAY")!
+            Environment.GetEnvironmentVariable(
+                "EVENT_BUS_MESSAGE_REDELIVERY_DELAY_IN_MILLISECONDS"
+            )!
         );
     }
 

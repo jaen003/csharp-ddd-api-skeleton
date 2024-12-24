@@ -1,13 +1,13 @@
 using Microsoft.Extensions.DependencyInjection;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using Src.Core.Shared.Application.EventHandlers;
+using Src.Core.Shared.Application.Events;
+using Src.Core.Shared.Application.Exceptions;
 using Src.Core.Shared.Domain.Events;
 using Src.Core.Shared.Domain.Exceptions;
 using Src.Core.Shared.Infrastructure.Events;
-using Src.Core.Shared.Application.Exceptions;
 using Src.Core.Shared.Infrastructure.Exceptions;
-using Src.Core.Shared.Application.EventHandlers;
-using Src.Core.Shared.Application.Events;
 
 namespace Src.Core.Shared.Infrastructure.EventBus;
 

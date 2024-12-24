@@ -8,7 +8,7 @@ public abstract class CustomException : Exception
         Error,
         Warning,
         Information,
-        Debug
+        Debug,
     }
 
     private readonly SeverityLevel severityLevel;

@@ -18,5 +18,5 @@ public enum CustomExceptionCode : int
     InvalidRestaurantStatus = 102,
     ProductNameNotAvailable = 201,
     ProductNotFound = 202,
-    InvalidProductStatus = 203
+    InvalidProductStatus = 203,
 }

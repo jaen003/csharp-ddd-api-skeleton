@@ -8,7 +8,7 @@ public class ProductStatus : NonNegativeShort
     private enum Type : short
     {
         Active,
-        Deleted
+        Deleted,
     }
 
     public ProductStatus(short value)

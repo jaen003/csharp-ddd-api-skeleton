@@ -4,14 +4,14 @@ namespace Src.Core.Shared.Domain.Paginations;
 
 internal class Sorting
 {
-    private readonly SortingField field;
+    private readonly SortingField @field;
     private readonly SortingType type;
 
-    public string Field => field.Value;
+    public string Field => @field.Value;
 
     private Sorting(SortingField field, SortingType type)
     {
-        this.field = field;
+        this.@field = field;
         this.type = type;
     }
 

@@ -45,6 +45,6 @@ public class ProductPriceChanged : DomainEvent
 
     public override Dictionary<string, object> ToPrimitives()
     {
-        return new Dictionary<string, object> { { ID_FIELD, Id }, { PRICE_FIELD, Price }, };
+        return new Dictionary<string, object> { { ID_FIELD, Id }, { PRICE_FIELD, Price } };
     }
 }

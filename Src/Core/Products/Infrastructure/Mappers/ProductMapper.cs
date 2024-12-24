@@ -1,6 +1,6 @@
 using Riok.Mapperly.Abstractions;
-using Src.Core.Products.Infrastructure.Models;
 using Src.Core.Products.Domain.Aggregates;
+using Src.Core.Products.Infrastructure.Models;
 
 namespace Src.Core.Products.Infrastructure.Mappers;
 

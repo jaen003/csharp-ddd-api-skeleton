@@ -1,13 +1,13 @@
 using Microsoft.EntityFrameworkCore;
-using Src.Core.Products.Domain.Repositories;
 using Src.Core.Products.Domain.Aggregates;
+using Src.Core.Products.Domain.Repositories;
 using Src.Core.Products.Domain.ValueObjects;
-using Src.Core.Shared.Infrastructure.Exceptions;
+using Src.Core.Products.Infrastructure.Mappers;
+using Src.Core.Products.Infrastructure.Models;
 using Src.Core.Shared.Domain.Paginations;
 using Src.Core.Shared.Domain.ValueObjects;
 using Src.Core.Shared.Infrastructure.Database;
-using Src.Core.Products.Infrastructure.Mappers;
-using Src.Core.Products.Infrastructure.Models;
+using Src.Core.Shared.Infrastructure.Exceptions;
 
 namespace Src.Core.Products.Infrastructure.Repositories;
 
@@ -35,11 +35,10 @@ public class PostgresqlProductRepository : IProductRepository
         {
             await using PostgresqlDatabaseContext databaseContext =
                 await databaseContextFactory.CreateDbContextAsync();
-            return await databaseContext.Products.AnyAsync(
-                t =>
-                    t.Status != status.Value
-                    && t.Name == name.Value
-                    && t.RestaurantId == restaurantId.Value
+            return await databaseContext.Products.AnyAsync(t =>
+                t.Status != status.Value
+                && t.Name == name.Value
+                && t.RestaurantId == restaurantId.Value
             );
         }
         catch (Exception exception)
@@ -58,11 +57,8 @@ public class PostgresqlProductRepository : IProductRepository
         {
             await using PostgresqlDatabaseContext databaseContext =
                 await databaseContextFactory.CreateDbContextAsync();
-            ProductModel? productModel = await databaseContext.Products.FirstOrDefaultAsync(
-                t =>
-                    t.Status != status.Value
-                    && t.Id == id.Value
-                    && t.RestaurantId == restaurantId.Value
+            ProductModel? productModel = await databaseContext.Products.FirstOrDefaultAsync(t =>
+                t.Status != status.Value && t.Id == id.Value && t.RestaurantId == restaurantId.Value
             );
             if (productModel == null)
             {
@@ -98,8 +94,8 @@ public class PostgresqlProductRepository : IProductRepository
         {
             await using PostgresqlDatabaseContext databaseContext =
                 await databaseContextFactory.CreateDbContextAsync();
-            ProductModel productModel = await databaseContext.Products.FirstAsync(
-                t => t.Id == product.Id
+            ProductModel productModel = await databaseContext.Products.FirstAsync(t =>
+                t.Id == product.Id
             );
             productModel.Name = product.Name;
             productModel.Price = product.Price;
@@ -123,8 +119,10 @@ public class PostgresqlProductRepository : IProductRepository
         {
             await using PostgresqlDatabaseContext databaseContext =
                 await databaseContextFactory.CreateDbContextAsync();
-            List<ProductModel> productModels = await databaseContext.Products
-                .Where(t => t.Status != status.Value && t.RestaurantId == restaurantId.Value)
+            List<ProductModel> productModels = await databaseContext
+                .Products.Where(t =>
+                    t.Status != status.Value && t.RestaurantId == restaurantId.Value
+                )
                 .AddPagination(pagination)
                 .AsNoTracking()
                 .ToListAsync();

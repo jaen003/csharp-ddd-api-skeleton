@@ -1,8 +1,8 @@
 using Src.Core.Products.Domain.Events;
 using Src.Core.Products.Domain.ValueObjects;
-using Src.Core.Shared.Domain.ValueObjects;
 using Src.Core.Shared.Domain.Aggregates;
 using Src.Core.Shared.Domain.Exceptions;
+using Src.Core.Shared.Domain.ValueObjects;
 
 namespace Src.Core.Products.Domain.Aggregates;
 

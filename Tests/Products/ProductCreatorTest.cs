@@ -1,15 +1,15 @@
 using Moq;
+using Src.Core.Products.Application.Dtos;
 using Src.Core.Products.Application.Services;
 using Src.Core.Products.Domain.Repositories;
 using Src.Core.Products.Domain.ValueObjects;
+using Src.Core.Restaurants.Application.Services;
 using Src.Core.Restaurants.Domain.Repositories;
 using Src.Core.Restaurants.Domain.ValueObjects;
 using Src.Core.Shared.Application.EventBus;
-using Src.Core.Shared.Domain.Exceptions;
 using Src.Core.Shared.Application.Logging;
+using Src.Core.Shared.Domain.Exceptions;
 using Src.Core.Shared.Domain.ValueObjects;
-using Src.Core.Products.Application.Dtos;
-using Src.Core.Restaurants.Application.Services;
 
 namespace Tests.Products;
 
@@ -35,19 +35,17 @@ public class ProductCreatorTest
     [Fact]
     public async Task IsCreatedSuccessfully()
     {
-        IRestaurantRepository restaurantRepository = Mock.Of<IRestaurantRepository>(
-            l =>
-                l.ExistsByStatusNotAndId(It.IsAny<RestaurantStatus>(), It.IsAny<Uuid>())
-                == Task.FromResult(true)
+        IRestaurantRepository restaurantRepository = Mock.Of<IRestaurantRepository>(l =>
+            l.ExistsByStatusNotAndId(It.IsAny<RestaurantStatus>(), It.IsAny<Uuid>())
+            == Task.FromResult(true)
         );
         RestaurantExistenceValidator restaurantExistenceValidator = new(restaurantRepository);
-        IProductRepository repository = Mock.Of<IProductRepository>(
-            l =>
-                l.ExistByStatusNotAndNameAndRestaurantId(
-                    It.IsAny<ProductStatus>(),
-                    It.IsAny<NonEmptyString>(),
-                    It.IsAny<Uuid>()
-                ) == Task.FromResult(false)
+        IProductRepository repository = Mock.Of<IProductRepository>(l =>
+            l.ExistByStatusNotAndNameAndRestaurantId(
+                It.IsAny<ProductStatus>(),
+                It.IsAny<NonEmptyString>(),
+                It.IsAny<Uuid>()
+            ) == Task.FromResult(false)
         );
         ProductNameAvailabilityValidator productNameAvailabilityValidator = new(repository);
         int exceptionCode = 0;
@@ -73,10 +71,9 @@ public class ProductCreatorTest
     [Fact]
     public async Task IsNotCreatedIfRestaurantWasNotFound()
     {
-        IRestaurantRepository restaurantRepository = Mock.Of<IRestaurantRepository>(
-            l =>
-                l.ExistsByStatusNotAndId(It.IsAny<RestaurantStatus>(), It.IsAny<Uuid>())
-                == Task.FromResult(false)
+        IRestaurantRepository restaurantRepository = Mock.Of<IRestaurantRepository>(l =>
+            l.ExistsByStatusNotAndId(It.IsAny<RestaurantStatus>(), It.IsAny<Uuid>())
+            == Task.FromResult(false)
         );
         RestaurantExistenceValidator restaurantExistenceValidator = new(restaurantRepository);
         IProductRepository repository = Mock.Of<IProductRepository>();
@@ -104,19 +101,17 @@ public class ProductCreatorTest
     [Fact]
     public async Task IsNotCreatedIfNameAlreadyExists()
     {
-        IRestaurantRepository restaurantRepository = Mock.Of<IRestaurantRepository>(
-            l =>
-                l.ExistsByStatusNotAndId(It.IsAny<RestaurantStatus>(), It.IsAny<Uuid>())
-                == Task.FromResult(true)
+        IRestaurantRepository restaurantRepository = Mock.Of<IRestaurantRepository>(l =>
+            l.ExistsByStatusNotAndId(It.IsAny<RestaurantStatus>(), It.IsAny<Uuid>())
+            == Task.FromResult(true)
         );
         RestaurantExistenceValidator restaurantExistenceValidator = new(restaurantRepository);
-        IProductRepository repository = Mock.Of<IProductRepository>(
-            l =>
-                l.ExistByStatusNotAndNameAndRestaurantId(
-                    It.IsAny<ProductStatus>(),
-                    It.IsAny<NonEmptyString>(),
-                    It.IsAny<Uuid>()
-                ) == Task.FromResult(true)
+        IProductRepository repository = Mock.Of<IProductRepository>(l =>
+            l.ExistByStatusNotAndNameAndRestaurantId(
+                It.IsAny<ProductStatus>(),
+                It.IsAny<NonEmptyString>(),
+                It.IsAny<Uuid>()
+            ) == Task.FromResult(true)
         );
         ProductNameAvailabilityValidator productNameAvailabilityValidator = new(repository);
         int exceptionCode = 0;

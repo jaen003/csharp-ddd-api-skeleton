@@ -1,12 +1,12 @@
 using Microsoft.EntityFrameworkCore;
-using Src.Core.Restaurants.Domain.Repositories;
 using Src.Core.Restaurants.Domain.Aggregates;
+using Src.Core.Restaurants.Domain.Repositories;
 using Src.Core.Restaurants.Domain.ValueObjects;
-using Src.Core.Shared.Infrastructure.Exceptions;
-using Src.Core.Shared.Domain.ValueObjects;
-using Src.Core.Shared.Infrastructure.Database;
 using Src.Core.Restaurants.Infrastructure.Mappers;
 using Src.Core.Restaurants.Infrastructure.Models;
+using Src.Core.Shared.Domain.ValueObjects;
+using Src.Core.Shared.Infrastructure.Database;
+using Src.Core.Shared.Infrastructure.Exceptions;
 
 namespace Src.Core.Restaurants.Infrastructure.Repositories;
 
@@ -31,8 +31,8 @@ public class PostgresqlRestaurantRepository : IRestaurantRepository
         {
             await using PostgresqlDatabaseContext databaseContext =
                 await databaseContextFactory.CreateDbContextAsync();
-            return await databaseContext.Restaurants.AnyAsync(
-                t => t.Status != status.Value && t.Id == id.Value
+            return await databaseContext.Restaurants.AnyAsync(t =>
+                t.Status != status.Value && t.Id == id.Value
             );
         }
         catch (Exception exception)

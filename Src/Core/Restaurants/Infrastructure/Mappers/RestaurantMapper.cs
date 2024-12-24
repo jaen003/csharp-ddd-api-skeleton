@@ -1,6 +1,6 @@
 using Riok.Mapperly.Abstractions;
-using Src.Core.Restaurants.Infrastructure.Models;
 using Src.Core.Restaurants.Domain.Aggregates;
+using Src.Core.Restaurants.Infrastructure.Models;
 
 namespace Src.Core.Restaurants.Infrastructure.Mappers;
 

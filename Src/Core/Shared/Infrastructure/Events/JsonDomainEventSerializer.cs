@@ -14,7 +14,7 @@ public static class JsonDomainEventSerializer
                 { "id", domainEvent.EventId },
                 { "name", domainEvent.EventName },
                 { "timestamp", domainEvent.Timestamp },
-                { "data", domainEvent.ToPrimitives() }
+                { "data", domainEvent.ToPrimitives() },
             };
         return Encoding.UTF8.GetBytes(JsonSerializer.Serialize(messageData));
     }

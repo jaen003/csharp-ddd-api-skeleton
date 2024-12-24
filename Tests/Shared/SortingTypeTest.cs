@@ -1,5 +1,5 @@
-using Src.Core.Shared.Domain.Paginations;
 using Src.Core.Shared.Domain.Exceptions;
+using Src.Core.Shared.Domain.Paginations;
 
 namespace Tests.Shared;
 

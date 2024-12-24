@@ -1,9 +1,9 @@
-using Src.Core.Products.Domain.Repositories;
+using Src.Core.Products.Application.Dtos;
 using Src.Core.Products.Domain.Aggregates;
+using Src.Core.Products.Domain.Repositories;
 using Src.Core.Products.Domain.ValueObjects;
 using Src.Core.Shared.Domain.Paginations;
 using Src.Core.Shared.Domain.ValueObjects;
-using Src.Core.Products.Application.Dtos;
 
 namespace Src.Core.Products.Application.Services;
 

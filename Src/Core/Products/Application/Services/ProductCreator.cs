@@ -1,9 +1,9 @@
-using Src.Core.Products.Domain.Repositories;
+using Src.Core.Products.Application.Dtos;
 using Src.Core.Products.Domain.Aggregates;
+using Src.Core.Products.Domain.Repositories;
+using Src.Core.Restaurants.Application.Services;
 using Src.Core.Shared.Application.EventBus;
 using Src.Core.Shared.Application.Logging;
-using Src.Core.Products.Application.Dtos;
-using Src.Core.Restaurants.Application.Services;
 
 namespace Src.Core.Products.Application.Services;
 

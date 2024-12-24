@@ -13,7 +13,7 @@ public class RabbitmqEventBusConnection
     public RabbitmqEventBusConnection()
     {
         reconnectionTime = int.Parse(
-            Environment.GetEnvironmentVariable("EVENT_BUS_RECONNECTION_TIME")!
+            Environment.GetEnvironmentVariable("EVENT_BUS_RECONNECTION_TIME_IN_MILLISECONDS")!
         );
         reconnectLimit = int.Parse(
             Environment.GetEnvironmentVariable("EVENT_BUS_RECONNECT_LIMIT")!
@@ -34,7 +34,7 @@ public class RabbitmqEventBusConnection
             Password = password,
             HostName = host,
             Port = port,
-            DispatchConsumersAsync = true
+            DispatchConsumersAsync = true,
         };
     }
 

@@ -1,13 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
-using Src.Core.Products.Application.Services;
+using Src.Api.V1.InputModels.Paginations;
+using Src.Api.V1.InputModels.Products;
 using Src.Core.Products.Application.Dtos;
+using Src.Core.Products.Application.Services;
 using Src.Core.Products.Domain.Repositories;
+using Src.Core.Restaurants.Application.Services;
 using Src.Core.Shared.Application.EventBus;
 using Src.Core.Shared.Application.Paginations;
 using ILogger = Src.Core.Shared.Application.Logging.ILogger;
-using Src.Api.V1.InputModels.Products;
-using Src.Api.V1.InputModels.Paginations;
-using Src.Core.Restaurants.Application.Services;
 
 namespace Src.Api.V1.Controllers;
 

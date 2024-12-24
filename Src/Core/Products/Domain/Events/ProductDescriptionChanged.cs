@@ -49,7 +49,7 @@ public class ProductDescriptionChanged : DomainEvent
         return new Dictionary<string, object>
         {
             { ID_FIELD, Id },
-            { DESCRIPTION_FIELD, Description }
+            { DESCRIPTION_FIELD, Description },
         };
     }
 }

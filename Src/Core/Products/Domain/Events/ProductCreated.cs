@@ -69,7 +69,7 @@ public class ProductCreated : DomainEvent
             { ID_FIELD, Id },
             { NAME_FIELD, Name },
             { PRICE_FIELD, Price },
-            { DESCRIPTION_FIELD, Description }
+            { DESCRIPTION_FIELD, Description },
         };
     }
 }

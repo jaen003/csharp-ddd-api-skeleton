@@ -8,7 +8,7 @@ public class RestaurantStatus : NonNegativeShort
     private enum Type : short
     {
         Active,
-        Deleted
+        Deleted,
     }
 
     public RestaurantStatus(short value)
