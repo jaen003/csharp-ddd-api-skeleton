@@ -2,7 +2,7 @@ using Src.Core.Shared.Domain.Events;
 
 namespace Src.Core.Products.Domain.Events;
 
-public class ProductRenamed : DomainEvent
+public class ProductRenamedDomainEvent : DomainEvent
 {
     private const string ID_FIELD = "id";
     private const string NAME_FIELD = "name";
@@ -11,20 +11,20 @@ public class ProductRenamed : DomainEvent
     public string Name { get; }
     public override string EventName => "product.renamed";
 
-    public ProductRenamed()
+    public ProductRenamedDomainEvent()
     {
         Name = string.Empty;
         Id = string.Empty;
     }
 
-    private ProductRenamed(string id, string name, string eventId, int timestamp)
+    private ProductRenamedDomainEvent(string id, string name, string eventId, int timestamp)
         : base(eventId, timestamp)
     {
         Id = id;
         Name = name;
     }
 
-    public ProductRenamed(string id, string name)
+    public ProductRenamedDomainEvent(string id, string name)
     {
         Id = id;
         Name = name;
@@ -36,7 +36,7 @@ public class ProductRenamed : DomainEvent
         Dictionary<string, object> data
     )
     {
-        return new ProductRenamed(
+        return new ProductRenamedDomainEvent(
             data[ID_FIELD].ToString()!,
             data[NAME_FIELD].ToString()!,
             eventId,

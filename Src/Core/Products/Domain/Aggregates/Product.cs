@@ -123,31 +123,31 @@ public class Product : AggregateRoot
                 ProductStatus.CreateActive(),
                 productRestaurantId!
             );
-        product.RecordEvent(new ProductCreated(id, name, price, description));
+        product.RecordEvent(new ProductCreatedDomainEvent(id, name, price, description));
         return product;
     }
 
     public void ChangePrice(int newPrice)
     {
         price = new NonNegativeInt(newPrice);
-        RecordEvent(new ProductPriceChanged(id.Value, price.Value));
+        RecordEvent(new ProductPriceChangedDomainEvent(id.Value, price.Value));
     }
 
     public void Delete()
     {
         status = ProductStatus.CreateDeleted();
-        RecordEvent(new ProductDeleted(id.Value));
+        RecordEvent(new ProductDeletedDomainEvent(id.Value));
     }
 
     public void ChangeDescription(string newDescription)
     {
         description = new NonEmptyString(newDescription);
-        RecordEvent(new ProductDescriptionChanged(id.Value, description.Value));
+        RecordEvent(new ProductDescriptionChangedDomainEvent(id.Value, description.Value));
     }
 
     public void Rename(string newName)
     {
         name = new NonEmptyString(newName);
-        RecordEvent(new ProductRenamed(id.Value, name.Value));
+        RecordEvent(new ProductRenamedDomainEvent(id.Value, name.Value));
     }
 }

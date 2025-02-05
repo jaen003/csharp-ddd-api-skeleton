@@ -2,31 +2,47 @@ using Src.Core.Shared.Domain.Events;
 
 namespace Src.Core.Products.Domain.Events;
 
-public class ProductDescriptionChanged : DomainEvent
+public class ProductCreatedDomainEvent : DomainEvent
 {
     private const string ID_FIELD = "id";
+    private const string NAME_FIELD = "name";
+    private const string PRICE_FIELD = "price";
     private const string DESCRIPTION_FIELD = "description";
 
     public string Id { get; }
+    public string Name { get; }
+    public int Price { get; }
     public string Description { get; }
-    public override string EventName => "product.description.changed";
+    public override string EventName => "product.created";
 
-    public ProductDescriptionChanged()
+    public ProductCreatedDomainEvent()
     {
-        Description = string.Empty;
         Id = string.Empty;
+        Name = string.Empty;
+        Description = string.Empty;
     }
 
-    private ProductDescriptionChanged(string id, string description, string eventId, int timestamp)
+    private ProductCreatedDomainEvent(
+        string id,
+        string name,
+        int price,
+        string description,
+        string eventId,
+        int timestamp
+    )
         : base(eventId, timestamp)
     {
         Id = id;
+        Name = name;
+        Price = price;
         Description = description;
     }
 
-    public ProductDescriptionChanged(string id, string description)
+    public ProductCreatedDomainEvent(string id, string name, int price, string description)
     {
         Id = id;
+        Name = name;
+        Price = price;
         Description = description;
     }
 
@@ -36,8 +52,10 @@ public class ProductDescriptionChanged : DomainEvent
         Dictionary<string, object> data
     )
     {
-        return new ProductDescriptionChanged(
+        return new ProductCreatedDomainEvent(
             data[ID_FIELD].ToString()!,
+            data[NAME_FIELD].ToString()!,
+            int.Parse(data[PRICE_FIELD].ToString()!),
             data[DESCRIPTION_FIELD].ToString()!,
             eventId,
             timestamp
@@ -49,6 +67,8 @@ public class ProductDescriptionChanged : DomainEvent
         return new Dictionary<string, object>
         {
             { ID_FIELD, Id },
+            { NAME_FIELD, Name },
+            { PRICE_FIELD, Price },
             { DESCRIPTION_FIELD, Description },
         };
     }

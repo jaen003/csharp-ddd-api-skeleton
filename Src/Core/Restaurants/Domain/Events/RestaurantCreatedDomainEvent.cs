@@ -2,7 +2,7 @@ using Src.Core.Shared.Domain.Events;
 
 namespace Src.Core.Restaurants.Domain.Events;
 
-public class RestaurantCreated : DomainEvent
+public class RestaurantCreatedDomainEvent : DomainEvent
 {
     private const string ID_FIELD = "id";
     private const string NAME_FIELD = "name";
@@ -11,14 +11,14 @@ public class RestaurantCreated : DomainEvent
     public string Name { get; }
     public override string EventName => "restaurant.created";
 
-    private RestaurantCreated(string id, string name, string eventId, int timestamp)
+    private RestaurantCreatedDomainEvent(string id, string name, string eventId, int timestamp)
         : base(eventId, timestamp)
     {
         Id = id;
         Name = name;
     }
 
-    public RestaurantCreated()
+    public RestaurantCreatedDomainEvent()
     {
         Name = string.Empty;
         Id = string.Empty;
@@ -30,7 +30,7 @@ public class RestaurantCreated : DomainEvent
         Dictionary<string, object> data
     )
     {
-        return new RestaurantCreated(
+        return new RestaurantCreatedDomainEvent(
             data[ID_FIELD].ToString()!,
             data[NAME_FIELD].ToString()!,
             eventId,

@@ -2,7 +2,7 @@ using Src.Core.Shared.Domain.Events;
 
 namespace Src.Core.Products.Domain.Events;
 
-public class ProductPriceChanged : DomainEvent
+public class ProductPriceChangedDomainEvent : DomainEvent
 {
     private const string ID_FIELD = "id";
     private const string PRICE_FIELD = "price";
@@ -11,18 +11,18 @@ public class ProductPriceChanged : DomainEvent
     public int Price { get; }
     public override string EventName => "product.price.changed";
 
-    public ProductPriceChanged()
+    public ProductPriceChangedDomainEvent()
     {
         Id = string.Empty;
     }
 
-    public ProductPriceChanged(string id, int price)
+    public ProductPriceChangedDomainEvent(string id, int price)
     {
         Id = id;
         Price = price;
     }
 
-    private ProductPriceChanged(string id, int price, string eventId, int timestamp)
+    private ProductPriceChangedDomainEvent(string id, int price, string eventId, int timestamp)
         : base(eventId, timestamp)
     {
         Id = id;
@@ -35,7 +35,7 @@ public class ProductPriceChanged : DomainEvent
         Dictionary<string, object> data
     )
     {
-        return new ProductPriceChanged(
+        return new ProductPriceChangedDomainEvent(
             data[ID_FIELD].ToString()!,
             int.Parse(data[PRICE_FIELD].ToString()!),
             eventId,
