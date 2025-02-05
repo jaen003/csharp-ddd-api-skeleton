@@ -18,7 +18,7 @@
 			]
 		}
 	},
-	"appPort": ["5004:8000"],
+	"appPort": ["5004:8080"],
 	"runArgs": [
 		"--name=csharp_ddd_api_skeleton_backend",		
 		"--env-file=.env",
