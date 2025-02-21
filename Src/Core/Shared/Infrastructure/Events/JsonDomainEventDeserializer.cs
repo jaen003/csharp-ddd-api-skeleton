@@ -24,7 +24,7 @@ public static class JsonDomainEventDeserializer
         }
         catch (Exception)
         {
-            throw new InvalidDomainEventStructure(domainEvent.EventName);
+            throw new InvalidDomainEventStructureException(domainEvent.EventName);
         }
     }
 }

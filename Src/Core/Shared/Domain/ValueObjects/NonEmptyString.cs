@@ -10,7 +10,7 @@ public class NonEmptyString : ValueObject<string>
     {
         if (IsEmpty())
         {
-            throw new UnexpectedEmptyString();
+            throw new UnexpectedEmptyStringException();
         }
     }
 

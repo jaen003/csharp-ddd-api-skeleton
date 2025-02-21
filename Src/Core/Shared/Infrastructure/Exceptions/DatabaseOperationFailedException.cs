@@ -2,9 +2,9 @@ using Src.Core.Shared.Domain.Exceptions;
 
 namespace Src.Core.Shared.Infrastructure.Exceptions;
 
-public class DatabaseOperationFailed : InfrastructureException
+public class DatabaseOperationFailedException : InfrastructureException
 {
-    public DatabaseOperationFailed(string messageDetails)
+    public DatabaseOperationFailedException(string messageDetails)
         : base(
             CustomExceptionCode.DatabaseOperationFailed,
             $"The database operation failed: {messageDetails}."

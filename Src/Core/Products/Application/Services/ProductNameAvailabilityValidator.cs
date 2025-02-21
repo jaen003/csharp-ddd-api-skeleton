@@ -23,7 +23,7 @@ public class ProductNameAvailabilityValidator
         );
         if (!isNameAvailable)
         {
-            throw new ProductNameNotAvailable(productName);
+            throw new ProductNameNotAvailableException(productName);
         }
     }
 }

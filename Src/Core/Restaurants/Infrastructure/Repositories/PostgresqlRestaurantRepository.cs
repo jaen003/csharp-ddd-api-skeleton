@@ -37,7 +37,7 @@ public class PostgresqlRestaurantRepository : IRestaurantRepository
         }
         catch (Exception exception)
         {
-            throw new DatabaseOperationFailed(exception.ToString());
+            throw new DatabaseOperationFailedException(exception.ToString());
         }
     }
 
@@ -53,7 +53,7 @@ public class PostgresqlRestaurantRepository : IRestaurantRepository
         }
         catch (Exception exception)
         {
-            throw new DatabaseOperationFailed(exception.ToString());
+            throw new DatabaseOperationFailedException(exception.ToString());
         }
     }
 }

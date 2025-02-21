@@ -2,9 +2,9 @@ using Src.Core.Shared.Domain.Exceptions;
 
 namespace Src.Core.Shared.Infrastructure.Exceptions;
 
-public class EventBusMessagePublishingFailed : InfrastructureException
+public class EventBusMessagePublishingFailedException : InfrastructureException
 {
-    public EventBusMessagePublishingFailed(string messageDetails)
+    public EventBusMessagePublishingFailedException(string messageDetails)
         : base(
             CustomExceptionCode.EventBusMessagePublishingFailed,
             $"The message could not be published in the event bus: {messageDetails}."

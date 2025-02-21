@@ -28,7 +28,7 @@ internal class Sorting
         }
         if (field == null)
         {
-            throw new UnexpectedNullSortingField();
+            throw new UnexpectedNullSortingFieldException();
         }
         return new Sorting(new SortingField(field), new SortingType(type));
     }

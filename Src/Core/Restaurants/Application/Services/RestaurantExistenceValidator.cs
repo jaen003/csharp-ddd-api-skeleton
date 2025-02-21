@@ -22,7 +22,7 @@ public class RestaurantExistenceValidator
         );
         if (!exists)
         {
-            throw new RestaurantNotFound(restaurantId);
+            throw new RestaurantNotFoundException(restaurantId);
         }
     }
 }

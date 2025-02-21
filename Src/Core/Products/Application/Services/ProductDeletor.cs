@@ -33,7 +33,7 @@ public class ProductDeletor
                 ProductStatus.CreateDeleted(),
                 new Uuid(deletionDto.Id),
                 new Uuid(deletionDto.RestaurantId)
-            ) ?? throw new ProductNotFound(deletionDto.Id);
+            ) ?? throw new ProductNotFoundException(deletionDto.Id);
         product.Delete();
         await repository.Update(product);
         await eventPublisher.Publish(product.PullEvents());

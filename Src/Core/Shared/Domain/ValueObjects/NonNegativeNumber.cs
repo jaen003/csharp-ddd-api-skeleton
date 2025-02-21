@@ -10,7 +10,7 @@ public abstract class NonNegativeNumber<T> : ValueObject<T>
     {
         if (IsNegative())
         {
-            throw new UnexpectedNegativeNumber<T>(value);
+            throw new UnexpectedNegativeNumberException<T>(value);
         }
     }
 

@@ -16,7 +16,7 @@ public class ProductStatus : NonNegativeShort
     {
         if (!IsValid())
         {
-            throw new InvalidProductStatus(value);
+            throw new InvalidProductStatusException(value);
         }
     }
 

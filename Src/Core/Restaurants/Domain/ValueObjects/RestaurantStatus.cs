@@ -16,7 +16,7 @@ public class RestaurantStatus : NonNegativeShort
     {
         if (!IsValid())
         {
-            throw new InvalidRestaurantStatus(value);
+            throw new InvalidRestaurantStatusException(value);
         }
     }
 

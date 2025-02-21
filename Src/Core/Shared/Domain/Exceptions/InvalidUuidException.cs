@@ -1,7 +1,7 @@
 namespace Src.Core.Shared.Domain.Exceptions;
 
-public class InvalidUuid : DomainException
+public class InvalidUuidException : DomainException
 {
-    public InvalidUuid(string uuid)
+    public InvalidUuidException(string uuid)
         : base(CustomExceptionCode.InvalidUuid, $"The uuid '{uuid}' is invalid.") { }
 }

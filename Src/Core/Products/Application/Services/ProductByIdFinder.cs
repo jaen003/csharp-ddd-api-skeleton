@@ -23,7 +23,7 @@ public class ProductByIdFinder
                 ProductStatus.CreateDeleted(),
                 new Uuid(queryDto.Id),
                 new Uuid(queryDto.RestaurantId)
-            ) ?? throw new ProductNotFound(queryDto.Id);
+            ) ?? throw new ProductNotFoundException(queryDto.Id);
         return new ProductDto(product.Id, product.Name, product.Price, product.Description);
     }
 }

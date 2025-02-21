@@ -1,7 +1,7 @@
 namespace Src.Core.Shared.Domain.Exceptions;
 
-public class UnexpectedEmptyString : DomainException
+public class UnexpectedEmptyStringException : DomainException
 {
-    public UnexpectedEmptyString()
+    public UnexpectedEmptyStringException()
         : base(CustomExceptionCode.UnexpectedEmptyString, "The string must not be empty.") { }
 }

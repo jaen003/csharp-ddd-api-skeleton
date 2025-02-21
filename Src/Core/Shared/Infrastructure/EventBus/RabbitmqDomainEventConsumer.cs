@@ -58,7 +58,7 @@ public class RabbitmqDomainEventConsumer
         }
         catch (Exception exception)
         {
-            throw new DomainEventConsumptionFailed(exception.ToString());
+            throw new DomainEventConsumptionFailedException(exception.ToString());
         }
     }
 

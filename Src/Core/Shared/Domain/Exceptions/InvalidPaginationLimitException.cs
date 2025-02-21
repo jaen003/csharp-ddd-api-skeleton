@@ -1,8 +1,8 @@
 namespace Src.Core.Shared.Domain.Exceptions;
 
-public class InvalidPaginationLimit : DomainException
+public class InvalidPaginationLimitException : DomainException
 {
-    public InvalidPaginationLimit(int limit)
+    public InvalidPaginationLimitException(int limit)
         : base(
             CustomExceptionCode.InvalidPaginationLimit,
             $"The pagination limit '{limit}' is invalid."

@@ -37,7 +37,7 @@ public class ProductRenamer
                 ProductStatus.CreateDeleted(),
                 new Uuid(changeDto.Id),
                 new Uuid(changeDto.RestaurantId)
-            ) ?? throw new ProductNotFound(changeDto.Id);
+            ) ?? throw new ProductNotFoundException(changeDto.Id);
         string oldName = product.Name;
         product.Rename(changeDto.Name);
         await repository.Update(product);

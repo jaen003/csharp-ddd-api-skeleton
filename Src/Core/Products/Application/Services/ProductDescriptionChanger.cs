@@ -33,7 +33,7 @@ public class ProductDescriptionChanger
                 ProductStatus.CreateDeleted(),
                 new Uuid(changeDto.Id),
                 new Uuid(changeDto.RestaurantId)
-            ) ?? throw new ProductNotFound(changeDto.Id);
+            ) ?? throw new ProductNotFoundException(changeDto.Id);
         string oldDescription = product.Description;
         product.ChangeDescription(changeDto.Description);
         await repository.Update(product);

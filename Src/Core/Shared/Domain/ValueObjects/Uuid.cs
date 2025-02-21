@@ -12,7 +12,7 @@ public class Uuid : NonEmptyString
     {
         if (!IsValid())
         {
-            throw new InvalidUuid(value);
+            throw new InvalidUuidException(value);
         }
     }
 

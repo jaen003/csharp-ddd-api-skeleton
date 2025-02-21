@@ -1,8 +1,8 @@
 namespace Src.Core.Shared.Domain.Exceptions;
 
-public class UnexpectedNegativeNumber<T> : DomainException
+public class UnexpectedNegativeNumberException<T> : DomainException
 {
-    public UnexpectedNegativeNumber(T number)
+    public UnexpectedNegativeNumberException(T number)
         : base(
             CustomExceptionCode.UnexpectedNegativeNumber,
             $"The number '{number}' must not be negative."

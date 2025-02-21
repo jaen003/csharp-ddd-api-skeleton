@@ -2,9 +2,9 @@ using Src.Core.Shared.Domain.Exceptions;
 
 namespace Src.Core.Restaurants.Domain.Exceptions;
 
-public class RestaurantNotFound : DomainException
+public class RestaurantNotFoundException : DomainException
 {
-    public RestaurantNotFound(string id)
+    public RestaurantNotFoundException(string id)
         : base(CustomExceptionCode.RestaurantNotFound, $"The restaurant '{id}' has not been found.")
     { }
 }

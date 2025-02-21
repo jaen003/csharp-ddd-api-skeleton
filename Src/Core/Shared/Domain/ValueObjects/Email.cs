@@ -11,7 +11,7 @@ public class Email : NonEmptyString
     {
         if (!IsValid())
         {
-            throw new InvalidEmail(value);
+            throw new InvalidEmailException(value);
         }
     }
 

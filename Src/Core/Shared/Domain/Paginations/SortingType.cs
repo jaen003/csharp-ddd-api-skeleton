@@ -13,7 +13,7 @@ public class SortingType : NonEmptyString
     {
         if (!IsValid())
         {
-            throw new InvalidSortingType(Value);
+            throw new InvalidSortingTypeException(Value);
         }
     }
 

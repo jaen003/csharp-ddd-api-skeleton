@@ -1,7 +1,7 @@
 namespace Src.Core.Shared.Domain.Exceptions;
 
-public class InvalidSortingType : DomainException
+public class InvalidSortingTypeException : DomainException
 {
-    public InvalidSortingType(string type)
+    public InvalidSortingTypeException(string type)
         : base(CustomExceptionCode.InvalidSortingType, $"The sorting type '{type}' is invalid.") { }
 }

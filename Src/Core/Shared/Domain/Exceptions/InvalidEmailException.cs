@@ -1,7 +1,7 @@
 namespace Src.Core.Shared.Domain.Exceptions;
 
-public class InvalidEmail : DomainException
+public class InvalidEmailException : DomainException
 {
-    public InvalidEmail(string email)
+    public InvalidEmailException(string email)
         : base(CustomExceptionCode.InvalidEmail, $"The email '{email}' is invalid.") { }
 }

@@ -49,7 +49,7 @@ public class Pagination
         Sorting? sorting = Sorting.Create(sortingField, sortingType);
         if (startIndex != null && sorting == null)
         {
-            throw new UnexpectedNullSortingField();
+            throw new UnexpectedNullSortingFieldException();
         }
         return new Pagination(new PaginationLimit(limit), paginationStartIndex, sorting);
     }

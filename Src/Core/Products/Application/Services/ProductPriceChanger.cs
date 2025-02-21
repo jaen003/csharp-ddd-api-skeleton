@@ -33,7 +33,7 @@ public class ProductPriceChanger
                 ProductStatus.CreateDeleted(),
                 new Uuid(changeDto.Id),
                 new Uuid(changeDto.RestaurantId)
-            ) ?? throw new ProductNotFound(changeDto.Id);
+            ) ?? throw new ProductNotFoundException(changeDto.Id);
         int oldPrice = product.Price;
         product.ChangePrice(changeDto.Price);
         await repository.Update(product);
