@@ -2,21 +2,16 @@ namespace Src.Core.Shared.Domain.Exceptions;
 
 public abstract class CustomException : Exception
 {
-    protected enum SeverityLevel : short
-    {
-        Critical,
-        Error,
-        Warning,
-        Information,
-        Debug,
-    }
-
-    private readonly SeverityLevel severityLevel;
+    private readonly CustomExceptionSeverityLevel severityLevel;
     private readonly CustomExceptionCode code;
 
     public int Code => (int)code;
 
-    protected CustomException(CustomExceptionCode code, SeverityLevel severityLevel, string message)
+    protected CustomException(
+        CustomExceptionCode code,
+        CustomExceptionSeverityLevel severityLevel,
+        string message
+    )
         : base(message)
     {
         this.code = code;
@@ -25,26 +20,16 @@ public abstract class CustomException : Exception
 
     public bool IsCritical()
     {
-        return severityLevel == SeverityLevel.Critical;
+        return severityLevel == CustomExceptionSeverityLevel.Critical;
     }
 
     public bool IsError()
     {
-        return severityLevel == SeverityLevel.Error;
+        return severityLevel == CustomExceptionSeverityLevel.Error;
     }
 
     public bool IsWarning()
     {
-        return severityLevel == SeverityLevel.Warning;
-    }
-
-    public bool IsInformation()
-    {
-        return severityLevel == SeverityLevel.Information;
-    }
-
-    public bool IsDebug()
-    {
-        return severityLevel == SeverityLevel.Debug;
+        return severityLevel == CustomExceptionSeverityLevel.Warning;
     }
 }

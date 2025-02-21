@@ -1,8 +1,9 @@
+using Src.Core.Shared.Application.Exceptions;
 using Src.Core.Shared.Domain.Exceptions;
 
 namespace Src.Core.Products.Application.Exceptions;
 
-public class ProductNameNotAvailableException : DomainException
+public class ProductNameNotAvailableException : CustomApplicationException
 {
     public ProductNameNotAvailableException(string name)
         : base(

@@ -1,13 +1,13 @@
 namespace Src.Core.Shared.Domain.Exceptions;
 
-public enum CustomExceptionCode : int
+public enum CustomExceptionCode : ushort
 {
-    UnexpectedNegativeNumber = 1,
-    UnexpectedEmptyString = 2,
-    InvalidEmail = 3,
+    NegativeNumberNotAllowed = 1,
+    EmptyStringNotAllowed = 2,
+    InvalidEmailFormat = 3,
     InvalidPaginationLimit = 4,
-    InvalidSortingType = 5,
-    UnexpectedNullSortingField = 6,
+    InvalidPaginationSortingType = 5,
+    NullPaginationSortingFieldNotAllowed = 6,
     InvalidUuid = 7,
     EventBusNotConfigured = 8,
     EventBusMessagePublishingFailed = 9,

@@ -14,15 +14,7 @@ public class CustomExceptionHandler
 
     public void Handle(CustomException exception)
     {
-        if (exception.IsDebug())
-        {
-            logger.Debug(exception.Message);
-        }
-        else if (exception.IsInformation())
-        {
-            logger.Information(exception.Message);
-        }
-        else if (exception.IsWarning())
+        if (exception.IsWarning())
         {
             logger.Warning(exception.Message);
         }
