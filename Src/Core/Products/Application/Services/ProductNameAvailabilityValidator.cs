@@ -1,5 +1,4 @@
-using Src.Core.Products.Application;
-using Src.Core.Products.Domain.Exceptions;
+using Src.Core.Products.Application.Exceptions;
 using Src.Core.Products.Domain.ValueObjects;
 using Src.Core.Shared.Domain.ValueObjects;
 

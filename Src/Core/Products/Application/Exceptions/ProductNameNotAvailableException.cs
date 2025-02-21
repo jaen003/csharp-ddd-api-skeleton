@@ -1,6 +1,6 @@
 using Src.Core.Shared.Domain.Exceptions;
 
-namespace Src.Core.Products.Domain.Exceptions;
+namespace Src.Core.Products.Application.Exceptions;
 
 public class ProductNameNotAvailableException : DomainException
 {

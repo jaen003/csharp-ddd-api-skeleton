@@ -1,5 +1,4 @@
-using Src.Core.Restaurants.Application;
-using Src.Core.Restaurants.Domain.Exceptions;
+using Src.Core.Restaurants.Application.Exceptions;
 using Src.Core.Restaurants.Domain.ValueObjects;
 using Src.Core.Shared.Domain.ValueObjects;
 

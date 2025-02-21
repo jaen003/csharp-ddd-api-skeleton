@@ -1,6 +1,6 @@
 using Src.Core.Shared.Domain.Exceptions;
 
-namespace Src.Core.Restaurants.Domain.Exceptions;
+namespace Src.Core.Restaurants.Application.Exceptions;
 
 public class RestaurantNotFoundException : DomainException
 {
