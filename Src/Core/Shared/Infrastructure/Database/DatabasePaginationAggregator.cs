@@ -1,5 +1,5 @@
 using System.Linq.Dynamic.Core;
-using Src.Core.Shared.Domain.Paginations;
+using Src.Core.Shared.Domain.Paginations.Aggregates;
 
 namespace Src.Core.Shared.Infrastructure.Database;
 

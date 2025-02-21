@@ -1,9 +1,9 @@
 using Src.Core.Shared.Domain.Exceptions;
-using Src.Core.Shared.Domain.Paginations;
+using Src.Core.Shared.Domain.Paginations.ValueObjects;
 
 namespace Tests.Shared;
 
-public class SortingTypeTest
+public class PaginationSortingTypeTest
 {
     [Theory]
     [InlineData("asc")]
@@ -14,7 +14,7 @@ public class SortingTypeTest
         int exceptionCode = 0;
         try
         {
-            SortingType sortingType = new(value);
+            PaginationSortingType paginationSortingType = new(value);
         }
         catch (CustomException exception)
         {
@@ -32,7 +32,7 @@ public class SortingTypeTest
         int exceptionCode = 0;
         try
         {
-            SortingType sortingType = new(value);
+            PaginationSortingType paginationSortingType = new(value);
         }
         catch (CustomException exception)
         {
@@ -46,7 +46,7 @@ public class SortingTypeTest
     [InlineData("desc")]
     public void IsDescending(string? value)
     {
-        SortingType sortingType = new(value);
-        Assert.True(sortingType.IsDescending());
+        PaginationSortingType paginationSortingType = new(value);
+        Assert.True(paginationSortingType.IsDescending());
     }
 }

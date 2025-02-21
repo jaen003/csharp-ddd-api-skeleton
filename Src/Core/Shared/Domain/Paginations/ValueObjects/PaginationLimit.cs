@@ -1,7 +1,7 @@
-using Src.Core.Shared.Domain.Exceptions;
+using Src.Core.Shared.Domain.Paginations.Exceptions;
 using Src.Core.Shared.Domain.ValueObjects;
 
-namespace Src.Core.Shared.Domain.Paginations;
+namespace Src.Core.Shared.Domain.Paginations.ValueObjects;
 
 public class PaginationLimit : NonNegativeInt
 {

@@ -1,4 +1,6 @@
-namespace Src.Core.Shared.Domain.Exceptions;
+using Src.Core.Shared.Domain.Exceptions;
+
+namespace Src.Core.Shared.Domain.Paginations.Exceptions;
 
 public class InvalidPaginationLimitException : CustomDomainException
 {

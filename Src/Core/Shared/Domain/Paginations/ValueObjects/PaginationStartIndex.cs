@@ -1,6 +1,6 @@
 using Src.Core.Shared.Domain.ValueObjects;
 
-namespace Src.Core.Shared.Domain.Paginations;
+namespace Src.Core.Shared.Domain.Paginations.ValueObjects;
 
 public class PaginationStartIndex : NonEmptyString
 {

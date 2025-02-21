@@ -1,18 +1,23 @@
-using Src.Core.Shared.Domain.Exceptions;
+using Src.Core.Shared.Domain.Paginations.Exceptions;
+using Src.Core.Shared.Domain.Paginations.ValueObjects;
 
-namespace Src.Core.Shared.Domain.Paginations;
+namespace Src.Core.Shared.Domain.Paginations.Aggregates;
 
 public class Pagination
 {
     private readonly PaginationLimit limit;
     private readonly PaginationStartIndex? startIndex;
-    private readonly Sorting? sorting;
+    private readonly PaginationSorting? sorting;
 
     public string SortingField => sorting!.Field;
     public string StartIndex => startIndex!.Value;
     public int Limit => limit.Value;
 
-    private Pagination(PaginationLimit limit, PaginationStartIndex? startIndex, Sorting? sorting)
+    private Pagination(
+        PaginationLimit limit,
+        PaginationStartIndex? startIndex,
+        PaginationSorting? sorting
+    )
     {
         this.limit = limit;
         this.startIndex = startIndex;
@@ -46,11 +51,11 @@ public class Pagination
         {
             paginationStartIndex = new PaginationStartIndex(startIndex);
         }
-        Sorting? sorting = Sorting.Create(sortingField, sortingType);
-        if (startIndex != null && sorting == null)
+        PaginationSorting? paginationSorting = PaginationSorting.Create(sortingField, sortingType);
+        if (startIndex != null && paginationSorting == null)
         {
             throw new NullPaginationSortingFieldNotAllowedException();
         }
-        return new Pagination(new PaginationLimit(limit), paginationStartIndex, sorting);
+        return new Pagination(new PaginationLimit(limit), paginationStartIndex, paginationSorting);
     }
 }

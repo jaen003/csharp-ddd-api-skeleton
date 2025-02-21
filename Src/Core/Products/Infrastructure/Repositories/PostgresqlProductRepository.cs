@@ -4,7 +4,7 @@ using Src.Core.Products.Domain.Aggregates;
 using Src.Core.Products.Domain.ValueObjects;
 using Src.Core.Products.Infrastructure.Mappers;
 using Src.Core.Products.Infrastructure.Models;
-using Src.Core.Shared.Domain.Paginations;
+using Src.Core.Shared.Domain.Paginations.Aggregates;
 using Src.Core.Shared.Domain.ValueObjects;
 using Src.Core.Shared.Infrastructure.Database;
 using Src.Core.Shared.Infrastructure.Exceptions;

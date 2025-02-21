@@ -1,14 +1,14 @@
-using Src.Core.Shared.Domain.Exceptions;
+using Src.Core.Shared.Domain.Paginations.Exceptions;
 using Src.Core.Shared.Domain.ValueObjects;
 
-namespace Src.Core.Shared.Domain.Paginations;
+namespace Src.Core.Shared.Domain.Paginations.ValueObjects;
 
-public class SortingType : NonEmptyString
+public class PaginationSortingType : NonEmptyString
 {
     private const string ASCENDING = "asc";
     private const string DESCENDING = "desc";
 
-    public SortingType(string? value)
+    public PaginationSortingType(string? value)
         : base(value ?? DESCENDING)
     {
         if (!IsValid())
