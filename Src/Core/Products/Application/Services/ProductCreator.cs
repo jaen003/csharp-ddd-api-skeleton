@@ -1,4 +1,3 @@
-using Src.Core.Products.Application;
 using Src.Core.Products.Application.Dtos;
 using Src.Core.Products.Domain.Aggregates;
 using Src.Core.Restaurants.Application.Services;

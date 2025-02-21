@@ -1,4 +1,3 @@
-using Src.Core.Restaurants.Application;
 using Src.Core.Restaurants.Application.Dtos;
 using Src.Core.Restaurants.Domain.Aggregates;
 using Src.Core.Restaurants.Domain.ValueObjects;
