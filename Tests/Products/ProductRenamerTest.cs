@@ -21,17 +21,17 @@ public class ProductRenamerTest
     public ProductRenamerTest()
     {
         product = new Product(
-            "a1433e47-9708-4e61-adfc-6de2ad462f82",
+            new Guid("a1433e47-9708-4e61-adfc-6de2ad462f82"),
             "Sandwich",
             3,
             "Bread, Onion, Tomato, Chicken",
             1,
-            "82022d1f-b0fa-4b70-86ae-e99c3101fb47"
+            new Guid("82022d1f-b0fa-4b70-86ae-e99c3101fb47")
         );
         changeDto = new ProductNameChangeDto(
-            "a1433e47-9708-4e61-adfc-6de2ad462f82",
+            new Guid("a1433e47-9708-4e61-adfc-6de2ad462f82"),
             "Sandwich",
-            "82022d1f-b0fa-4b70-86ae-e99c3101fb47"
+            new Guid("82022d1f-b0fa-4b70-86ae-e99c3101fb47")
         );
         logger = Mock.Of<ILogger>();
         eventPublisher = Mock.Of<IDomainEventPublisher>();
@@ -44,12 +44,12 @@ public class ProductRenamerTest
             l.ExistByStatusNotAndNameAndRestaurantId(
                 It.IsAny<ProductStatus>(),
                 It.IsAny<NonEmptyString>(),
-                It.IsAny<Uuid>()
+                It.IsAny<Guid>()
             ) == Task.FromResult(false)
             && l.FindByStatusNotAndIdAndRestaurantId(
                 It.IsAny<ProductStatus>(),
-                It.IsAny<Uuid>(),
-                It.IsAny<Uuid>()
+                It.IsAny<Guid>(),
+                It.IsAny<Guid>()
             ) == Task.FromResult(product)
         );
         ProductNameAvailabilityValidator productNameAvailabilityValidator = new(repository);
@@ -74,7 +74,7 @@ public class ProductRenamerTest
             l.ExistByStatusNotAndNameAndRestaurantId(
                 It.IsAny<ProductStatus>(),
                 It.IsAny<NonEmptyString>(),
-                It.IsAny<Uuid>()
+                It.IsAny<Guid>()
             ) == Task.FromResult(true)
         );
         ProductNameAvailabilityValidator productNameAvailabilityValidator = new(repository);
@@ -99,12 +99,12 @@ public class ProductRenamerTest
             l.ExistByStatusNotAndNameAndRestaurantId(
                 It.IsAny<ProductStatus>(),
                 It.IsAny<NonEmptyString>(),
-                It.IsAny<Uuid>()
+                It.IsAny<Guid>()
             ) == Task.FromResult(false)
             && l.FindByStatusNotAndIdAndRestaurantId(
                 It.IsAny<ProductStatus>(),
-                It.IsAny<Uuid>(),
-                It.IsAny<Uuid>()
+                It.IsAny<Guid>(),
+                It.IsAny<Guid>()
             ) == Task.FromResult<Product>(null!)
         );
         ProductNameAvailabilityValidator productNameAvailabilityValidator = new(repository);

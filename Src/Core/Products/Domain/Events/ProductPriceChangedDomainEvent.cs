@@ -7,22 +7,20 @@ public class ProductPriceChangedDomainEvent : DomainEvent
     private const string ID_FIELD = "id";
     private const string PRICE_FIELD = "price";
 
-    public string Id { get; }
+    public Guid Id { get; }
     public int Price { get; }
+
     public override string EventName => "product.price.changed";
 
-    public ProductPriceChangedDomainEvent()
-    {
-        Id = string.Empty;
-    }
+    public ProductPriceChangedDomainEvent() { }
 
-    public ProductPriceChangedDomainEvent(string id, int price)
+    public ProductPriceChangedDomainEvent(Guid id, int price)
     {
         Id = id;
         Price = price;
     }
 
-    private ProductPriceChangedDomainEvent(string id, int price, string eventId, int timestamp)
+    private ProductPriceChangedDomainEvent(Guid id, int price, string eventId, int timestamp)
         : base(eventId, timestamp)
     {
         Id = id;
@@ -36,7 +34,7 @@ public class ProductPriceChangedDomainEvent : DomainEvent
     )
     {
         return new ProductPriceChangedDomainEvent(
-            data[ID_FIELD].ToString()!,
+            new Guid(data[ID_FIELD].ToString()!),
             int.Parse(data[PRICE_FIELD].ToString()!),
             eventId,
             timestamp

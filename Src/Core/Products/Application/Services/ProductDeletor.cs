@@ -4,7 +4,6 @@ using Src.Core.Products.Domain.Aggregates;
 using Src.Core.Products.Domain.ValueObjects;
 using Src.Core.Shared.Application.EventBus;
 using Src.Core.Shared.Application.Logging;
-using Src.Core.Shared.Domain.ValueObjects;
 
 namespace Src.Core.Products.Application.Services;
 
@@ -30,8 +29,8 @@ public class ProductDeletor
         Product? product =
             await repository.FindByStatusNotAndIdAndRestaurantId(
                 ProductStatus.CreateDeleted(),
-                new Uuid(deletionDto.Id),
-                new Uuid(deletionDto.RestaurantId)
+                deletionDto.Id,
+                deletionDto.RestaurantId
             ) ?? throw new ProductNotFoundException(deletionDto.Id);
         product.Delete();
         await repository.Update(product);

@@ -4,7 +4,6 @@ using Src.Core.Restaurants.Domain.Aggregates;
 using Src.Core.Restaurants.Domain.ValueObjects;
 using Src.Core.Restaurants.Infrastructure.Mappers;
 using Src.Core.Restaurants.Infrastructure.Models;
-using Src.Core.Shared.Domain.ValueObjects;
 using Src.Core.Shared.Infrastructure.Database;
 using Src.Core.Shared.Infrastructure.Exceptions;
 
@@ -25,14 +24,14 @@ public class PostgresqlRestaurantRepository : IRestaurantRepository
         this.mapper = mapper;
     }
 
-    public async Task<bool> ExistsByStatusNotAndId(RestaurantStatus status, Uuid id)
+    public async Task<bool> ExistsByStatusNotAndId(RestaurantStatus status, Guid id)
     {
         try
         {
             await using PostgresqlDatabaseContext databaseContext =
                 await databaseContextFactory.CreateDbContextAsync();
             return await databaseContext.Restaurants.AnyAsync(t =>
-                t.Status != status.Value && t.Id == id.Value
+                t.Status != status.Value && t.Id == id
             );
         }
         catch (Exception exception)

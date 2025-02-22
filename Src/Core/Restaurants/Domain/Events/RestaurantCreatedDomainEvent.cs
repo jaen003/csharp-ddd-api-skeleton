@@ -7,11 +7,12 @@ public class RestaurantCreatedDomainEvent : DomainEvent
     private const string ID_FIELD = "id";
     private const string NAME_FIELD = "name";
 
-    public string Id { get; }
+    public Guid Id { get; }
     public string Name { get; }
+
     public override string EventName => "restaurant.created";
 
-    private RestaurantCreatedDomainEvent(string id, string name, string eventId, int timestamp)
+    private RestaurantCreatedDomainEvent(Guid id, string name, string eventId, int timestamp)
         : base(eventId, timestamp)
     {
         Id = id;
@@ -21,7 +22,6 @@ public class RestaurantCreatedDomainEvent : DomainEvent
     public RestaurantCreatedDomainEvent()
     {
         Name = string.Empty;
-        Id = string.Empty;
     }
 
     public override DomainEvent FromPrimitives(
@@ -31,7 +31,7 @@ public class RestaurantCreatedDomainEvent : DomainEvent
     )
     {
         return new RestaurantCreatedDomainEvent(
-            data[ID_FIELD].ToString()!,
+            new Guid(data[ID_FIELD].ToString()!),
             data[NAME_FIELD].ToString()!,
             eventId,
             timestamp

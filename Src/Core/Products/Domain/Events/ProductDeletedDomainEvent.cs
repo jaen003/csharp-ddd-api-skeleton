@@ -6,21 +6,19 @@ public class ProductDeletedDomainEvent : DomainEvent
 {
     private const string ID_FIELD = "id";
 
-    public string Id { get; }
+    public Guid Id { get; }
+
     public override string EventName => "product.deleted";
 
-    public ProductDeletedDomainEvent()
-    {
-        Id = string.Empty;
-    }
+    public ProductDeletedDomainEvent() { }
 
-    private ProductDeletedDomainEvent(string id, string eventId, int timestamp)
+    private ProductDeletedDomainEvent(Guid id, string eventId, int timestamp)
         : base(eventId, timestamp)
     {
         Id = id;
     }
 
-    public ProductDeletedDomainEvent(string id)
+    public ProductDeletedDomainEvent(Guid id)
     {
         Id = id;
     }
@@ -31,7 +29,11 @@ public class ProductDeletedDomainEvent : DomainEvent
         Dictionary<string, object> data
     )
     {
-        return new ProductDeletedDomainEvent(data[ID_FIELD].ToString()!, eventId, timestamp);
+        return new ProductDeletedDomainEvent(
+            new Guid(data[ID_FIELD].ToString()!),
+            eventId,
+            timestamp
+        );
     }
 
     public override Dictionary<string, object> ToPrimitives()

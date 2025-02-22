@@ -79,7 +79,7 @@ public class ProductController : ControllerBase
 
     [HttpGet("{id}")]
     public async Task<ActionResult<ProductDto>> FindById(
-        [FromRoute] string id,
+        [FromRoute] Guid id,
         [FromBody] ProductByIdQueryInputModel inputModel
     )
     {
@@ -90,7 +90,7 @@ public class ProductController : ControllerBase
 
     [HttpPut("{id}/change/price")]
     public async Task ChangePrice(
-        [FromRoute] string id,
+        [FromRoute] Guid id,
         [FromBody] ProductPriceChangeInputModel inputModel
     )
     {
@@ -100,7 +100,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public async Task Delete([FromRoute] string id, [FromBody] ProductDeletionInputModel inputModel)
+    public async Task Delete([FromRoute] Guid id, [FromBody] ProductDeletionInputModel inputModel)
     {
         ProductDeletor deletor = new(repository, eventPublisher, logger);
         ProductDeletionDto deletionDto = new(id, inputModel.RestaurantId);
@@ -109,7 +109,7 @@ public class ProductController : ControllerBase
 
     [HttpPut("{id}/change/description")]
     public async Task ChangeDescription(
-        [FromRoute] string id,
+        [FromRoute] Guid id,
         [FromBody] ProductDescriptionChangeInputModel inputModel
     )
     {
@@ -120,10 +120,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpPut("{id}/rename")]
-    public async Task Rename(
-        [FromRoute] string id,
-        [FromBody] ProductNameChangeInputModel inputModel
-    )
+    public async Task Rename([FromRoute] Guid id, [FromBody] ProductNameChangeInputModel inputModel)
     {
         ProductRenamer renamer =
             new(repository, eventPublisher, logger, productNameAvailabilityValidator);

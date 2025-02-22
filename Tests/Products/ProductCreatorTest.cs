@@ -22,11 +22,11 @@ public class ProductCreatorTest
     public ProductCreatorTest()
     {
         creationDto = new ProductCreationDto(
-            "a1433e47-9708-4e61-adfc-6de2ad462f82",
+            new Guid("a1433e47-9708-4e61-adfc-6de2ad462f82"),
             "Sandwich",
             3,
             "Bread, Onion, Tomato, Chicken",
-            "82022d1f-b0fa-4b70-86ae-e99c3101fb47"
+            new Guid("82022d1f-b0fa-4b70-86ae-e99c3101fb47")
         );
         logger = Mock.Of<ILogger>();
         eventPublisher = Mock.Of<IDomainEventPublisher>();
@@ -36,7 +36,7 @@ public class ProductCreatorTest
     public async Task IsCreatedSuccessfully()
     {
         IRestaurantRepository restaurantRepository = Mock.Of<IRestaurantRepository>(l =>
-            l.ExistsByStatusNotAndId(It.IsAny<RestaurantStatus>(), It.IsAny<Uuid>())
+            l.ExistsByStatusNotAndId(It.IsAny<RestaurantStatus>(), It.IsAny<Guid>())
             == Task.FromResult(true)
         );
         RestaurantExistenceValidator restaurantExistenceValidator = new(restaurantRepository);
@@ -44,7 +44,7 @@ public class ProductCreatorTest
             l.ExistByStatusNotAndNameAndRestaurantId(
                 It.IsAny<ProductStatus>(),
                 It.IsAny<NonEmptyString>(),
-                It.IsAny<Uuid>()
+                It.IsAny<Guid>()
             ) == Task.FromResult(false)
         );
         ProductNameAvailabilityValidator productNameAvailabilityValidator = new(repository);
@@ -72,7 +72,7 @@ public class ProductCreatorTest
     public async Task IsNotCreatedIfRestaurantWasNotFound()
     {
         IRestaurantRepository restaurantRepository = Mock.Of<IRestaurantRepository>(l =>
-            l.ExistsByStatusNotAndId(It.IsAny<RestaurantStatus>(), It.IsAny<Uuid>())
+            l.ExistsByStatusNotAndId(It.IsAny<RestaurantStatus>(), It.IsAny<Guid>())
             == Task.FromResult(false)
         );
         RestaurantExistenceValidator restaurantExistenceValidator = new(restaurantRepository);
@@ -102,7 +102,7 @@ public class ProductCreatorTest
     public async Task IsNotCreatedIfNameAlreadyExists()
     {
         IRestaurantRepository restaurantRepository = Mock.Of<IRestaurantRepository>(l =>
-            l.ExistsByStatusNotAndId(It.IsAny<RestaurantStatus>(), It.IsAny<Uuid>())
+            l.ExistsByStatusNotAndId(It.IsAny<RestaurantStatus>(), It.IsAny<Guid>())
             == Task.FromResult(true)
         );
         RestaurantExistenceValidator restaurantExistenceValidator = new(restaurantRepository);
@@ -110,7 +110,7 @@ public class ProductCreatorTest
             l.ExistByStatusNotAndNameAndRestaurantId(
                 It.IsAny<ProductStatus>(),
                 It.IsAny<NonEmptyString>(),
-                It.IsAny<Uuid>()
+                It.IsAny<Guid>()
             ) == Task.FromResult(true)
         );
         ProductNameAvailabilityValidator productNameAvailabilityValidator = new(repository);

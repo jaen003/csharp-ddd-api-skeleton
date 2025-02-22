@@ -2,7 +2,6 @@ using Src.Core.Restaurants.Application.Dtos;
 using Src.Core.Restaurants.Domain.Aggregates;
 using Src.Core.Restaurants.Domain.ValueObjects;
 using Src.Core.Shared.Application.Logging;
-using Src.Core.Shared.Domain.ValueObjects;
 
 namespace Src.Core.Restaurants.Application.Services;
 
@@ -27,11 +26,8 @@ public class RestaurantCreator
         }
     }
 
-    private async Task<bool> IsRestaurantCreated(string id)
+    private async Task<bool> IsRestaurantCreated(Guid id)
     {
-        return await repository.ExistsByStatusNotAndId(
-            RestaurantStatus.CreateDeleted(),
-            new Uuid(id)
-        );
+        return await repository.ExistsByStatusNotAndId(RestaurantStatus.CreateDeleted(), id);
     }
 }

@@ -8,7 +8,6 @@ public enum CustomExceptionCode : ushort
     InvalidPaginationLimit = 4,
     InvalidPaginationSortingType = 5,
     NullPaginationSortingFieldNotAllowed = 6,
-    InvalidUuid = 7,
     EventBusNotConfigured = 8,
     EventBusMessagePublishingFailed = 9,
     DomainEventConsumptionFailed = 10,

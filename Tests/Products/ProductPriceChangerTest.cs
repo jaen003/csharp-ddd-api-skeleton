@@ -7,7 +7,6 @@ using Src.Core.Products.Domain.ValueObjects;
 using Src.Core.Shared.Application.EventBus;
 using Src.Core.Shared.Application.Logging;
 using Src.Core.Shared.Domain.Exceptions;
-using Src.Core.Shared.Domain.ValueObjects;
 
 namespace Tests.Products;
 
@@ -21,17 +20,17 @@ public class ProductPriceChangerTest
     public ProductPriceChangerTest()
     {
         product = new Product(
-            "a1433e47-9708-4e61-adfc-6de2ad462f82",
+            new Guid("a1433e47-9708-4e61-adfc-6de2ad462f82"),
             "Sandwich",
             3,
             "Bread, Onion, Tomato, Chicken",
             1,
-            "82022d1f-b0fa-4b70-86ae-e99c3101fb47"
+            new Guid("82022d1f-b0fa-4b70-86ae-e99c3101fb47")
         );
         changeDto = new ProductPriceChangeDto(
-            "a1433e47-9708-4e61-adfc-6de2ad462f82",
+            new Guid("a1433e47-9708-4e61-adfc-6de2ad462f82"),
             3,
-            "82022d1f-b0fa-4b70-86ae-e99c3101fb47"
+            new Guid("82022d1f-b0fa-4b70-86ae-e99c3101fb47")
         );
         logger = Mock.Of<ILogger>();
         eventPublisher = Mock.Of<IDomainEventPublisher>();
@@ -43,8 +42,8 @@ public class ProductPriceChangerTest
         IProductRepository repository = Mock.Of<IProductRepository>(l =>
             l.FindByStatusNotAndIdAndRestaurantId(
                 It.IsAny<ProductStatus>(),
-                It.IsAny<Uuid>(),
-                It.IsAny<Uuid>()
+                It.IsAny<Guid>(),
+                It.IsAny<Guid>()
             ) == Task.FromResult(product)
         );
         int exceptionCode = 0;
@@ -66,8 +65,8 @@ public class ProductPriceChangerTest
         IProductRepository repository = Mock.Of<IProductRepository>(l =>
             l.FindByStatusNotAndIdAndRestaurantId(
                 It.IsAny<ProductStatus>(),
-                It.IsAny<Uuid>(),
-                It.IsAny<Uuid>()
+                It.IsAny<Guid>(),
+                It.IsAny<Guid>()
             ) == Task.FromResult<Product>(null!)
         );
         int exceptionCode = 0;

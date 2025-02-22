@@ -7,18 +7,18 @@ public class ProductDescriptionChangedDomainEvent : DomainEvent
     private const string ID_FIELD = "id";
     private const string DESCRIPTION_FIELD = "description";
 
-    public string Id { get; }
+    public Guid Id { get; }
     public string Description { get; }
+
     public override string EventName => "product.description.changed";
 
     public ProductDescriptionChangedDomainEvent()
     {
         Description = string.Empty;
-        Id = string.Empty;
     }
 
     private ProductDescriptionChangedDomainEvent(
-        string id,
+        Guid id,
         string description,
         string eventId,
         int timestamp
@@ -29,7 +29,7 @@ public class ProductDescriptionChangedDomainEvent : DomainEvent
         Description = description;
     }
 
-    public ProductDescriptionChangedDomainEvent(string id, string description)
+    public ProductDescriptionChangedDomainEvent(Guid id, string description)
     {
         Id = id;
         Description = description;
@@ -42,7 +42,7 @@ public class ProductDescriptionChangedDomainEvent : DomainEvent
     )
     {
         return new ProductDescriptionChangedDomainEvent(
-            data[ID_FIELD].ToString()!,
+            new Guid(data[ID_FIELD].ToString()!),
             data[DESCRIPTION_FIELD].ToString()!,
             eventId,
             timestamp

@@ -8,76 +8,64 @@ namespace Src.Core.Products.Domain.Aggregates;
 
 public class Product : AggregateRoot
 {
-    private readonly Uuid id;
+    public Guid Id { get; }
     private NonEmptyString name;
     private NonNegativeInt price;
     private NonEmptyString description;
     private ProductStatus status;
-    private readonly Uuid restaurantId;
+    public Guid RestaurantId { get; }
 
-    public string Id => id.Value;
     public string Name => name.Value;
     public int Price => price.Value;
     public string Description => description.Value;
     public short Status => status.Value;
-    public string RestaurantId => restaurantId.Value;
 
     public Product(
-        string id,
+        Guid id,
         string name,
         int price,
         string description,
         short status,
-        string restaurantId
+        Guid restaurantId
     )
     {
-        this.id = new Uuid(id);
+        Id = id;
         this.name = new NonEmptyString(name);
         this.price = new NonNegativeInt(price);
         this.description = new NonEmptyString(description);
         this.status = new ProductStatus(status);
-        this.restaurantId = new Uuid(restaurantId);
+        RestaurantId = restaurantId;
     }
 
     private Product(
-        Uuid productId,
+        Guid productId,
         NonEmptyString productName,
         NonNegativeInt productPrice,
         NonEmptyString productDescription,
         ProductStatus productStatus,
-        Uuid productRestaurantId
+        Guid restaurantId
     )
     {
-        id = productId;
+        Id = productId;
         name = productName;
         price = productPrice;
         description = productDescription;
         status = productStatus;
-        restaurantId = productRestaurantId;
+        RestaurantId = restaurantId;
     }
 
     public static Product Create(
-        string id,
+        Guid id,
         string name,
         int price,
         string description,
-        string restaurantId
+        Guid restaurantId
     )
     {
         List<CustomException> exceptions = new();
-        Uuid? productId = null;
         NonEmptyString? productName = null;
         NonNegativeInt? productPrice = null;
         NonEmptyString? productDescription = null;
-        Uuid? productRestaurantId = null;
-        try
-        {
-            productId = new Uuid(id);
-        }
-        catch (CustomException exception)
-        {
-            exceptions.Add(exception);
-        }
         try
         {
             productName = new NonEmptyString(name);
@@ -102,26 +90,18 @@ public class Product : AggregateRoot
         {
             exceptions.Add(exception);
         }
-        try
-        {
-            productRestaurantId = new Uuid(restaurantId);
-        }
-        catch (CustomException exception)
-        {
-            exceptions.Add(exception);
-        }
         if (exceptions.Count > 0)
         {
             throw new MultipleCustomException(exceptions);
         }
         Product product =
             new(
-                productId!,
+                id,
                 productName!,
                 productPrice!,
                 productDescription!,
                 ProductStatus.CreateActive(),
-                productRestaurantId!
+                restaurantId
             );
         product.RecordEvent(new ProductCreatedDomainEvent(id, name, price, description));
         return product;
@@ -130,24 +110,24 @@ public class Product : AggregateRoot
     public void ChangePrice(int newPrice)
     {
         price = new NonNegativeInt(newPrice);
-        RecordEvent(new ProductPriceChangedDomainEvent(id.Value, price.Value));
+        RecordEvent(new ProductPriceChangedDomainEvent(Id, price.Value));
     }
 
     public void Delete()
     {
         status = ProductStatus.CreateDeleted();
-        RecordEvent(new ProductDeletedDomainEvent(id.Value));
+        RecordEvent(new ProductDeletedDomainEvent(Id));
     }
 
     public void ChangeDescription(string newDescription)
     {
         description = new NonEmptyString(newDescription);
-        RecordEvent(new ProductDescriptionChangedDomainEvent(id.Value, description.Value));
+        RecordEvent(new ProductDescriptionChangedDomainEvent(Id, description.Value));
     }
 
     public void Rename(string newName)
     {
         name = new NonEmptyString(newName);
-        RecordEvent(new ProductRenamedDomainEvent(id.Value, name.Value));
+        RecordEvent(new ProductRenamedDomainEvent(Id, name.Value));
     }
 }

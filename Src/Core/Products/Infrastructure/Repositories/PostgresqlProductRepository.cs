@@ -28,7 +28,7 @@ public class PostgresqlProductRepository : IProductRepository
     public async Task<bool> ExistByStatusNotAndNameAndRestaurantId(
         ProductStatus status,
         NonEmptyString name,
-        Uuid restaurantId
+        Guid restaurantId
     )
     {
         try
@@ -36,9 +36,7 @@ public class PostgresqlProductRepository : IProductRepository
             await using PostgresqlDatabaseContext databaseContext =
                 await databaseContextFactory.CreateDbContextAsync();
             return await databaseContext.Products.AnyAsync(t =>
-                t.Status != status.Value
-                && t.Name == name.Value
-                && t.RestaurantId == restaurantId.Value
+                t.Status != status.Value && t.Name == name.Value && t.RestaurantId == restaurantId
             );
         }
         catch (Exception exception)
@@ -49,8 +47,8 @@ public class PostgresqlProductRepository : IProductRepository
 
     public async Task<Product?> FindByStatusNotAndIdAndRestaurantId(
         ProductStatus status,
-        Uuid id,
-        Uuid restaurantId
+        Guid id,
+        Guid restaurantId
     )
     {
         try
@@ -58,7 +56,7 @@ public class PostgresqlProductRepository : IProductRepository
             await using PostgresqlDatabaseContext databaseContext =
                 await databaseContextFactory.CreateDbContextAsync();
             ProductModel? productModel = await databaseContext.Products.FirstOrDefaultAsync(t =>
-                t.Status != status.Value && t.Id == id.Value && t.RestaurantId == restaurantId.Value
+                t.Status != status.Value && t.Id == id && t.RestaurantId == restaurantId
             );
             if (productModel == null)
             {
@@ -111,7 +109,7 @@ public class PostgresqlProductRepository : IProductRepository
 
     public async Task<List<Product>> FindByStatusNotAndRestaurantIdAndPagination(
         ProductStatus status,
-        Uuid restaurantId,
+        Guid restaurantId,
         Pagination pagination
     )
     {
@@ -120,9 +118,7 @@ public class PostgresqlProductRepository : IProductRepository
             await using PostgresqlDatabaseContext databaseContext =
                 await databaseContextFactory.CreateDbContextAsync();
             List<ProductModel> productModels = await databaseContext
-                .Products.Where(t =>
-                    t.Status != status.Value && t.RestaurantId == restaurantId.Value
-                )
+                .Products.Where(t => t.Status != status.Value && t.RestaurantId == restaurantId)
                 .AddPagination(pagination)
                 .AsNoTracking()
                 .ToListAsync();

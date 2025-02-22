@@ -14,18 +14,18 @@ public interface IProductRepository
     Task<bool> ExistByStatusNotAndNameAndRestaurantId(
         ProductStatus status,
         NonEmptyString name,
-        Uuid restaurantId
+        Guid restaurantId
     );
 
     Task<Product?> FindByStatusNotAndIdAndRestaurantId(
         ProductStatus status,
-        Uuid id,
-        Uuid restaurantId
+        Guid id,
+        Guid restaurantId
     );
 
     Task<List<Product>> FindByStatusNotAndRestaurantIdAndPagination(
         ProductStatus status,
-        Uuid restaurantId,
+        Guid restaurantId,
         Pagination pagination
     );
 }

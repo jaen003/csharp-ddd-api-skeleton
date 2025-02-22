@@ -2,7 +2,6 @@ using Src.Core.Products.Application.Dtos;
 using Src.Core.Products.Application.Exceptions;
 using Src.Core.Products.Domain.Aggregates;
 using Src.Core.Products.Domain.ValueObjects;
-using Src.Core.Shared.Domain.ValueObjects;
 
 namespace Src.Core.Products.Application.Services;
 
@@ -20,8 +19,8 @@ public class ProductByIdFinder
         Product? product =
             await repository.FindByStatusNotAndIdAndRestaurantId(
                 ProductStatus.CreateDeleted(),
-                new Uuid(queryDto.Id),
-                new Uuid(queryDto.RestaurantId)
+                queryDto.Id,
+                queryDto.RestaurantId
             ) ?? throw new ProductNotFoundException(queryDto.Id);
         return new ProductDto(product.Id, product.Name, product.Price, product.Description);
     }

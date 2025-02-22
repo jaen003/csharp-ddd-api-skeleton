@@ -2,7 +2,6 @@ using Src.Core.Products.Application.Dtos;
 using Src.Core.Products.Domain.Aggregates;
 using Src.Core.Products.Domain.ValueObjects;
 using Src.Core.Shared.Domain.Paginations.Aggregates;
-using Src.Core.Shared.Domain.ValueObjects;
 
 namespace Src.Core.Products.Application.Services;
 
@@ -25,7 +24,7 @@ public class AllProductsFinder
         );
         List<Product> products = await repository.FindByStatusNotAndRestaurantIdAndPagination(
             ProductStatus.CreateDeleted(),
-            new Uuid(queryDto.RestaurantId),
+            queryDto.RestaurantId,
             pagination
         );
         List<ProductDto> result = new();

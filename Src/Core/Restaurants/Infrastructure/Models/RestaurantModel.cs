@@ -8,8 +8,8 @@ namespace Src.Core.Restaurants.Infrastructure.Models;
 [Index(nameof(Id), nameof(Status))]
 public class RestaurantModel
 {
-    [Key, Column("id"), MaxLength(36), DatabaseGenerated(DatabaseGeneratedOption.None)]
-    public string Id { get; set; }
+    [Key, Column("id"), DatabaseGenerated(DatabaseGeneratedOption.None)]
+    public Guid Id { get; set; }
 
     [Column("name"), MaxLength(40)]
     public string Name { get; set; }
@@ -20,6 +20,5 @@ public class RestaurantModel
     public RestaurantModel()
     {
         Name = string.Empty;
-        Id = string.Empty;
     }
 }

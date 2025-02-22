@@ -1,6 +1,5 @@
 using Src.Core.Restaurants.Application.Exceptions;
 using Src.Core.Restaurants.Domain.ValueObjects;
-using Src.Core.Shared.Domain.ValueObjects;
 
 namespace Src.Core.Restaurants.Application.Services;
 
@@ -13,11 +12,11 @@ public class RestaurantExistenceValidator
         this.repository = restaurantRepository;
     }
 
-    public async Task Validate(string restaurantId)
+    public async Task Validate(Guid restaurantId)
     {
         bool exists = await repository.ExistsByStatusNotAndId(
             RestaurantStatus.CreateDeleted(),
-            new Uuid(restaurantId)
+            restaurantId
         );
         if (!exists)
         {

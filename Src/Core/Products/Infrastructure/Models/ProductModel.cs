@@ -10,8 +10,8 @@ namespace Src.Core.Products.Infrastructure.Models;
 [Index(nameof(Name), nameof(Status), nameof(RestaurantId))]
 public class ProductModel
 {
-    [Key, Column("id"), MaxLength(36), DatabaseGenerated(DatabaseGeneratedOption.None)]
-    public string Id { get; set; }
+    [Key, Column("id"), DatabaseGenerated(DatabaseGeneratedOption.None)]
+    public Guid Id { get; set; }
 
     [Column("name"), MaxLength(60)]
     public string Name { get; set; }
@@ -26,7 +26,7 @@ public class ProductModel
     public short Status { get; set; }
 
     [Column("restaurant_id"), MaxLength(36)]
-    public string RestaurantId { get; set; }
+    public Guid RestaurantId { get; set; }
 
     private RestaurantModel? restaurant;
 
@@ -41,17 +41,13 @@ public class ProductModel
     public ProductModel(ILazyLoader lazyLoader)
     {
         this.lazyLoader = lazyLoader;
-        Id = string.Empty;
         Name = string.Empty;
         Description = string.Empty;
-        RestaurantId = string.Empty;
     }
 
     public ProductModel()
     {
-        Id = string.Empty;
         Name = string.Empty;
         Description = string.Empty;
-        RestaurantId = string.Empty;
     }
 }

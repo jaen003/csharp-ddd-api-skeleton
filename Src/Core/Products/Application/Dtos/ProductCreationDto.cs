@@ -2,18 +2,18 @@ namespace Src.Core.Products.Application.Dtos;
 
 public record ProductCreationDto
 {
-    public string Id { get; }
+    public Guid Id { get; }
     public string Name { get; }
     public int Price { get; }
     public string Description { get; }
-    public string RestaurantId { get; }
+    public Guid RestaurantId { get; }
 
     public ProductCreationDto(
-        string id,
+        Guid id,
         string name,
         int price,
         string description,
-        string restaurantId
+        Guid restaurantId
     )
     {
         Id = id;

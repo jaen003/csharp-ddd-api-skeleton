@@ -2,10 +2,10 @@ namespace Src.Core.Products.Application.Dtos;
 
 public record ProductByIdQueryDto
 {
-    public string Id { get; }
-    public string RestaurantId { get; }
+    public Guid Id { get; }
+    public Guid RestaurantId { get; }
 
-    public ProductByIdQueryDto(string id, string restaurantId)
+    public ProductByIdQueryDto(Guid id, Guid restaurantId)
     {
         Id = id;
         RestaurantId = restaurantId;

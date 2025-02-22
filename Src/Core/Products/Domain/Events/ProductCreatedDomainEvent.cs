@@ -9,21 +9,21 @@ public class ProductCreatedDomainEvent : DomainEvent
     private const string PRICE_FIELD = "price";
     private const string DESCRIPTION_FIELD = "description";
 
-    public string Id { get; }
+    public Guid Id { get; }
     public string Name { get; }
     public int Price { get; }
     public string Description { get; }
+
     public override string EventName => "product.created";
 
     public ProductCreatedDomainEvent()
     {
-        Id = string.Empty;
         Name = string.Empty;
         Description = string.Empty;
     }
 
     private ProductCreatedDomainEvent(
-        string id,
+        Guid id,
         string name,
         int price,
         string description,
@@ -38,7 +38,7 @@ public class ProductCreatedDomainEvent : DomainEvent
         Description = description;
     }
 
-    public ProductCreatedDomainEvent(string id, string name, int price, string description)
+    public ProductCreatedDomainEvent(Guid id, string name, int price, string description)
     {
         Id = id;
         Name = name;
@@ -53,7 +53,7 @@ public class ProductCreatedDomainEvent : DomainEvent
     )
     {
         return new ProductCreatedDomainEvent(
-            data[ID_FIELD].ToString()!,
+            new Guid(data[ID_FIELD].ToString()!),
             data[NAME_FIELD].ToString()!,
             int.Parse(data[PRICE_FIELD].ToString()!),
             data[DESCRIPTION_FIELD].ToString()!,

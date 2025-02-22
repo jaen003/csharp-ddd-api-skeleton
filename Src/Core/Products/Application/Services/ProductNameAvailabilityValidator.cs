@@ -13,12 +13,12 @@ public class ProductNameAvailabilityValidator
         this.repository = repository;
     }
 
-    public async Task Validate(string productName, string restaurantId)
+    public async Task Validate(string productName, Guid restaurantId)
     {
         bool isNameAvailable = !await repository.ExistByStatusNotAndNameAndRestaurantId(
             ProductStatus.CreateDeleted(),
             new NonEmptyString(productName),
-            new Uuid(restaurantId)
+            restaurantId
         );
         if (!isNameAvailable)
         {

@@ -7,24 +7,24 @@ public class ProductRenamedDomainEvent : DomainEvent
     private const string ID_FIELD = "id";
     private const string NAME_FIELD = "name";
 
-    public string Id { get; }
+    public Guid Id { get; }
     public string Name { get; }
+
     public override string EventName => "product.renamed";
 
     public ProductRenamedDomainEvent()
     {
         Name = string.Empty;
-        Id = string.Empty;
     }
 
-    private ProductRenamedDomainEvent(string id, string name, string eventId, int timestamp)
+    private ProductRenamedDomainEvent(Guid id, string name, string eventId, int timestamp)
         : base(eventId, timestamp)
     {
         Id = id;
         Name = name;
     }
 
-    public ProductRenamedDomainEvent(string id, string name)
+    public ProductRenamedDomainEvent(Guid id, string name)
     {
         Id = id;
         Name = name;
@@ -37,7 +37,7 @@ public class ProductRenamedDomainEvent : DomainEvent
     )
     {
         return new ProductRenamedDomainEvent(
-            data[ID_FIELD].ToString()!,
+            new Guid(data[ID_FIELD].ToString()!),
             data[NAME_FIELD].ToString()!,
             eventId,
             timestamp
