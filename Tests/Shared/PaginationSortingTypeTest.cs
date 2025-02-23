@@ -14,7 +14,7 @@ public class PaginationSortingTypeTest
         int exceptionCode = 0;
         try
         {
-            PaginationSortingType paginationSortingType = new(value);
+            PaginationSortingType valueObject = new(value);
         }
         catch (CustomException exception)
         {
@@ -32,7 +32,7 @@ public class PaginationSortingTypeTest
         int exceptionCode = 0;
         try
         {
-            PaginationSortingType paginationSortingType = new(value);
+            PaginationSortingType valueObject = new(value);
         }
         catch (CustomException exception)
         {
@@ -46,7 +46,7 @@ public class PaginationSortingTypeTest
     [InlineData("desc")]
     public void IsDescending(string? value)
     {
-        PaginationSortingType paginationSortingType = new(value);
-        Assert.True(paginationSortingType.IsDescending());
+        PaginationSortingType valueObject = new(value);
+        Assert.True(valueObject.IsDescending());
     }
 }

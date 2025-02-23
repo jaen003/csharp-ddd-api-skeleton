@@ -28,6 +28,6 @@ public class RestaurantCreator
 
     private async Task<bool> IsRestaurantCreated(Guid id)
     {
-        return await repository.ExistsByStatusNotAndId(RestaurantStatus.CreateDeleted(), id);
+        return await repository.ExistsByStatusNotAndId(RestaurantStatus.DELETED, id);
     }
 }

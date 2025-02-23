@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Src.Core.Restaurants.Application;
 using Src.Core.Restaurants.Domain.Aggregates;
-using Src.Core.Restaurants.Domain.ValueObjects;
 using Src.Core.Restaurants.Infrastructure.Mappers;
 using Src.Core.Restaurants.Infrastructure.Models;
 using Src.Core.Shared.Infrastructure.Database;
@@ -24,14 +23,14 @@ public class PostgresqlRestaurantRepository : IRestaurantRepository
         this.mapper = mapper;
     }
 
-    public async Task<bool> ExistsByStatusNotAndId(RestaurantStatus status, Guid id)
+    public async Task<bool> ExistsByStatusNotAndId(short status, Guid id)
     {
         try
         {
             await using PostgresqlDatabaseContext databaseContext =
                 await databaseContextFactory.CreateDbContextAsync();
             return await databaseContext.Restaurants.AnyAsync(t =>
-                t.Status != status.Value && t.Id == id
+                t.Status != status && t.Id == id
             );
         }
         catch (Exception exception)

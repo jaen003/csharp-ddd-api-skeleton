@@ -42,12 +42,12 @@ public class ProductRenamerTest
     {
         IProductRepository repository = Mock.Of<IProductRepository>(l =>
             l.ExistByStatusNotAndNameAndRestaurantId(
-                It.IsAny<ProductStatus>(),
-                It.IsAny<NonEmptyString>(),
+                It.IsAny<short>(),
+                It.IsAny<string>(),
                 It.IsAny<Guid>()
             ) == Task.FromResult(false)
             && l.FindByStatusNotAndIdAndRestaurantId(
-                It.IsAny<ProductStatus>(),
+                It.IsAny<short>(),
                 It.IsAny<Guid>(),
                 It.IsAny<Guid>()
             ) == Task.FromResult(product)
@@ -72,8 +72,8 @@ public class ProductRenamerTest
     {
         IProductRepository repository = Mock.Of<IProductRepository>(l =>
             l.ExistByStatusNotAndNameAndRestaurantId(
-                It.IsAny<ProductStatus>(),
-                It.IsAny<NonEmptyString>(),
+                It.IsAny<short>(),
+                It.IsAny<string>(),
                 It.IsAny<Guid>()
             ) == Task.FromResult(true)
         );
@@ -97,12 +97,12 @@ public class ProductRenamerTest
     {
         IProductRepository repository = Mock.Of<IProductRepository>(l =>
             l.ExistByStatusNotAndNameAndRestaurantId(
-                It.IsAny<ProductStatus>(),
-                It.IsAny<NonEmptyString>(),
+                It.IsAny<short>(),
+                It.IsAny<string>(),
                 It.IsAny<Guid>()
             ) == Task.FromResult(false)
             && l.FindByStatusNotAndIdAndRestaurantId(
-                It.IsAny<ProductStatus>(),
+                It.IsAny<short>(),
                 It.IsAny<Guid>(),
                 It.IsAny<Guid>()
             ) == Task.FromResult<Product>(null!)

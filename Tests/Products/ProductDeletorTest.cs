@@ -40,7 +40,7 @@ public class ProductDeletorTest
     {
         IProductRepository repository = Mock.Of<IProductRepository>(l =>
             l.FindByStatusNotAndIdAndRestaurantId(
-                It.IsAny<ProductStatus>(),
+                It.IsAny<short>(),
                 It.IsAny<Guid>(),
                 It.IsAny<Guid>()
             ) == Task.FromResult(product)
@@ -63,7 +63,7 @@ public class ProductDeletorTest
     {
         IProductRepository repository = Mock.Of<IProductRepository>(l =>
             l.FindByStatusNotAndIdAndRestaurantId(
-                It.IsAny<ProductStatus>(),
+                It.IsAny<short>(),
                 It.IsAny<Guid>(),
                 It.IsAny<Guid>()
             ) == Task.FromResult<Product>(null!)

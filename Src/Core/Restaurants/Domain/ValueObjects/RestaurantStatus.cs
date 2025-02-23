@@ -5,11 +5,8 @@ namespace Src.Core.Restaurants.Domain.ValueObjects;
 
 public class RestaurantStatus : NonNegativeShort
 {
-    private enum Type : short
-    {
-        Active,
-        Deleted,
-    }
+    private const short ACTIVE = 0;
+    public const short DELETED = 1;
 
     public RestaurantStatus(short value)
         : base(value)
@@ -22,21 +19,21 @@ public class RestaurantStatus : NonNegativeShort
 
     public static RestaurantStatus CreateActive()
     {
-        return new RestaurantStatus((short)Type.Active);
+        return new RestaurantStatus(ACTIVE);
     }
 
     public static RestaurantStatus CreateDeleted()
     {
-        return new RestaurantStatus((short)Type.Deleted);
+        return new RestaurantStatus(DELETED);
     }
 
     public bool IsActive()
     {
-        return Equals((short)Type.Active);
+        return Equals(ACTIVE);
     }
 
     private bool IsValid()
     {
-        return Equals((short)Type.Active) || Equals((short)Type.Deleted);
+        return Equals(ACTIVE) || Equals(DELETED);
     }
 }

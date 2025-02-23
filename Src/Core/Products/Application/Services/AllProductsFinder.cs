@@ -23,7 +23,7 @@ public class AllProductsFinder
             queryDto.PaginationDto.SortingType
         );
         List<Product> products = await repository.FindByStatusNotAndRestaurantIdAndPagination(
-            ProductStatus.CreateDeleted(),
+            ProductStatus.DELETED,
             queryDto.RestaurantId,
             pagination
         );

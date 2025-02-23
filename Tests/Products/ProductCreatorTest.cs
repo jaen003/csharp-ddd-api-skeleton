@@ -36,14 +36,13 @@ public class ProductCreatorTest
     public async Task IsCreatedSuccessfully()
     {
         IRestaurantRepository restaurantRepository = Mock.Of<IRestaurantRepository>(l =>
-            l.ExistsByStatusNotAndId(It.IsAny<RestaurantStatus>(), It.IsAny<Guid>())
-            == Task.FromResult(true)
+            l.ExistsByStatusNotAndId(It.IsAny<short>(), It.IsAny<Guid>()) == Task.FromResult(true)
         );
         RestaurantExistenceValidator restaurantExistenceValidator = new(restaurantRepository);
         IProductRepository repository = Mock.Of<IProductRepository>(l =>
             l.ExistByStatusNotAndNameAndRestaurantId(
-                It.IsAny<ProductStatus>(),
-                It.IsAny<NonEmptyString>(),
+                It.IsAny<short>(),
+                It.IsAny<string>(),
                 It.IsAny<Guid>()
             ) == Task.FromResult(false)
         );
@@ -72,8 +71,7 @@ public class ProductCreatorTest
     public async Task IsNotCreatedIfRestaurantWasNotFound()
     {
         IRestaurantRepository restaurantRepository = Mock.Of<IRestaurantRepository>(l =>
-            l.ExistsByStatusNotAndId(It.IsAny<RestaurantStatus>(), It.IsAny<Guid>())
-            == Task.FromResult(false)
+            l.ExistsByStatusNotAndId(It.IsAny<short>(), It.IsAny<Guid>()) == Task.FromResult(false)
         );
         RestaurantExistenceValidator restaurantExistenceValidator = new(restaurantRepository);
         IProductRepository repository = Mock.Of<IProductRepository>();
@@ -102,14 +100,13 @@ public class ProductCreatorTest
     public async Task IsNotCreatedIfNameAlreadyExists()
     {
         IRestaurantRepository restaurantRepository = Mock.Of<IRestaurantRepository>(l =>
-            l.ExistsByStatusNotAndId(It.IsAny<RestaurantStatus>(), It.IsAny<Guid>())
-            == Task.FromResult(true)
+            l.ExistsByStatusNotAndId(It.IsAny<short>(), It.IsAny<Guid>()) == Task.FromResult(true)
         );
         RestaurantExistenceValidator restaurantExistenceValidator = new(restaurantRepository);
         IProductRepository repository = Mock.Of<IProductRepository>(l =>
             l.ExistByStatusNotAndNameAndRestaurantId(
-                It.IsAny<ProductStatus>(),
-                It.IsAny<NonEmptyString>(),
+                It.IsAny<short>(),
+                It.IsAny<string>(),
                 It.IsAny<Guid>()
             ) == Task.FromResult(true)
         );

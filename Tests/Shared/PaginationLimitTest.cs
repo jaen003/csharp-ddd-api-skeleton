@@ -13,7 +13,7 @@ public class PaginationLimitTest
         int exceptionCode = 0;
         try
         {
-            PaginationLimit paginationLimit = new(value);
+            PaginationLimit valueObject = new(value);
         }
         catch (CustomException exception)
         {

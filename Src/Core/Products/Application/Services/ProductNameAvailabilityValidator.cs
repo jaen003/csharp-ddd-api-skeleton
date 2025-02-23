@@ -16,8 +16,8 @@ public class ProductNameAvailabilityValidator
     public async Task Validate(string productName, Guid restaurantId)
     {
         bool isNameAvailable = !await repository.ExistByStatusNotAndNameAndRestaurantId(
-            ProductStatus.CreateDeleted(),
-            new NonEmptyString(productName),
+            ProductStatus.DELETED,
+            productName,
             restaurantId
         );
         if (!isNameAvailable)

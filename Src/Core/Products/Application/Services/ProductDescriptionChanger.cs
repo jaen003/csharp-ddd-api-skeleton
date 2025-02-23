@@ -28,7 +28,7 @@ public class ProductDescriptionChanger
     {
         Product? product =
             await repository.FindByStatusNotAndIdAndRestaurantId(
-                ProductStatus.CreateDeleted(),
+                ProductStatus.DELETED,
                 changeDto.Id,
                 changeDto.RestaurantId
             ) ?? throw new ProductNotFoundException(changeDto.Id);
