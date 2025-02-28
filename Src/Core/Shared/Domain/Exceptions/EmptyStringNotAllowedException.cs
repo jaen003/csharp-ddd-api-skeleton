@@ -2,6 +2,9 @@ namespace Src.Core.Shared.Domain.Exceptions;
 
 public class EmptyStringNotAllowedException : CustomDomainException
 {
-    public EmptyStringNotAllowedException()
-        : base(CustomExceptionCode.EmptyStringNotAllowed, "The string must not be empty.") { }
+    public EmptyStringNotAllowedException(string valueObjectName, string aggregateName)
+        : base(
+            CustomExceptionCode.EmptyStringNotAllowed,
+            $"The {aggregateName} {valueObjectName} must not be empty."
+        ) { }
 }

@@ -47,9 +47,9 @@ builder.Services.AddTransient<PostgresqlDatabaseMigrator>();
 builder.Services.AddScoped<IDomainEventPublisher, RabbitmqDomainEventPublisher>();
 builder.Services.AddTransient<IRestaurantRepository, PostgresqlRestaurantRepository>();
 builder.Services.AddTransient<RestaurantCreator>();
-builder.Services.AddScoped<RestaurantExistenceValidator>();
+builder.Services.AddScoped<IRestaurantExistenceValidator, RestaurantExistenceValidator>();
 builder.Services.AddScoped<IProductRepository, PostgresqlProductRepository>();
-builder.Services.AddScoped<ProductNameAvailabilityValidator>();
+builder.Services.AddScoped<IProductNameAvailabilityValidator, ProductNameAvailabilityValidator>();
 var app = builder.Build();
 
 // Add middlewares

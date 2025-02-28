@@ -5,12 +5,12 @@ namespace Src.Core.Shared.Domain.ValueObjects;
 public abstract class NonNegativeNumber<T> : ValueObject<T>
     where T : struct, IComparable<T>
 {
-    protected NonNegativeNumber(T value)
+    protected NonNegativeNumber(T value, string valueObjectName, string aggregateName)
         : base(value)
     {
         if (IsNegative())
         {
-            throw new NegativeNumberNotAllowedException<T>(value);
+            throw new NegativeNumberNotAllowedException<T>(value, valueObjectName, aggregateName);
         }
     }
 

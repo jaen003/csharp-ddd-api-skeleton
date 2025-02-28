@@ -11,15 +11,15 @@ public class ProductCreator
     private readonly IProductRepository productRepository;
     private readonly IDomainEventPublisher eventPublisher;
     private readonly ILogger logger;
-    private readonly RestaurantExistenceValidator restaurantExistenceValidator;
-    private readonly ProductNameAvailabilityValidator productNameAvailabilityValidator;
+    private readonly IRestaurantExistenceValidator restaurantExistenceValidator;
+    private readonly IProductNameAvailabilityValidator productNameAvailabilityValidator;
 
     public ProductCreator(
         IProductRepository productRepository,
         IDomainEventPublisher eventPublisher,
         ILogger logger,
-        RestaurantExistenceValidator restaurantExistenceValidator,
-        ProductNameAvailabilityValidator productNameAvailabilityValidator
+        IRestaurantExistenceValidator restaurantExistenceValidator,
+        IProductNameAvailabilityValidator productNameAvailabilityValidator
     )
     {
         this.productRepository = productRepository;

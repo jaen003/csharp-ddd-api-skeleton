@@ -2,16 +2,15 @@ using Src.Core.Products.Domain.Events;
 using Src.Core.Products.Domain.ValueObjects;
 using Src.Core.Shared.Domain.Aggregates;
 using Src.Core.Shared.Domain.Exceptions;
-using Src.Core.Shared.Domain.ValueObjects;
 
 namespace Src.Core.Products.Domain.Aggregates;
 
 public class Product : AggregateRoot
 {
     public Guid Id { get; }
-    private NonEmptyString name;
-    private NonNegativeInt price;
-    private NonEmptyString description;
+    private ProductName name;
+    private ProductPrice price;
+    private ProductDescription description;
     private ProductStatus status;
     public Guid RestaurantId { get; }
 
@@ -30,18 +29,18 @@ public class Product : AggregateRoot
     )
     {
         Id = id;
-        this.name = new NonEmptyString(name);
-        this.price = new NonNegativeInt(price);
-        this.description = new NonEmptyString(description);
+        this.name = new ProductName(name);
+        this.price = new ProductPrice(price);
+        this.description = new ProductDescription(description);
         this.status = new ProductStatus(status);
         RestaurantId = restaurantId;
     }
 
     private Product(
         Guid productId,
-        NonEmptyString productName,
-        NonNegativeInt productPrice,
-        NonEmptyString productDescription,
+        ProductName productName,
+        ProductPrice productPrice,
+        ProductDescription productDescription,
         ProductStatus productStatus,
         Guid restaurantId
     )
@@ -63,12 +62,12 @@ public class Product : AggregateRoot
     )
     {
         List<CustomException> exceptions = new();
-        NonEmptyString? productName = null;
-        NonNegativeInt? productPrice = null;
-        NonEmptyString? productDescription = null;
+        ProductName? productName = null;
+        ProductPrice? productPrice = null;
+        ProductDescription? productDescription = null;
         try
         {
-            productName = new NonEmptyString(name);
+            productName = new ProductName(name);
         }
         catch (CustomException exception)
         {
@@ -76,7 +75,7 @@ public class Product : AggregateRoot
         }
         try
         {
-            productPrice = new NonNegativeInt(price);
+            productPrice = new ProductPrice(price);
         }
         catch (CustomException exception)
         {
@@ -84,7 +83,7 @@ public class Product : AggregateRoot
         }
         try
         {
-            productDescription = new NonEmptyString(description);
+            productDescription = new ProductDescription(description);
         }
         catch (CustomException exception)
         {
@@ -109,7 +108,7 @@ public class Product : AggregateRoot
 
     public void ChangePrice(int newPrice)
     {
-        price = new NonNegativeInt(newPrice);
+        price = new ProductPrice(newPrice);
         RecordEvent(new ProductPriceChangedDomainEvent(Id, price.Value));
     }
 
@@ -121,13 +120,13 @@ public class Product : AggregateRoot
 
     public void ChangeDescription(string newDescription)
     {
-        description = new NonEmptyString(newDescription);
+        description = new ProductDescription(newDescription);
         RecordEvent(new ProductDescriptionChangedDomainEvent(Id, description.Value));
     }
 
     public void Rename(string newName)
     {
-        name = new NonEmptyString(newName);
+        name = new ProductName(newName);
         RecordEvent(new ProductRenamedDomainEvent(Id, name.Value));
     }
 }

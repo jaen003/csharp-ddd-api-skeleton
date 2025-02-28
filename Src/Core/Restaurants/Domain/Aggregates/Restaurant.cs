@@ -1,13 +1,12 @@
 using Src.Core.Restaurants.Domain.ValueObjects;
 using Src.Core.Shared.Domain.Exceptions;
-using Src.Core.Shared.Domain.ValueObjects;
 
 namespace Src.Core.Restaurants.Domain.Aggregates;
 
 public class Restaurant
 {
     public Guid Id { get; }
-    private readonly NonEmptyString name;
+    private readonly RestaurantName name;
     private readonly RestaurantStatus status;
 
     public string Name => name.Value;
@@ -16,13 +15,13 @@ public class Restaurant
     public Restaurant(Guid id, string name, short status)
     {
         Id = id;
-        this.name = new NonEmptyString(name);
+        this.name = new RestaurantName(name);
         this.status = new RestaurantStatus(status);
     }
 
     private Restaurant(
         Guid restaurantId,
-        NonEmptyString restaurantName,
+        RestaurantName restaurantName,
         RestaurantStatus restaurantStatus
     )
     {
@@ -34,10 +33,10 @@ public class Restaurant
     public static Restaurant Create(Guid id, string name)
     {
         List<CustomException> exceptions = new();
-        NonEmptyString? restaurantName = null;
+        RestaurantName? restaurantName = null;
         try
         {
-            restaurantName = new NonEmptyString(name);
+            restaurantName = new RestaurantName(name);
         }
         catch (CustomException exception)
         {

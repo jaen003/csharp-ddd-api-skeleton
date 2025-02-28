@@ -4,8 +4,8 @@ public class NonNegativeShort : NonNegativeNumber<short>
 {
     private const short MINIMUM_VALUE = 0;
 
-    public NonNegativeShort(short value)
-        : base(value) { }
+    public NonNegativeShort(short value, string valueObjectName, string aggregateName)
+        : base(value, valueObjectName, aggregateName) { }
 
     protected override bool IsNegative()
     {

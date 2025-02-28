@@ -1,4 +1,5 @@
 using Src.Core.Restaurants.Domain.Exceptions;
+using Src.Core.Shared.Domain.Aggregates;
 using Src.Core.Shared.Domain.ValueObjects;
 
 namespace Src.Core.Restaurants.Domain.ValueObjects;
@@ -7,9 +8,10 @@ public class RestaurantStatus : NonNegativeShort
 {
     private const short ACTIVE = 0;
     public const short DELETED = 1;
+    private const string VALUE_OBJECT_NAME = "status";
 
     public RestaurantStatus(short value)
-        : base(value)
+        : base(value, VALUE_OBJECT_NAME, AggregateName.RESTAURANT)
     {
         if (!IsValid())
         {

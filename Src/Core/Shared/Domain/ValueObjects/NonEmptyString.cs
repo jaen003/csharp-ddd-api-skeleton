@@ -5,12 +5,12 @@ namespace Src.Core.Shared.Domain.ValueObjects;
 
 public class NonEmptyString : ValueObject<string>
 {
-    public NonEmptyString(string value)
+    public NonEmptyString(string value, string valueObjectName, string aggregateName)
         : base(value)
     {
         if (IsEmpty())
         {
-            throw new EmptyStringNotAllowedException();
+            throw new EmptyStringNotAllowedException(valueObjectName, aggregateName);
         }
     }
 

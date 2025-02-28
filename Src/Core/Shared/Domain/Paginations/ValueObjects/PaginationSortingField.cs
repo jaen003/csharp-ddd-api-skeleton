@@ -1,9 +1,12 @@
+using Src.Core.Shared.Domain.Aggregates;
 using Src.Core.Shared.Domain.ValueObjects;
 
 namespace Src.Core.Shared.Domain.Paginations.ValueObjects;
 
 public class PaginationSortingField : NonEmptyString
 {
+    private const string VALUE_OBJECT_NAME = "field";
+
     public PaginationSortingField(string value)
-        : base(value) { }
+        : base(value, VALUE_OBJECT_NAME, AggregateName.PAGINATION_SORTING) { }
 }

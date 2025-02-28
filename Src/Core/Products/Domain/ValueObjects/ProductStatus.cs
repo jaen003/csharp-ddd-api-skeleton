@@ -1,4 +1,5 @@
 using Src.Core.Products.Domain.Exceptions;
+using Src.Core.Shared.Domain.Aggregates;
 using Src.Core.Shared.Domain.ValueObjects;
 
 namespace Src.Core.Products.Domain.ValueObjects;
@@ -7,9 +8,10 @@ public class ProductStatus : NonNegativeShort
 {
     private const short ACTIVE = 0;
     public const short DELETED = 1;
+    private const string VALUE_OBJECT_NAME = "status";
 
     public ProductStatus(short value)
-        : base(value)
+        : base(value, VALUE_OBJECT_NAME, AggregateName.PRODUCT)
     {
         if (!IsValid())
         {

@@ -5,13 +5,14 @@ namespace Src.Core.Shared.Domain.ValueObjects;
 public class Email : NonEmptyString
 {
     private const string PATTERN = @"^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$";
+    private const string VALUE_OBJECT_NAME = "email";
 
-    public Email(string value)
-        : base(value)
+    public Email(string value, string aggregateName)
+        : base(value, VALUE_OBJECT_NAME, aggregateName)
     {
         if (!IsValid())
         {
-            throw new InvalidEmailFormatException(value);
+            throw new InvalidEmailFormatException(value, aggregateName);
         }
     }
 

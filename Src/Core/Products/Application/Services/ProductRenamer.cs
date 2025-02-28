@@ -12,13 +12,13 @@ public class ProductRenamer
     private readonly IProductRepository repository;
     private readonly IDomainEventPublisher eventPublisher;
     private readonly ILogger logger;
-    private readonly ProductNameAvailabilityValidator productNameAvailabilityValidator;
+    private readonly IProductNameAvailabilityValidator productNameAvailabilityValidator;
 
     public ProductRenamer(
         IProductRepository repository,
         IDomainEventPublisher eventPublisher,
         ILogger logger,
-        ProductNameAvailabilityValidator productNameAvailabilityValidator
+        IProductNameAvailabilityValidator productNameAvailabilityValidator
     )
     {
         this.repository = repository;

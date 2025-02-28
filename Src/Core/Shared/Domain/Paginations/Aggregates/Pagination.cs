@@ -40,7 +40,7 @@ public class Pagination
     }
 
     public static Pagination Create(
-        int limit,
+        short limit,
         string? startIndex,
         string? sortingField,
         string? sortingType

@@ -2,7 +2,7 @@ namespace Src.Api.V1.InputModels.Paginations;
 
 public class PaginationInputModel
 {
-    public int Limit { get; set; }
+    public short Limit { get; set; }
 
     public string? StartIndex { get; set; }
 

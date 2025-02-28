@@ -6,6 +6,8 @@ namespace Src.Core.Restaurants.Application.Exceptions;
 public class RestaurantNotFoundException : CustomApplicationException
 {
     public RestaurantNotFoundException(Guid id)
-        : base(CustomExceptionCode.RestaurantNotFound, $"The restaurant '{id}' has not been found.")
-    { }
+        : base(
+            CustomExceptionCode.RestaurantNotFound,
+            $"The restaurant with ID '{id}' has not been found."
+        ) { }
 }

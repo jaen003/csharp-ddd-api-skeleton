@@ -2,9 +2,9 @@ namespace Src.Core.Shared.Domain.Exceptions;
 
 public class NegativeNumberNotAllowedException<T> : CustomDomainException
 {
-    public NegativeNumberNotAllowedException(T number)
+    public NegativeNumberNotAllowedException(T number, string valueObjectName, string aggregateName)
         : base(
             CustomExceptionCode.NegativeNumberNotAllowed,
-            $"The number '{number}' must not be negative."
+            $"The {aggregateName} {valueObjectName} '{number}' must not be negative."
         ) { }
 }

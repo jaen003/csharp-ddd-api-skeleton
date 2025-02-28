@@ -3,13 +3,13 @@ using Src.Core.Restaurants.Domain.ValueObjects;
 
 namespace Src.Core.Restaurants.Application.Services;
 
-public class RestaurantExistenceValidator
+public class RestaurantExistenceValidator : IRestaurantExistenceValidator
 {
     private readonly IRestaurantRepository repository;
 
-    public RestaurantExistenceValidator(IRestaurantRepository restaurantRepository)
+    public RestaurantExistenceValidator(IRestaurantRepository repository)
     {
-        this.repository = restaurantRepository;
+        this.repository = repository;
     }
 
     public async Task Validate(Guid restaurantId)

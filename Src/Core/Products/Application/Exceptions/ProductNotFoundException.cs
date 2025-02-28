@@ -6,5 +6,8 @@ namespace Src.Core.Products.Application.Exceptions;
 public class ProductNotFoundException : CustomApplicationException
 {
     public ProductNotFoundException(Guid id)
-        : base(CustomExceptionCode.ProductNotFound, $"The product '{id}' has not been found.") { }
+        : base(
+            CustomExceptionCode.ProductNotFound,
+            $"The product with ID '{id}' has not been found."
+        ) { }
 }

@@ -1,10 +1,9 @@
 using Src.Core.Products.Application.Exceptions;
 using Src.Core.Products.Domain.ValueObjects;
-using Src.Core.Shared.Domain.ValueObjects;
 
 namespace Src.Core.Products.Application.Services;
 
-public class ProductNameAvailabilityValidator
+public class ProductNameAvailabilityValidator : IProductNameAvailabilityValidator
 {
     private readonly IProductRepository repository;
 
