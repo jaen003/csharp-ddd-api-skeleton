@@ -8,8 +8,8 @@ public class NonNegativeIntTest
     [Fact]
     public void IsEqual()
     {
-        NonNegativeInt valueObject = new(3);
-        Assert.True(valueObject.Equals(new NonNegativeInt(3)));
+        NonNegativeInt valueObject = new(3, "price", "test");
+        Assert.True(valueObject.Equals(new NonNegativeInt(3, "price", "test")));
         Assert.True(valueObject.Equals(3));
     }
 
@@ -18,16 +18,16 @@ public class NonNegativeIntTest
     [InlineData(3, 4)]
     public void IsNotEqual(int value, int anotherValue)
     {
-        NonNegativeInt valueObject = new(value);
-        Assert.False(valueObject.Equals(new NonNegativeInt(anotherValue)));
+        NonNegativeInt valueObject = new(value, "price", "test");
+        Assert.False(valueObject.Equals(new NonNegativeInt(anotherValue, "price", "test")));
         Assert.False(valueObject.Equals(anotherValue));
     }
 
     [Fact]
     public void IsLessThan()
     {
-        NonNegativeInt valueObject = new(3);
-        Assert.True(valueObject.IsLessThan(new NonNegativeInt(4)));
+        NonNegativeInt valueObject = new(3, "price", "test");
+        Assert.True(valueObject.IsLessThan(new NonNegativeInt(4, "price", "test")));
         Assert.True(valueObject.IsLessThan(4));
     }
 
@@ -36,8 +36,8 @@ public class NonNegativeIntTest
     [InlineData(3, 2)]
     public void IsNotLessThan(int value, int anotherValue)
     {
-        NonNegativeInt valueObject = new(value);
-        Assert.False(valueObject.IsLessThan(new NonNegativeInt(anotherValue)));
+        NonNegativeInt valueObject = new(value, "price", "test");
+        Assert.False(valueObject.IsLessThan(new NonNegativeInt(anotherValue, "price", "test")));
         Assert.False(valueObject.IsLessThan(anotherValue));
     }
 
@@ -46,24 +46,26 @@ public class NonNegativeIntTest
     [InlineData(3, 4)]
     public void IsLessThanOrEqual(int value, int anotherValue)
     {
-        NonNegativeInt valueObject = new(value);
-        Assert.True(valueObject.IsLessThanOrEqual(new NonNegativeInt(anotherValue)));
+        NonNegativeInt valueObject = new(value, "price", "test");
+        Assert.True(
+            valueObject.IsLessThanOrEqual(new NonNegativeInt(anotherValue, "price", "test"))
+        );
         Assert.True(valueObject.IsLessThanOrEqual(anotherValue));
     }
 
     [Fact]
     public void IsNotLessThanOrEqual()
     {
-        NonNegativeInt valueObject = new(3);
-        Assert.False(valueObject.IsLessThanOrEqual(new NonNegativeInt(2)));
+        NonNegativeInt valueObject = new(3, "price", "test");
+        Assert.False(valueObject.IsLessThanOrEqual(new NonNegativeInt(2, "price", "test")));
         Assert.False(valueObject.IsLessThanOrEqual(2));
     }
 
     [Fact]
     public void IsGreaterThan()
     {
-        NonNegativeInt valueObject = new(4);
-        Assert.True(valueObject.IsGreaterThan(new NonNegativeInt(3)));
+        NonNegativeInt valueObject = new(4, "price", "test");
+        Assert.True(valueObject.IsGreaterThan(new NonNegativeInt(3, "price", "test")));
         Assert.True(valueObject.IsGreaterThan(3));
     }
 
@@ -72,8 +74,8 @@ public class NonNegativeIntTest
     [InlineData(3, 4)]
     public void IsNotGreaterThan(int value, int anotherValue)
     {
-        NonNegativeInt valueObject = new(value);
-        Assert.False(valueObject.IsGreaterThan(new NonNegativeInt(anotherValue)));
+        NonNegativeInt valueObject = new(value, "price", "test");
+        Assert.False(valueObject.IsGreaterThan(new NonNegativeInt(anotherValue, "price", "test")));
         Assert.False(valueObject.IsGreaterThan(anotherValue));
     }
 
@@ -82,48 +84,26 @@ public class NonNegativeIntTest
     [InlineData(4, 3)]
     public void IsGreaterThanOrEqual(int value, int anotherValue)
     {
-        NonNegativeInt valueObject = new(value);
-        Assert.True(valueObject.IsGreaterThanOrEqual(new NonNegativeInt(anotherValue)));
+        NonNegativeInt valueObject = new(value, "price", "test");
+        Assert.True(
+            valueObject.IsGreaterThanOrEqual(new NonNegativeInt(anotherValue, "price", "test"))
+        );
         Assert.True(valueObject.IsGreaterThanOrEqual(anotherValue));
     }
 
     [Fact]
     public void IsNotGreaterThanOrEqual()
     {
-        NonNegativeInt valueObject = new(3);
-        Assert.False(valueObject.IsGreaterThanOrEqual(new NonNegativeInt(4)));
+        NonNegativeInt valueObject = new(3, "price", "test");
+        Assert.False(valueObject.IsGreaterThanOrEqual(new NonNegativeInt(4, "price", "test")));
         Assert.False(valueObject.IsGreaterThanOrEqual(4));
     }
 
     [Fact]
     public void IsNegative()
     {
-        int exceptionCode = 0;
-        try
-        {
-            NonNegativeInt valueObject = new(-1);
-        }
-        catch (CustomException exception)
-        {
-            exceptionCode = exception.Code;
-        }
-        Assert.Equal(1, exceptionCode);
-    }
-
-    [Theory]
-    [InlineData(0)]
-    [InlineData(1)]
-    public void IsNotNegative(int value)
-    {
-        int exceptionCode = 0;
-        try
-        {
-            NonNegativeInt valueObject = new(value);
-        }
-        catch (CustomException exception)
-        {
-            exceptionCode = exception.Code;
-        }
-        Assert.Equal(0, exceptionCode);
+        Assert.Throws<NegativeNumberNotAllowedException<int>>(
+            () => new NonNegativeInt(-1, "price", "test")
+        );
     }
 }

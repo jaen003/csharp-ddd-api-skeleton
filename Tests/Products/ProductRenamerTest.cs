@@ -1,13 +1,12 @@
 using Moq;
 using Src.Core.Products.Application;
 using Src.Core.Products.Application.Dtos;
+using Src.Core.Products.Application.Exceptions;
 using Src.Core.Products.Application.Services;
 using Src.Core.Products.Domain.Aggregates;
-using Src.Core.Products.Domain.ValueObjects;
 using Src.Core.Shared.Application.EventBus;
 using Src.Core.Shared.Application.Logging;
-using Src.Core.Shared.Domain.Exceptions;
-using Src.Core.Shared.Domain.ValueObjects;
+using Src.Core.Shared.Domain.Events;
 
 namespace Tests.Products;
 
@@ -16,7 +15,9 @@ public class ProductRenamerTest
     private readonly Product product;
     private readonly ProductNameChangeDto changeDto;
     private readonly ILogger logger;
-    private readonly IDomainEventPublisher eventPublisher;
+    private readonly Mock<IDomainEventPublisher> eventPublisher;
+    private readonly Mock<IProductRepository> repository;
+    private readonly Mock<IProductNameAvailabilityValidator> productNameAvailabilityValidator;
 
     public ProductRenamerTest()
     {
@@ -34,91 +35,74 @@ public class ProductRenamerTest
             new Guid("82022d1f-b0fa-4b70-86ae-e99c3101fb47")
         );
         logger = Mock.Of<ILogger>();
-        eventPublisher = Mock.Of<IDomainEventPublisher>();
+        eventPublisher = new Mock<IDomainEventPublisher>();
+        repository = new Mock<IProductRepository>();
+        productNameAvailabilityValidator = new Mock<IProductNameAvailabilityValidator>();
     }
 
     [Fact]
     public async Task IsRenamedSuccessfully()
     {
-        IProductRepository repository = Mock.Of<IProductRepository>(l =>
-            l.ExistByStatusNotAndNameAndRestaurantId(
-                It.IsAny<short>(),
-                It.IsAny<string>(),
-                It.IsAny<Guid>()
-            ) == Task.FromResult(false)
-            && l.FindByStatusNotAndIdAndRestaurantId(
-                It.IsAny<short>(),
-                It.IsAny<Guid>(),
-                It.IsAny<Guid>()
-            ) == Task.FromResult(product)
-        );
-        ProductNameAvailabilityValidator productNameAvailabilityValidator = new(repository);
-        int exceptionCode = 0;
-        try
-        {
-            ProductRenamer renamer =
-                new(repository, eventPublisher, logger, productNameAvailabilityValidator);
-            await renamer.Rename(changeDto);
-        }
-        catch (CustomException exception)
-        {
-            exceptionCode = exception.Code;
-        }
-        Assert.Equal(0, exceptionCode);
+        repository
+            .Setup(l =>
+                l.FindByStatusNotAndIdAndRestaurantId(
+                    It.IsAny<short>(),
+                    It.IsAny<Guid>(),
+                    It.IsAny<Guid>()
+                )
+            )
+            .ReturnsAsync(product);
+        ProductRenamer renamer =
+            new(
+                repository.Object,
+                eventPublisher.Object,
+                logger,
+                productNameAvailabilityValidator.Object
+            );
+        await renamer.Rename(changeDto);
+        repository.Verify(r => r.Update(It.IsAny<Product>()), Times.Once);
+        eventPublisher.Verify(r => r.Publish(It.IsAny<List<DomainEvent>>()), Times.Once);
     }
 
     [Fact]
     public async Task IsNotRenamedIfNameAlreadyExists()
     {
-        IProductRepository repository = Mock.Of<IProductRepository>(l =>
-            l.ExistByStatusNotAndNameAndRestaurantId(
-                It.IsAny<short>(),
-                It.IsAny<string>(),
-                It.IsAny<Guid>()
-            ) == Task.FromResult(true)
-        );
-        ProductNameAvailabilityValidator productNameAvailabilityValidator = new(repository);
-        int exceptionCode = 0;
-        try
-        {
-            ProductRenamer renamer =
-                new(repository, eventPublisher, logger, productNameAvailabilityValidator);
-            await renamer.Rename(changeDto);
-        }
-        catch (CustomException exception)
-        {
-            exceptionCode = exception.Code;
-        }
-        Assert.Equal(201, exceptionCode);
+        productNameAvailabilityValidator
+            .Setup(l => l.Validate(It.IsAny<string>(), It.IsAny<Guid>()))
+            .ThrowsAsync(new ProductNameNotAvailableException(changeDto.Name));
+        ProductRenamer renamer =
+            new(
+                repository.Object,
+                eventPublisher.Object,
+                logger,
+                productNameAvailabilityValidator.Object
+            );
+        await Assert.ThrowsAsync<ProductNameNotAvailableException>(() => renamer.Rename(changeDto));
+        repository.Verify(r => r.Save(It.IsAny<Product>()), Times.Never);
+        eventPublisher.Verify(r => r.Publish(It.IsAny<List<DomainEvent>>()), Times.Never);
     }
 
     [Fact]
     public async Task IsNotRenamedIfProductWasNotFound()
     {
-        IProductRepository repository = Mock.Of<IProductRepository>(l =>
-            l.ExistByStatusNotAndNameAndRestaurantId(
-                It.IsAny<short>(),
-                It.IsAny<string>(),
-                It.IsAny<Guid>()
-            ) == Task.FromResult(false)
-            && l.FindByStatusNotAndIdAndRestaurantId(
-                It.IsAny<short>(),
-                It.IsAny<Guid>(),
-                It.IsAny<Guid>()
-            ) == Task.FromResult<Product>(null!)
-        );
-        ProductNameAvailabilityValidator productNameAvailabilityValidator = new(repository);
-        int exceptionCode = 0;
-        try
-        {
-            ProductRenamer renamer =
-                new(repository, eventPublisher, logger, productNameAvailabilityValidator);
-            await renamer.Rename(changeDto);
-        }
-        catch (CustomException exception)
-        {
-            exceptionCode = exception.Code;
-        }
-        Assert.Equal(202, exceptionCode);
+        repository
+            .Setup(l =>
+                l.FindByStatusNotAndIdAndRestaurantId(
+                    It.IsAny<short>(),
+                    It.IsAny<Guid>(),
+                    It.IsAny<Guid>()
+                )
+            )
+            .ReturnsAsync(null as Product);
+        ProductRenamer renamer =
+            new(
+                repository.Object,
+                eventPublisher.Object,
+                logger,
+                productNameAvailabilityValidator.Object
+            );
+        await Assert.ThrowsAsync<ProductNotFoundException>(() => renamer.Rename(changeDto));
+        repository.Verify(r => r.Update(It.IsAny<Product>()), Times.Never);
+        eventPublisher.Verify(r => r.Publish(It.IsAny<List<DomainEvent>>()), Times.Never);
     }
 }

@@ -1,5 +1,5 @@
+using Src.Core.Restaurants.Domain.Exceptions;
 using Src.Core.Restaurants.Domain.ValueObjects;
-using Src.Core.Shared.Domain.Exceptions;
 
 namespace Tests.Resturants;
 
@@ -25,31 +25,12 @@ public class RestaurantStatusTest
     [InlineData(1)]
     public void IsValid(short value)
     {
-        int exceptionCode = 0;
-        try
-        {
-            RestaurantStatus valueObject = new(value);
-        }
-        catch (CustomException exception)
-        {
-            exceptionCode = exception.Code;
-        }
-        Assert.Equal(0, exceptionCode);
+        _ = new RestaurantStatus(value);
     }
 
-    [Theory]
-    [InlineData(2)]
-    public void IsInvalid(short value)
+    [Fact]
+    public void IsInvalid()
     {
-        int exceptionCode = 0;
-        try
-        {
-            RestaurantStatus valueObject = new(value);
-        }
-        catch (CustomException exception)
-        {
-            exceptionCode = exception.Code;
-        }
-        Assert.Equal(102, exceptionCode);
+        Assert.Throws<InvalidRestaurantStatusException>(() => new RestaurantStatus(2));
     }
 }

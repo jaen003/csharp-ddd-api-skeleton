@@ -1,5 +1,5 @@
+using Src.Core.Products.Domain.Exceptions;
 using Src.Core.Products.Domain.ValueObjects;
-using Src.Core.Shared.Domain.Exceptions;
 
 namespace Tests.Products;
 
@@ -25,31 +25,12 @@ public class ProductStatusTest
     [InlineData(1)]
     public void IsValid(short value)
     {
-        int exceptionCode = 0;
-        try
-        {
-            ProductStatus valueObject = new(value);
-        }
-        catch (CustomException exception)
-        {
-            exceptionCode = exception.Code;
-        }
-        Assert.Equal(0, exceptionCode);
+        _ = new ProductStatus(value);
     }
 
-    [Theory]
-    [InlineData(2)]
-    public void IsInvalid(short value)
+    [Fact]
+    public void IsInvalid()
     {
-        int exceptionCode = 0;
-        try
-        {
-            ProductStatus valueObject = new(value);
-        }
-        catch (CustomException exception)
-        {
-            exceptionCode = exception.Code;
-        }
-        Assert.Equal(203, exceptionCode);
+        Assert.Throws<InvalidProductStatusException>(() => new ProductStatus(2));
     }
 }

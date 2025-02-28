@@ -12,16 +12,7 @@ public class EmailTest
     [InlineData("stephen.hawking@oxford.edu.co")]
     public void IsValid(string value)
     {
-        int exceptionCode = 0;
-        try
-        {
-            Email valueObject = new(value);
-        }
-        catch (CustomException exception)
-        {
-            exceptionCode = exception.Code;
-        }
-        Assert.Equal(0, exceptionCode);
+        _ = new Email(value, "user");
     }
 
     [Theory]
@@ -42,15 +33,6 @@ public class EmailTest
     [InlineData("stephen.hawking@oxford.e")]
     public void IsInvalid(string value)
     {
-        int exceptionCode = 0;
-        try
-        {
-            Email valueObject = new(value);
-        }
-        catch (CustomException exception)
-        {
-            exceptionCode = exception.Code;
-        }
-        Assert.Equal(3, exceptionCode);
+        Assert.Throws<InvalidEmailFormatException>(() => new Email(value, "user"));
     }
 }

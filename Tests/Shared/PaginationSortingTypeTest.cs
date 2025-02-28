@@ -1,4 +1,4 @@
-using Src.Core.Shared.Domain.Exceptions;
+using Src.Core.Shared.Domain.Paginations.Exceptions;
 using Src.Core.Shared.Domain.Paginations.ValueObjects;
 
 namespace Tests.Shared;
@@ -11,16 +11,7 @@ public class PaginationSortingTypeTest
     [InlineData(null)]
     public void IsValid(string? value)
     {
-        int exceptionCode = 0;
-        try
-        {
-            PaginationSortingType valueObject = new(value);
-        }
-        catch (CustomException exception)
-        {
-            exceptionCode = exception.Code;
-        }
-        Assert.Equal(0, exceptionCode);
+        _ = new PaginationSortingType(value);
     }
 
     [Theory]
@@ -29,16 +20,9 @@ public class PaginationSortingTypeTest
     [InlineData("des")]
     public void IsInvalid(string? value)
     {
-        int exceptionCode = 0;
-        try
-        {
-            PaginationSortingType valueObject = new(value);
-        }
-        catch (CustomException exception)
-        {
-            exceptionCode = exception.Code;
-        }
-        Assert.Equal(5, exceptionCode);
+        Assert.Throws<InvalidPaginationSortingTypeException>(
+            () => new PaginationSortingType(value)
+        );
     }
 
     [Theory]
