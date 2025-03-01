@@ -7,7 +7,7 @@ using Src.Core.Shared.Domain.Paginations.Aggregates;
 using Src.Core.Shared.Infrastructure.Database;
 using Src.Core.Shared.Infrastructure.Exceptions;
 
-namespace Src.Core.Products.Infrastructure.Repositories;
+namespace Src.Core.Products.Infrastructure;
 
 public class PostgresqlProductRepository : IProductRepository
 {

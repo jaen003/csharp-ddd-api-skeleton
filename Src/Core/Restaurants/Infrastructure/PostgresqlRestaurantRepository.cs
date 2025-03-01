@@ -6,7 +6,7 @@ using Src.Core.Restaurants.Infrastructure.Models;
 using Src.Core.Shared.Infrastructure.Database;
 using Src.Core.Shared.Infrastructure.Exceptions;
 
-namespace Src.Core.Restaurants.Infrastructure.Repositories;
+namespace Src.Core.Restaurants.Infrastructure;
 
 public class PostgresqlRestaurantRepository : IRestaurantRepository
 {
