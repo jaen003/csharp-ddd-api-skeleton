@@ -8,11 +8,13 @@ public class ProductCreatedDomainEvent : DomainEvent
     private const string NAME_FIELD = "name";
     private const string PRICE_FIELD = "price";
     private const string DESCRIPTION_FIELD = "description";
+    private const string RESTAURANT_ID_FIELD = "restaurantId";
 
     public Guid Id { get; }
     public string Name { get; }
     public int Price { get; }
     public string Description { get; }
+    public Guid RestaurantId { get; }
 
     public override string EventName => "product.created";
 
@@ -27,6 +29,7 @@ public class ProductCreatedDomainEvent : DomainEvent
         string name,
         int price,
         string description,
+        Guid restaurantId,
         string eventId,
         int timestamp
     )
@@ -36,14 +39,22 @@ public class ProductCreatedDomainEvent : DomainEvent
         Name = name;
         Price = price;
         Description = description;
+        RestaurantId = restaurantId;
     }
 
-    public ProductCreatedDomainEvent(Guid id, string name, int price, string description)
+    public ProductCreatedDomainEvent(
+        Guid id,
+        string name,
+        int price,
+        string description,
+        Guid restaurantId
+    )
     {
         Id = id;
         Name = name;
         Price = price;
         Description = description;
+        RestaurantId = restaurantId;
     }
 
     public override DomainEvent FromPrimitives(
@@ -57,6 +68,7 @@ public class ProductCreatedDomainEvent : DomainEvent
             data[NAME_FIELD].ToString()!,
             int.Parse(data[PRICE_FIELD].ToString()!),
             data[DESCRIPTION_FIELD].ToString()!,
+            new Guid(data[RESTAURANT_ID_FIELD].ToString()!),
             eventId,
             timestamp
         );
@@ -70,6 +82,7 @@ public class ProductCreatedDomainEvent : DomainEvent
             { NAME_FIELD, Name },
             { PRICE_FIELD, Price },
             { DESCRIPTION_FIELD, Description },
+            { RESTAURANT_ID_FIELD, RestaurantId },
         };
     }
 }

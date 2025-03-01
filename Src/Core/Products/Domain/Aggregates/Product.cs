@@ -102,7 +102,9 @@ public class Product : AggregateRoot
                 ProductStatus.CreateActive(),
                 restaurantId
             );
-        product.RecordEvent(new ProductCreatedDomainEvent(id, name, price, description));
+        product.RecordEvent(
+            new ProductCreatedDomainEvent(id, name, price, description, restaurantId)
+        );
         return product;
     }
 
