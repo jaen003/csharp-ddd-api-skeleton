@@ -17,7 +17,7 @@ public abstract class DomainEvent
     protected DomainEvent()
     {
         Timestamp = TimestampGenerator.Generate();
-        EventId = UuidGenerator.Generate();
+        EventId = Guid.NewGuid().ToString();
     }
 
     public abstract Dictionary<string, object> ToPrimitives();
