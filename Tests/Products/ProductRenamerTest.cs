@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using Moq;
 using Src.Core.Products.Application;
 using Src.Core.Products.Application.Dtos;
@@ -61,7 +62,10 @@ public class ProductRenamerTest
             );
         await renamer.Rename(changeDto);
         repository.Verify(r => r.Update(It.IsAny<Product>()), Times.Once);
-        eventPublisher.Verify(r => r.Publish(It.IsAny<List<DomainEvent>>()), Times.Once);
+        eventPublisher.Verify(
+            r => r.Publish(It.IsAny<ReadOnlyCollection<DomainEvent>>()),
+            Times.Once
+        );
     }
 
     [Fact]
@@ -79,7 +83,10 @@ public class ProductRenamerTest
             );
         await Assert.ThrowsAsync<ProductNameNotAvailableException>(() => renamer.Rename(changeDto));
         repository.Verify(r => r.Save(It.IsAny<Product>()), Times.Never);
-        eventPublisher.Verify(r => r.Publish(It.IsAny<List<DomainEvent>>()), Times.Never);
+        eventPublisher.Verify(
+            r => r.Publish(It.IsAny<ReadOnlyCollection<DomainEvent>>()),
+            Times.Never
+        );
     }
 
     [Fact]
@@ -103,6 +110,9 @@ public class ProductRenamerTest
             );
         await Assert.ThrowsAsync<ProductNotFoundException>(() => renamer.Rename(changeDto));
         repository.Verify(r => r.Update(It.IsAny<Product>()), Times.Never);
-        eventPublisher.Verify(r => r.Publish(It.IsAny<List<DomainEvent>>()), Times.Never);
+        eventPublisher.Verify(
+            r => r.Publish(It.IsAny<ReadOnlyCollection<DomainEvent>>()),
+            Times.Never
+        );
     }
 }

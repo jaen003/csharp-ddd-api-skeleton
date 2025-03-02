@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using Microsoft.Extensions.DependencyInjection;
 using Src.Core.Shared.Application.Events;
 using Src.Core.Shared.Infrastructure.EventHandlers;
@@ -11,7 +12,8 @@ public static class DomainEventInformationCollector
         DomainEventInformationCollection eventInformationCollection = new();
         foreach (Type eventClass in DomainEventFinder.Find())
         {
-            List<Type> eventHandlerClasses = DomainEventHandlerFinder.FindByEventClass(eventClass);
+            ReadOnlyCollection<Type> eventHandlerClasses =
+                DomainEventHandlerFinder.FindByEventClass(eventClass);
             foreach (Type eventHandlerClass in eventHandlerClasses)
             {
                 services.AddTransient(eventHandlerClass, eventHandlerClass);

@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using Src.Core.Shared.Application.EventBus;
 using Src.Core.Shared.Application.Exceptions;
 using Src.Core.Shared.Domain.Events;
@@ -20,7 +21,7 @@ public class RabbitmqDomainEventPublisher : IDomainEventPublisher
         this.exceptionHandler = exceptionHandler;
     }
 
-    public async Task Publish(List<DomainEvent> events)
+    public async Task Publish(ReadOnlyCollection<DomainEvent> events)
     {
         Task[] publishingTasks = events.Select(Publish).ToArray();
         await Task.WhenAll(publishingTasks);

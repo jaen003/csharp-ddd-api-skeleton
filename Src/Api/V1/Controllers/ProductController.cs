@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using Microsoft.AspNetCore.Mvc;
 using Src.Api.V1.InputModels.Paginations;
 using Src.Api.V1.InputModels.Products;
@@ -19,15 +20,15 @@ public class ProductController : ControllerBase
     private readonly IDomainEventPublisher eventPublisher;
     private readonly ILogger logger;
 
-    private readonly RestaurantExistenceValidator restaurantExistenceValidator;
-    private readonly ProductNameAvailabilityValidator productNameAvailabilityValidator;
+    private readonly IRestaurantExistenceValidator restaurantExistenceValidator;
+    private readonly IProductNameAvailabilityValidator productNameAvailabilityValidator;
 
     public ProductController(
         IProductRepository repository,
         IDomainEventPublisher eventPublisher,
         ILogger logger,
-        RestaurantExistenceValidator restaurantExistenceValidator,
-        ProductNameAvailabilityValidator productNameAvailabilityValidator
+        IRestaurantExistenceValidator restaurantExistenceValidator,
+        IProductNameAvailabilityValidator productNameAvailabilityValidator
     )
     {
         this.repository = repository;
@@ -60,7 +61,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<ProductDto>>> FindAll(
+    public async Task<ActionResult<ReadOnlyCollection<ProductDto>>> FindAll(
         [FromQuery] PaginationInputModel paginationInputModel,
         [FromBody] AllProductsQueryInputModel allProductsQueryInputModel
     )

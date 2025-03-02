@@ -61,7 +61,7 @@ public class Product : AggregateRoot
         Guid restaurantId
     )
     {
-        List<CustomException> exceptions = new();
+        List<CustomException> exceptions = [];
         ProductName? productName = null;
         ProductPrice? productPrice = null;
         ProductDescription? productDescription = null;
@@ -91,7 +91,7 @@ public class Product : AggregateRoot
         }
         if (exceptions.Count > 0)
         {
-            throw new MultipleCustomException(exceptions);
+            throw new MultipleCustomException(exceptions.AsReadOnly());
         }
         Product product =
             new(

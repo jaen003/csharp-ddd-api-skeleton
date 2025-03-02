@@ -1,10 +1,12 @@
+using System.Collections.ObjectModel;
+
 namespace Src.Core.Shared.Domain.Exceptions;
 
 public class MultipleCustomException : Exception
 {
-    public List<CustomException> Exceptions { get; }
+    public ReadOnlyCollection<CustomException> Exceptions { get; }
 
-    public MultipleCustomException(List<CustomException> exceptions)
+    public MultipleCustomException(ReadOnlyCollection<CustomException> exceptions)
     {
         Exceptions = exceptions;
     }

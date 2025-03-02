@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using Src.Core.Shared.Domain.Events;
 
 namespace Src.Core.Shared.Domain.Aggregates;
@@ -8,7 +9,7 @@ public class AggregateRoot
 
     public AggregateRoot()
     {
-        events = new List<DomainEvent>();
+        events = [];
     }
 
     protected void RecordEvent(DomainEvent domainEvent)
@@ -16,8 +17,8 @@ public class AggregateRoot
         events.Add(domainEvent);
     }
 
-    public List<DomainEvent> PullEvents()
+    public ReadOnlyCollection<DomainEvent> PullEvents()
     {
-        return events;
+        return events.AsReadOnly();
     }
 }

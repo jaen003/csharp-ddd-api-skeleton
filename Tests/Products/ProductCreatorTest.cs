@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using Moq;
 using Src.Core.Products.Application;
 using Src.Core.Products.Application.Dtos;
@@ -50,7 +51,10 @@ public class ProductCreatorTest
             );
         await creator.Create(creationDto);
         repository.Verify(r => r.Save(It.IsAny<Product>()), Times.Once);
-        eventPublisher.Verify(r => r.Publish(It.IsAny<List<DomainEvent>>()), Times.Once);
+        eventPublisher.Verify(
+            r => r.Publish(It.IsAny<ReadOnlyCollection<DomainEvent>>()),
+            Times.Once
+        );
     }
 
     [Fact]
@@ -69,7 +73,10 @@ public class ProductCreatorTest
             );
         await Assert.ThrowsAsync<RestaurantNotFoundException>(() => creator.Create(creationDto));
         repository.Verify(r => r.Save(It.IsAny<Product>()), Times.Never);
-        eventPublisher.Verify(r => r.Publish(It.IsAny<List<DomainEvent>>()), Times.Never);
+        eventPublisher.Verify(
+            r => r.Publish(It.IsAny<ReadOnlyCollection<DomainEvent>>()),
+            Times.Never
+        );
     }
 
     [Fact]
@@ -90,6 +97,9 @@ public class ProductCreatorTest
             () => creator.Create(creationDto)
         );
         repository.Verify(r => r.Save(It.IsAny<Product>()), Times.Never);
-        eventPublisher.Verify(r => r.Publish(It.IsAny<List<DomainEvent>>()), Times.Never);
+        eventPublisher.Verify(
+            r => r.Publish(It.IsAny<ReadOnlyCollection<DomainEvent>>()),
+            Times.Never
+        );
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using Src.Core.Products.Application.Dtos;
 using Src.Core.Products.Domain.Aggregates;
 using Src.Core.Products.Domain.ValueObjects;
@@ -14,7 +15,7 @@ public class AllProductsFinder
         this.repository = repository;
     }
 
-    public async Task<List<ProductDto>> Find(AllProductsQueryDto queryDto)
+    public async Task<ReadOnlyCollection<ProductDto>> Find(AllProductsQueryDto queryDto)
     {
         Pagination pagination = Pagination.Create(
             queryDto.PaginationDto.Limit,
@@ -27,11 +28,11 @@ public class AllProductsFinder
             queryDto.RestaurantId,
             pagination
         );
-        List<ProductDto> result = new();
+        List<ProductDto> result = [];
         foreach (Product product in products)
         {
             result.Add(new(product.Id, product.Name, product.Price, product.Description));
         }
-        return result;
+        return result.AsReadOnly();
     }
 }

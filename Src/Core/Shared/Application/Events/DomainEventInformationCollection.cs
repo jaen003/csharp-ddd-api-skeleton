@@ -1,3 +1,5 @@
+using System.Collections.ObjectModel;
+
 namespace Src.Core.Shared.Application.Events;
 
 public class DomainEventInformationCollection
@@ -6,7 +8,7 @@ public class DomainEventInformationCollection
 
     public DomainEventInformationCollection()
     {
-        items = new List<DomainEventInformation>();
+        items = [];
     }
 
     public void Add(DomainEventInformation eventInformation)
@@ -23,9 +25,9 @@ public class DomainEventInformationCollection
         return null;
     }
 
-    public List<DomainEventInformation> GetAll()
+    public ReadOnlyCollection<DomainEventInformation> GetAll()
     {
-        return items;
+        return items.AsReadOnly();
     }
 
     public bool IsEmpty()

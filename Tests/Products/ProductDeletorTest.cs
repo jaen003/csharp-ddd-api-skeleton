@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using Moq;
 using Src.Core.Products.Application;
 using Src.Core.Products.Application.Dtos;
@@ -52,7 +53,10 @@ public class ProductDeletorTest
         ProductDeletor deletor = new(repository.Object, eventPublisher.Object, logger);
         await deletor.Delete(deletionDto);
         repository.Verify(r => r.Update(It.Is<Product>(p => p == product)), Times.Once);
-        eventPublisher.Verify(r => r.Publish(It.IsAny<List<DomainEvent>>()), Times.Once);
+        eventPublisher.Verify(
+            r => r.Publish(It.IsAny<ReadOnlyCollection<DomainEvent>>()),
+            Times.Once
+        );
     }
 
     [Fact]
@@ -70,6 +74,9 @@ public class ProductDeletorTest
         ProductDeletor deletor = new(repository.Object, eventPublisher.Object, logger);
         await Assert.ThrowsAsync<ProductNotFoundException>(() => deletor.Delete(deletionDto));
         repository.Verify(r => r.Update(It.IsAny<Product>()), Times.Never);
-        eventPublisher.Verify(r => r.Publish(It.IsAny<List<DomainEvent>>()), Times.Never);
+        eventPublisher.Verify(
+            r => r.Publish(It.IsAny<ReadOnlyCollection<DomainEvent>>()),
+            Times.Never
+        );
     }
 }

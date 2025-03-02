@@ -32,7 +32,7 @@ public class Restaurant
 
     public static Restaurant Create(Guid id, string name)
     {
-        List<CustomException> exceptions = new();
+        List<CustomException> exceptions = [];
         RestaurantName? restaurantName = null;
         try
         {
@@ -44,7 +44,7 @@ public class Restaurant
         }
         if (exceptions.Count > 0)
         {
-            throw new MultipleCustomException(exceptions);
+            throw new MultipleCustomException(exceptions.AsReadOnly());
         }
         return new(id, restaurantName!, RestaurantStatus.CreateActive());
     }

@@ -45,7 +45,7 @@ public class CustomExceptionMiddleware
     )
     {
         context.Response.StatusCode = StatusCodes.Status400BadRequest;
-        List<Dictionary<string, object>> response = new();
+        List<Dictionary<string, object>> response = [];
         foreach (CustomException exception in multipleException.Exceptions)
         {
             exceptionHandler.Handle(exception);

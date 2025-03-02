@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using System.Reflection;
 using Src.Core.Shared.Application.EventHandlers;
 
@@ -5,7 +6,7 @@ namespace Src.Core.Shared.Infrastructure.EventHandlers;
 
 public static class DomainEventHandlerFinder
 {
-    public static List<Type> FindByEventClass(Type eventClass)
+    public static ReadOnlyCollection<Type> FindByEventClass(Type eventClass)
     {
         Assembly assembly = Assembly.GetExecutingAssembly();
         IEnumerable<Type> satisfiedClasses = assembly.ExportedTypes.Where(i =>
@@ -14,6 +15,6 @@ public static class DomainEventHandlerFinder
             && typeof(IDomainEventHandlerBase).IsAssignableFrom(i)
             && i.GetInterfaces().Any(j => j.GenericTypeArguments.FirstOrDefault() == eventClass)
         );
-        return satisfiedClasses.ToList();
+        return satisfiedClasses.ToList().AsReadOnly();
     }
 }
