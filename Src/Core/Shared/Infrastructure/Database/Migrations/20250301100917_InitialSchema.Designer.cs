@@ -12,7 +12,7 @@ using Src.Core.Shared.Infrastructure.Database;
 namespace Src.Core.Shared.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(PostgresqlDatabaseContext))]
-    [Migration("20250221234602_InitialSchema")]
+    [Migration("20250301100917_InitialSchema")]
     partial class InitialSchema
     {
         /// <inheritdoc />
