@@ -3,7 +3,7 @@ using Src.Core.Shared.Domain.ValueObjects;
 
 namespace Src.Core.Products.Domain.ValueObjects;
 
-public class ProductDescription : NonEmptyString
+public record ProductDescription : NonEmptyString
 {
     private const string VALUE_OBJECT_NAME = "description";
 

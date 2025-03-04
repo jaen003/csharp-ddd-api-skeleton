@@ -3,7 +3,7 @@ using Src.Core.Shared.Domain.ValueObjects;
 
 namespace Src.Core.Products.Domain.ValueObjects;
 
-public class ProductPrice : NonNegativeInt
+public record ProductPrice : NonNegativeInt
 {
     private const string VALUE_OBJECT_NAME = "price";
 

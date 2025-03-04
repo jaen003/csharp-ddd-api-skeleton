@@ -3,7 +3,7 @@ using Src.Core.Shared.Domain.ValueObjects;
 
 namespace Src.Core.Restaurants.Domain.ValueObjects;
 
-public class RestaurantName : NonEmptyString
+public record RestaurantName : NonEmptyString
 {
     private const string VALUE_OBJECT_NAME = "name";
 

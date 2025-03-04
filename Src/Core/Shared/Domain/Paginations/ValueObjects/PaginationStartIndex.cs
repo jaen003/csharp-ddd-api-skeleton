@@ -3,7 +3,7 @@ using Src.Core.Shared.Domain.ValueObjects;
 
 namespace Src.Core.Shared.Domain.Paginations.ValueObjects;
 
-public class PaginationStartIndex : NonEmptyString
+public record PaginationStartIndex : NonEmptyString
 {
     private const string VALUE_OBJECT_NAME = "start index";
 

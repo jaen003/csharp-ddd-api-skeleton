@@ -3,7 +3,7 @@ using Src.Core.Shared.Domain.Exceptions;
 
 namespace Src.Core.Shared.Domain.ValueObjects;
 
-public class NonEmptyString : ValueObject<string>
+public record NonEmptyString : ValueObject<string>
 {
     public NonEmptyString(string value, string valueObjectName, string aggregateName)
         : base(value)

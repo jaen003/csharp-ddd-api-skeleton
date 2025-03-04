@@ -1,6 +1,6 @@
 namespace Src.Core.Shared.Domain.ValueObjects;
 
-public class NonNegativeShort : NonNegativeNumber<short>
+public record NonNegativeShort : NonNegativeNumber<short>
 {
     private const short MINIMUM_VALUE = 0;
 

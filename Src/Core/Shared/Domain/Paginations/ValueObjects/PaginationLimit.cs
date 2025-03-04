@@ -4,7 +4,7 @@ using Src.Core.Shared.Domain.ValueObjects;
 
 namespace Src.Core.Shared.Domain.Paginations.ValueObjects;
 
-public class PaginationLimit : NonNegativeShort
+public record PaginationLimit : NonNegativeShort
 {
     private const short MAXIMUM = 30;
     private const string VALUE_OBJECT_NAME = "limit";

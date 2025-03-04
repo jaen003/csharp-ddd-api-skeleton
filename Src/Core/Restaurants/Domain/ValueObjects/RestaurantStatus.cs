@@ -4,7 +4,7 @@ using Src.Core.Shared.Domain.ValueObjects;
 
 namespace Src.Core.Restaurants.Domain.ValueObjects;
 
-public class RestaurantStatus : NonNegativeShort
+public record RestaurantStatus : NonNegativeShort
 {
     private const short ACTIVE = 0;
     public const short DELETED = 1;

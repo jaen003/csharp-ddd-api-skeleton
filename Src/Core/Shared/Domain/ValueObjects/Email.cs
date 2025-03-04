@@ -2,7 +2,7 @@ using Src.Core.Shared.Domain.Exceptions;
 
 namespace Src.Core.Shared.Domain.ValueObjects;
 
-public class Email : NonEmptyString
+public record Email : NonEmptyString
 {
     private const string PATTERN = @"^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$";
     private const string VALUE_OBJECT_NAME = "email";

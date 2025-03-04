@@ -4,7 +4,7 @@ using Src.Core.Shared.Domain.ValueObjects;
 
 namespace Src.Core.Shared.Domain.Paginations.ValueObjects;
 
-public class PaginationSortingType : NonEmptyString
+public record PaginationSortingType : NonEmptyString
 {
     private const string ASCENDING = "asc";
     private const string DESCENDING = "desc";

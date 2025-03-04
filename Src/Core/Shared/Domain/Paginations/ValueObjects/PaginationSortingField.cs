@@ -3,7 +3,7 @@ using Src.Core.Shared.Domain.ValueObjects;
 
 namespace Src.Core.Shared.Domain.Paginations.ValueObjects;
 
-public class PaginationSortingField : NonEmptyString
+public record PaginationSortingField : NonEmptyString
 {
     private const string VALUE_OBJECT_NAME = "field";
 

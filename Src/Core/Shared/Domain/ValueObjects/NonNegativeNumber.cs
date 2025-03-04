@@ -2,7 +2,7 @@ using Src.Core.Shared.Domain.Exceptions;
 
 namespace Src.Core.Shared.Domain.ValueObjects;
 
-public abstract class NonNegativeNumber<T> : ValueObject<T>
+public abstract record NonNegativeNumber<T> : ValueObject<T>
     where T : struct, IComparable<T>
 {
     protected NonNegativeNumber(T value, string valueObjectName, string aggregateName)
@@ -18,7 +18,7 @@ public abstract class NonNegativeNumber<T> : ValueObject<T>
 
     public bool IsLessThan(NonNegativeNumber<T> other)
     {
-        return Value.CompareTo(other.Value) < 0;
+        return IsLessThan(other.Value);
     }
 
     public bool IsLessThan(T other)
@@ -28,7 +28,7 @@ public abstract class NonNegativeNumber<T> : ValueObject<T>
 
     public bool IsGreaterThan(NonNegativeNumber<T> other)
     {
-        return Value.CompareTo(other.Value) > 0;
+        return IsGreaterThan(other.Value);
     }
 
     public bool IsGreaterThan(T other)
@@ -38,7 +38,7 @@ public abstract class NonNegativeNumber<T> : ValueObject<T>
 
     public bool IsLessThanOrEqual(NonNegativeNumber<T> other)
     {
-        return Value.CompareTo(other.Value) <= 0;
+        return IsLessThanOrEqual(other.Value);
     }
 
     public bool IsLessThanOrEqual(T other)
@@ -48,11 +48,31 @@ public abstract class NonNegativeNumber<T> : ValueObject<T>
 
     public bool IsGreaterThanOrEqual(NonNegativeNumber<T> other)
     {
-        return Value.CompareTo(other.Value) >= 0;
+        return IsGreaterThanOrEqual(other.Value);
     }
 
     public bool IsGreaterThanOrEqual(T other)
     {
         return Value.CompareTo(other) >= 0;
+    }
+
+    public static bool operator <(NonNegativeNumber<T> left, NonNegativeNumber<T> right)
+    {
+        return left.IsLessThan(right);
+    }
+
+    public static bool operator >(NonNegativeNumber<T> left, NonNegativeNumber<T> right)
+    {
+        return left.IsGreaterThan(right);
+    }
+
+    public static bool operator <=(NonNegativeNumber<T> left, NonNegativeNumber<T> right)
+    {
+        return left.IsLessThanOrEqual(right);
+    }
+
+    public static bool operator >=(NonNegativeNumber<T> left, NonNegativeNumber<T> right)
+    {
+        return left.IsGreaterThanOrEqual(right);
     }
 }

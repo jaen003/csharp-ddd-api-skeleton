@@ -4,7 +4,7 @@ using Src.Core.Shared.Domain.ValueObjects;
 
 namespace Src.Core.Products.Domain.ValueObjects;
 
-public class ProductStatus : NonNegativeShort
+public record ProductStatus : NonNegativeShort
 {
     private const short ACTIVE = 0;
     public const short DELETED = 1;
