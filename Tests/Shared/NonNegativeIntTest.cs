@@ -9,55 +9,65 @@ public class NonNegativeIntTest
     public void IsEqual()
     {
         NonNegativeInt valueObject = new(3, "price", "test");
-        Assert.True(valueObject.Equals(new NonNegativeInt(3, "price", "test")));
+        NonNegativeInt otherValueObject = new(3, "price", "test");
+        Assert.True(valueObject.Equals(otherValueObject));
+        Assert.True(valueObject == otherValueObject);
         Assert.True(valueObject.Equals(3));
     }
 
     [Theory]
     [InlineData(3, 2)]
     [InlineData(3, 4)]
-    public void IsNotEqual(int value, int anotherValue)
+    public void IsNotEqual(int value, int otherValue)
     {
         NonNegativeInt valueObject = new(value, "price", "test");
-        Assert.False(valueObject.Equals(new NonNegativeInt(anotherValue, "price", "test")));
-        Assert.False(valueObject.Equals(anotherValue));
+        NonNegativeInt otherValueObject = new(otherValue, "price", "test");
+        Assert.False(valueObject.Equals(otherValueObject));
+        Assert.False(valueObject == otherValueObject);
+        Assert.False(valueObject.Equals(otherValue));
     }
 
     [Fact]
     public void IsLessThan()
     {
         NonNegativeInt valueObject = new(3, "price", "test");
-        Assert.True(valueObject.IsLessThan(new NonNegativeInt(4, "price", "test")));
+        NonNegativeInt otherValueObject = new(4, "price", "test");
+        Assert.True(valueObject.IsLessThan(otherValueObject));
+        Assert.True(valueObject < otherValueObject);
         Assert.True(valueObject.IsLessThan(4));
     }
 
     [Theory]
     [InlineData(3, 3)]
     [InlineData(3, 2)]
-    public void IsNotLessThan(int value, int anotherValue)
+    public void IsNotLessThan(int value, int otherValue)
     {
         NonNegativeInt valueObject = new(value, "price", "test");
-        Assert.False(valueObject.IsLessThan(new NonNegativeInt(anotherValue, "price", "test")));
-        Assert.False(valueObject.IsLessThan(anotherValue));
+        NonNegativeInt otherValueObject = new(otherValue, "price", "test");
+        Assert.False(valueObject.IsLessThan(otherValueObject));
+        Assert.False(valueObject < otherValueObject);
+        Assert.False(valueObject.IsLessThan(otherValue));
     }
 
     [Theory]
     [InlineData(3, 3)]
     [InlineData(3, 4)]
-    public void IsLessThanOrEqual(int value, int anotherValue)
+    public void IsLessThanOrEqual(int value, int otherValue)
     {
         NonNegativeInt valueObject = new(value, "price", "test");
-        Assert.True(
-            valueObject.IsLessThanOrEqual(new NonNegativeInt(anotherValue, "price", "test"))
-        );
-        Assert.True(valueObject.IsLessThanOrEqual(anotherValue));
+        NonNegativeInt otherValueObject = new(otherValue, "price", "test");
+        Assert.True(valueObject.IsLessThanOrEqual(otherValueObject));
+        Assert.True(valueObject <= otherValueObject);
+        Assert.True(valueObject.IsLessThanOrEqual(otherValue));
     }
 
     [Fact]
     public void IsNotLessThanOrEqual()
     {
         NonNegativeInt valueObject = new(3, "price", "test");
-        Assert.False(valueObject.IsLessThanOrEqual(new NonNegativeInt(2, "price", "test")));
+        NonNegativeInt otherValueObject = new(2, "price", "test");
+        Assert.False(valueObject.IsLessThanOrEqual(otherValueObject));
+        Assert.False(valueObject <= otherValueObject);
         Assert.False(valueObject.IsLessThanOrEqual(2));
     }
 
@@ -65,38 +75,44 @@ public class NonNegativeIntTest
     public void IsGreaterThan()
     {
         NonNegativeInt valueObject = new(4, "price", "test");
-        Assert.True(valueObject.IsGreaterThan(new NonNegativeInt(3, "price", "test")));
+        NonNegativeInt otherValueObject = new(3, "price", "test");
+        Assert.True(valueObject.IsGreaterThan(otherValueObject));
+        Assert.True(valueObject > otherValueObject);
         Assert.True(valueObject.IsGreaterThan(3));
     }
 
     [Theory]
     [InlineData(3, 3)]
     [InlineData(3, 4)]
-    public void IsNotGreaterThan(int value, int anotherValue)
+    public void IsNotGreaterThan(int value, int otherValue)
     {
         NonNegativeInt valueObject = new(value, "price", "test");
-        Assert.False(valueObject.IsGreaterThan(new NonNegativeInt(anotherValue, "price", "test")));
-        Assert.False(valueObject.IsGreaterThan(anotherValue));
+        NonNegativeInt otherValueObject = new(otherValue, "price", "test");
+        Assert.False(valueObject.IsGreaterThan(otherValueObject));
+        Assert.False(valueObject > otherValueObject);
+        Assert.False(valueObject.IsGreaterThan(otherValue));
     }
 
     [Theory]
     [InlineData(3, 3)]
     [InlineData(4, 3)]
-    public void IsGreaterThanOrEqual(int value, int anotherValue)
+    public void IsGreaterThanOrEqual(int value, int otherValue)
     {
         NonNegativeInt valueObject = new(value, "price", "test");
-        Assert.True(
-            valueObject.IsGreaterThanOrEqual(new NonNegativeInt(anotherValue, "price", "test"))
-        );
-        Assert.True(valueObject.IsGreaterThanOrEqual(anotherValue));
+        NonNegativeInt otherValueObject = new(otherValue, "price", "test");
+        Assert.True(valueObject.IsGreaterThanOrEqual(otherValueObject));
+        Assert.True(valueObject >= otherValueObject);
+        Assert.True(valueObject.IsGreaterThanOrEqual(otherValue));
     }
 
     [Fact]
     public void IsNotGreaterThanOrEqual()
     {
         NonNegativeInt valueObject = new(3, "price", "test");
-        Assert.False(valueObject.IsGreaterThanOrEqual(new NonNegativeInt(4, "price", "test")));
+        NonNegativeInt otherValueObject = new(4, "price", "test");
+        Assert.False(valueObject.IsGreaterThanOrEqual(otherValueObject));
         Assert.False(valueObject.IsGreaterThanOrEqual(4));
+        Assert.False(valueObject >= otherValueObject);
     }
 
     [Fact]

@@ -9,7 +9,9 @@ public class NonEmptyStringTest
     public void IsEqual()
     {
         NonEmptyString valueObject = new("Hello world!", "message", "test");
-        Assert.True(valueObject.Equals(new NonEmptyString("Hello world!", "message", "test")));
+        NonEmptyString otherValueObject = new("Hello world!", "message", "test");
+        Assert.True(valueObject.Equals(otherValueObject));
+        Assert.True(valueObject == otherValueObject);
         Assert.True(valueObject.Equals("Hello world!"));
     }
 
@@ -17,7 +19,9 @@ public class NonEmptyStringTest
     public void IsNotEqual()
     {
         NonEmptyString valueObject = new("Hello world", "message", "test");
-        Assert.False(valueObject.Equals(new NonEmptyString("Hello world!", "message", "test")));
+        NonEmptyString otherValueObject = new("Hello world!", "message", "test");
+        Assert.False(valueObject.Equals(otherValueObject));
+        Assert.False(valueObject == otherValueObject);
         Assert.False(valueObject.Equals("Hello world!"));
     }
 
@@ -34,11 +38,11 @@ public class NonEmptyStringTest
     [InlineData("Hello world!", "Hello")]
     [InlineData("Hello world!", "(.*)world(.*)")]
     [InlineData("Hello world!", "world")]
-    public void IsMatch(string value, string anotherValue)
+    public void IsMatch(string value, string otherValue)
     {
         NonEmptyString valueObject = new(value, "message", "test");
-        Assert.True(valueObject.Matches(new NonEmptyString(anotherValue, "message", "test")));
-        Assert.True(valueObject.Matches(anotherValue));
+        Assert.True(valueObject.Matches(new NonEmptyString(otherValue, "message", "test")));
+        Assert.True(valueObject.Matches(otherValue));
     }
 
     [Theory]
@@ -46,11 +50,11 @@ public class NonEmptyStringTest
     [InlineData("Hello world!", "hello")]
     [InlineData("Hello world!", "(.*)World!")]
     [InlineData("Hello world!", "(.*)World(.*)")]
-    public void IsNotMatch(string value, string anotherValue)
+    public void IsNotMatch(string value, string otherValue)
     {
         NonEmptyString valueObject = new(value, "message", "test");
-        Assert.False(valueObject.Matches(new NonEmptyString(anotherValue, "message", "test")));
-        Assert.False(valueObject.Matches(anotherValue));
+        Assert.False(valueObject.Matches(new NonEmptyString(otherValue, "message", "test")));
+        Assert.False(valueObject.Matches(otherValue));
     }
 
     [Fact]
@@ -64,23 +68,23 @@ public class NonEmptyStringTest
     [Theory]
     [InlineData("Hello world!", "Hello world!")]
     [InlineData("Hello world", "Hello world!")]
-    public void IsNotLongerThan(string value, string anotherValue)
+    public void IsNotLongerThan(string value, string otherValue)
     {
         NonEmptyString valueObject = new(value, "message", "test");
-        Assert.False(valueObject.IsLongerThan(new NonEmptyString(anotherValue, "message", "test")));
-        Assert.False(valueObject.IsLongerThan(anotherValue));
+        Assert.False(valueObject.IsLongerThan(new NonEmptyString(otherValue, "message", "test")));
+        Assert.False(valueObject.IsLongerThan(otherValue));
     }
 
     [Theory]
     [InlineData("Hello world!", "Hello world!")]
     [InlineData("Hello world!", "Hello world")]
-    public void IsLongerThanOrEqual(string value, string anotherValue)
+    public void IsLongerThanOrEqual(string value, string otherValue)
     {
         NonEmptyString valueObject = new(value, "message", "test");
         Assert.True(
-            valueObject.IsLongerThanOrEqual(new NonEmptyString(anotherValue, "message", "test"))
+            valueObject.IsLongerThanOrEqual(new NonEmptyString(otherValue, "message", "test"))
         );
-        Assert.True(valueObject.IsLongerThanOrEqual(anotherValue));
+        Assert.True(valueObject.IsLongerThanOrEqual(otherValue));
     }
 
     [Fact]

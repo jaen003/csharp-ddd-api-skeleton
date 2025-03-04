@@ -9,55 +9,65 @@ public class NonNegativeShortTest
     public void IsEqual()
     {
         NonNegativeShort valueObject = new(3, "status", "test");
-        Assert.True(valueObject.Equals(new NonNegativeShort(3, "status", "test")));
+        NonNegativeShort otherValueObject = new(3, "status", "test");
+        Assert.True(valueObject.Equals(otherValueObject));
+        Assert.True(valueObject == otherValueObject);
         Assert.True(valueObject.Equals(3));
     }
 
     [Theory]
     [InlineData(3, 2)]
     [InlineData(3, 4)]
-    public void IsNotEqual(short value, short anotherValue)
+    public void IsNotEqual(short value, short otherValue)
     {
         NonNegativeShort valueObject = new(value, "status", "test");
-        Assert.False(valueObject.Equals(new NonNegativeShort(anotherValue, "status", "test")));
-        Assert.False(valueObject.Equals(anotherValue));
+        NonNegativeShort otherValueObject = new(otherValue, "status", "test");
+        Assert.False(valueObject.Equals(otherValueObject));
+        Assert.False(valueObject == otherValueObject);
+        Assert.False(valueObject.Equals(otherValue));
     }
 
     [Fact]
     public void IsLessThan()
     {
         NonNegativeShort valueObject = new(3, "status", "test");
-        Assert.True(valueObject.IsLessThan(new NonNegativeShort(4, "status", "test")));
+        NonNegativeShort otherValueObject = new(4, "status", "test");
+        Assert.True(valueObject.IsLessThan(otherValueObject));
+        Assert.True(valueObject < otherValueObject);
         Assert.True(valueObject.IsLessThan(4));
     }
 
     [Theory]
     [InlineData(3, 3)]
     [InlineData(3, 2)]
-    public void IsNotLessThan(short value, short anotherValue)
+    public void IsNotLessThan(short value, short otherValue)
     {
         NonNegativeShort valueObject = new(value, "status", "test");
-        Assert.False(valueObject.IsLessThan(new NonNegativeShort(anotherValue, "status", "test")));
-        Assert.False(valueObject.IsLessThan(anotherValue));
+        NonNegativeShort otherValueObject = new(otherValue, "status", "test");
+        Assert.False(valueObject.IsLessThan(otherValueObject));
+        Assert.False(valueObject < otherValueObject);
+        Assert.False(valueObject.IsLessThan(otherValue));
     }
 
     [Theory]
     [InlineData(3, 3)]
     [InlineData(3, 4)]
-    public void IsLessThanOrEqual(short value, short anotherValue)
+    public void IsLessThanOrEqual(short value, short otherValue)
     {
         NonNegativeShort valueObject = new(value, "status", "test");
-        Assert.True(
-            valueObject.IsLessThanOrEqual(new NonNegativeShort(anotherValue, "status", "test"))
-        );
-        Assert.True(valueObject.IsLessThanOrEqual(anotherValue));
+        NonNegativeShort otherValueObject = new(otherValue, "status", "test");
+        Assert.True(valueObject.IsLessThanOrEqual(otherValueObject));
+        Assert.True(valueObject <= otherValueObject);
+        Assert.True(valueObject.IsLessThanOrEqual(otherValue));
     }
 
     [Fact]
     public void IsNotLessThanOrEqual()
     {
         NonNegativeShort valueObject = new(3, "status", "test");
-        Assert.False(valueObject.IsLessThanOrEqual(new NonNegativeShort(2, "status", "test")));
+        NonNegativeShort otherValueObject = new(2, "status", "test");
+        Assert.False(valueObject.IsLessThanOrEqual(otherValueObject));
+        Assert.False(valueObject <= otherValueObject);
         Assert.False(valueObject.IsLessThanOrEqual(2));
     }
 
@@ -65,40 +75,44 @@ public class NonNegativeShortTest
     public void IsGreaterThan()
     {
         NonNegativeShort valueObject = new(4, "status", "test");
-        Assert.True(valueObject.IsGreaterThan(new NonNegativeShort(3, "status", "test")));
+        NonNegativeShort otherValueObject = new(3, "status", "test");
+        Assert.True(valueObject.IsGreaterThan(otherValueObject));
+        Assert.True(valueObject > otherValueObject);
         Assert.True(valueObject.IsGreaterThan(3));
     }
 
     [Theory]
     [InlineData(3, 3)]
     [InlineData(3, 4)]
-    public void IsNotGreaterThan(short value, short anotherValue)
+    public void IsNotGreaterThan(short value, short otherValue)
     {
         NonNegativeShort valueObject = new(value, "status", "test");
-        Assert.False(
-            valueObject.IsGreaterThan(new NonNegativeShort(anotherValue, "status", "test"))
-        );
-        Assert.False(valueObject.IsGreaterThan(anotherValue));
+        NonNegativeShort otherValueObject = new(otherValue, "status", "test");
+        Assert.False(valueObject.IsGreaterThan(otherValueObject));
+        Assert.False(valueObject > otherValueObject);
+        Assert.False(valueObject.IsGreaterThan(otherValue));
     }
 
     [Theory]
     [InlineData(3, 3)]
     [InlineData(4, 3)]
-    public void IsGreaterThanOrEqual(short value, short anotherValue)
+    public void IsGreaterThanOrEqual(short value, short otherValue)
     {
         NonNegativeShort valueObject = new(value, "status", "test");
-        Assert.True(
-            valueObject.IsGreaterThanOrEqual(new NonNegativeShort(anotherValue, "status", "test"))
-        );
-        Assert.True(valueObject.IsGreaterThanOrEqual(anotherValue));
+        NonNegativeShort otherValueObject = new(otherValue, "status", "test");
+        Assert.True(valueObject.IsGreaterThanOrEqual(otherValueObject));
+        Assert.True(valueObject >= otherValueObject);
+        Assert.True(valueObject.IsGreaterThanOrEqual(otherValue));
     }
 
     [Fact]
     public void IsNotGreaterThanOrEqual()
     {
         NonNegativeShort valueObject = new(3, "status", "test");
-        Assert.False(valueObject.IsGreaterThanOrEqual(new NonNegativeShort(4, "status", "test")));
+        NonNegativeShort otherValueObject = new(4, "status", "test");
+        Assert.False(valueObject.IsGreaterThanOrEqual(otherValueObject));
         Assert.False(valueObject.IsGreaterThanOrEqual(4));
+        Assert.False(valueObject >= otherValueObject);
     }
 
     [Fact]
