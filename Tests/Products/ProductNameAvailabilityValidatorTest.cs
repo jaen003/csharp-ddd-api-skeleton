@@ -1,7 +1,7 @@
 using Moq;
 using Src.Core.Products.Application;
 using Src.Core.Products.Application.Exceptions;
-using Src.Core.Products.Application.Services;
+using Src.Core.Products.Application.Validators;
 
 namespace Tests.Products;
 

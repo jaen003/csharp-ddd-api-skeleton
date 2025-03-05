@@ -1,9 +1,9 @@
 using System.Collections.ObjectModel;
 using Moq;
 using Src.Core.Products.Application;
-using Src.Core.Products.Application.Dtos;
+using Src.Core.Products.Application.DTOs;
 using Src.Core.Products.Application.Exceptions;
-using Src.Core.Products.Application.Services;
+using Src.Core.Products.Application.UseCases;
 using Src.Core.Products.Domain.Aggregates;
 using Src.Core.Shared.Application.EventBus;
 using Src.Core.Shared.Application.Logging;
@@ -14,7 +14,7 @@ namespace Tests.Products;
 public class ProductPriceChangerTest
 {
     private readonly Product product;
-    private readonly ProductPriceChangeDto changeDto;
+    private readonly ProductPriceChangeData changeData;
     private readonly ILogger logger;
     private readonly Mock<IDomainEventPublisher> eventPublisher;
     private readonly Mock<IProductRepository> repository;
@@ -29,7 +29,7 @@ public class ProductPriceChangerTest
             1,
             new Guid("82022d1f-b0fa-4b70-86ae-e99c3101fb47")
         );
-        changeDto = new ProductPriceChangeDto(
+        changeData = new ProductPriceChangeData(
             new Guid("a1433e47-9708-4e61-adfc-6de2ad462f82"),
             3,
             new Guid("82022d1f-b0fa-4b70-86ae-e99c3101fb47")
@@ -52,7 +52,7 @@ public class ProductPriceChangerTest
             )
             .ReturnsAsync(product);
         ProductPriceChanger changer = new(repository.Object, eventPublisher.Object, logger);
-        await changer.Change(changeDto);
+        await changer.Change(changeData);
         repository.Verify(r => r.Update(It.IsAny<Product>()), Times.Once);
         eventPublisher.Verify(
             r => r.Publish(It.IsAny<ReadOnlyCollection<DomainEvent>>()),
@@ -73,7 +73,7 @@ public class ProductPriceChangerTest
             )
             .ReturnsAsync(null as Product);
         ProductPriceChanger changer = new(repository.Object, eventPublisher.Object, logger);
-        await Assert.ThrowsAsync<ProductNotFoundException>(() => changer.Change(changeDto));
+        await Assert.ThrowsAsync<ProductNotFoundException>(() => changer.Change(changeData));
         repository.Verify(r => r.Update(It.IsAny<Product>()), Times.Never);
         eventPublisher.Verify(
             r => r.Publish(It.IsAny<ReadOnlyCollection<DomainEvent>>()),

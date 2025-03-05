@@ -1,7 +1,7 @@
 using Moq;
 using Src.Core.Restaurants.Application;
 using Src.Core.Restaurants.Application.Exceptions;
-using Src.Core.Restaurants.Application.Services;
+using Src.Core.Restaurants.Application.Validators;
 
 namespace Tests.Resturants;
 

@@ -1,12 +1,13 @@
 using System.Collections.ObjectModel;
 using Moq;
 using Src.Core.Products.Application;
-using Src.Core.Products.Application.Dtos;
+using Src.Core.Products.Application.DTOs;
 using Src.Core.Products.Application.Exceptions;
-using Src.Core.Products.Application.Services;
+using Src.Core.Products.Application.UseCases;
+using Src.Core.Products.Application.Validators;
 using Src.Core.Products.Domain.Aggregates;
 using Src.Core.Restaurants.Application.Exceptions;
-using Src.Core.Restaurants.Application.Services;
+using Src.Core.Restaurants.Application.Validators;
 using Src.Core.Shared.Application.EventBus;
 using Src.Core.Shared.Application.Logging;
 using Src.Core.Shared.Domain.Events;
@@ -15,7 +16,7 @@ namespace Tests.Products;
 
 public class ProductCreatorTest
 {
-    private readonly ProductCreationDto creationDto;
+    private readonly ProductCreationData creationData;
     private readonly ILogger logger;
     private readonly Mock<IDomainEventPublisher> eventPublisher;
     private readonly Mock<IProductRepository> repository;
@@ -24,7 +25,7 @@ public class ProductCreatorTest
 
     public ProductCreatorTest()
     {
-        creationDto = new ProductCreationDto(
+        creationData = new ProductCreationData(
             new Guid("a1433e47-9708-4e61-adfc-6de2ad462f82"),
             "Sandwich",
             3,
@@ -49,7 +50,7 @@ public class ProductCreatorTest
                 restaurantExistenceValidator.Object,
                 productNameAvailabilityValidator.Object
             );
-        await creator.Create(creationDto);
+        await creator.Create(creationData);
         repository.Verify(r => r.Save(It.IsAny<Product>()), Times.Once);
         eventPublisher.Verify(
             r => r.Publish(It.IsAny<ReadOnlyCollection<DomainEvent>>()),
@@ -62,7 +63,7 @@ public class ProductCreatorTest
     {
         restaurantExistenceValidator
             .Setup(l => l.Validate(It.IsAny<Guid>()))
-            .ThrowsAsync(new RestaurantNotFoundException(creationDto.RestaurantId));
+            .ThrowsAsync(new RestaurantNotFoundException(creationData.RestaurantId));
         ProductCreator creator =
             new(
                 repository.Object,
@@ -71,7 +72,7 @@ public class ProductCreatorTest
                 restaurantExistenceValidator.Object,
                 productNameAvailabilityValidator.Object
             );
-        await Assert.ThrowsAsync<RestaurantNotFoundException>(() => creator.Create(creationDto));
+        await Assert.ThrowsAsync<RestaurantNotFoundException>(() => creator.Create(creationData));
         repository.Verify(r => r.Save(It.IsAny<Product>()), Times.Never);
         eventPublisher.Verify(
             r => r.Publish(It.IsAny<ReadOnlyCollection<DomainEvent>>()),
@@ -84,7 +85,7 @@ public class ProductCreatorTest
     {
         productNameAvailabilityValidator
             .Setup(l => l.Validate(It.IsAny<string>(), It.IsAny<Guid>()))
-            .ThrowsAsync(new ProductNameNotAvailableException(creationDto.Name));
+            .ThrowsAsync(new ProductNameNotAvailableException(creationData.Name));
         ProductCreator creator =
             new(
                 repository.Object,
@@ -94,7 +95,7 @@ public class ProductCreatorTest
                 productNameAvailabilityValidator.Object
             );
         await Assert.ThrowsAsync<ProductNameNotAvailableException>(
-            () => creator.Create(creationDto)
+            () => creator.Create(creationData)
         );
         repository.Verify(r => r.Save(It.IsAny<Product>()), Times.Never);
         eventPublisher.Verify(
