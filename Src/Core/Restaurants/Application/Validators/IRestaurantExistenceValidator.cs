@@ -1,4 +1,4 @@
-namespace Src.Core.Restaurants.Application.Services;
+namespace Src.Core.Restaurants.Application.Validators;
 
 public interface IRestaurantExistenceValidator
 {

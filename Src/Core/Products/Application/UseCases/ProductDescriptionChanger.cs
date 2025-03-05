@@ -1,19 +1,19 @@
-using Src.Core.Products.Application.Dtos;
+using Src.Core.Products.Application.DTOs;
 using Src.Core.Products.Application.Exceptions;
 using Src.Core.Products.Domain.Aggregates;
 using Src.Core.Products.Domain.ValueObjects;
 using Src.Core.Shared.Application.EventBus;
 using Src.Core.Shared.Application.Logging;
 
-namespace Src.Core.Products.Application.Services;
+namespace Src.Core.Products.Application.UseCases;
 
-public class ProductPriceChanger
+public class ProductDescriptionChanger
 {
     private readonly IProductRepository repository;
     private readonly IDomainEventPublisher eventPublisher;
     private readonly ILogger logger;
 
-    public ProductPriceChanger(
+    public ProductDescriptionChanger(
         IProductRepository repository,
         IDomainEventPublisher eventPublisher,
         ILogger logger
@@ -24,20 +24,21 @@ public class ProductPriceChanger
         this.logger = logger;
     }
 
-    public async Task Change(ProductPriceChangeDto changeDto)
+    public async Task Change(ProductDescriptionChangeData changeData)
     {
         Product? product =
             await repository.FindByStatusNotAndIdAndRestaurantId(
                 ProductStatus.DELETED,
-                changeDto.Id,
-                changeDto.RestaurantId
-            ) ?? throw new ProductNotFoundException(changeDto.Id);
-        int oldPrice = product.Price;
-        product.ChangePrice(changeDto.Price);
+                changeData.Id,
+                changeData.RestaurantId
+            ) ?? throw new ProductNotFoundException(changeData.Id);
+        string oldDescription = product.Description;
+        product.ChangeDescription(changeData.Description);
         await repository.Update(product);
         await eventPublisher.Publish(product.PullEvents());
         logger.Information(
-            $"The product price '{oldPrice}' has been changed to '{changeDto.Price}'."
+            $"The product description '{oldDescription}' has been changed to "
+                + $"'{changeData.Description}'."
         );
     }
 }

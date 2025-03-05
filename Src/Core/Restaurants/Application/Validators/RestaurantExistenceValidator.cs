@@ -1,7 +1,7 @@
 using Src.Core.Restaurants.Application.Exceptions;
 using Src.Core.Restaurants.Domain.ValueObjects;
 
-namespace Src.Core.Restaurants.Application.Services;
+namespace Src.Core.Restaurants.Application.Validators;
 
 public class RestaurantExistenceValidator : IRestaurantExistenceValidator
 {

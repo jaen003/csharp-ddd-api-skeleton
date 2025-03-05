@@ -1,12 +1,12 @@
-namespace Src.Core.Products.Application.Dtos;
+namespace Src.Core.Products.Application.DTOs;
 
-public record ProductNameChangeDto
+public record ProductNameChangeData
 {
     public Guid Id { get; }
     public string Name { get; }
     public Guid RestaurantId { get; }
 
-    public ProductNameChangeDto(Guid id, string name, Guid restaurantId)
+    public ProductNameChangeData(Guid id, string name, Guid restaurantId)
     {
         Id = id;
         Name = name;

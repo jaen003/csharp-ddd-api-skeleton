@@ -1,9 +1,9 @@
-using Src.Core.Restaurants.Application.Dtos;
+using Src.Core.Restaurants.Application.DTOs;
 using Src.Core.Restaurants.Domain.Aggregates;
 using Src.Core.Restaurants.Domain.ValueObjects;
 using Src.Core.Shared.Application.Logging;
 
-namespace Src.Core.Restaurants.Application.Services;
+namespace Src.Core.Restaurants.Application.UseCases;
 
 public class RestaurantCreator
 {
@@ -16,13 +16,13 @@ public class RestaurantCreator
         this.logger = logger;
     }
 
-    public async Task Create(RestaurantCreationDto creationDto)
+    public async Task Create(RestaurantCreationData creationData)
     {
-        if (!await IsRestaurantCreated(creationDto.Id))
+        if (!await IsRestaurantCreated(creationData.Id))
         {
-            Restaurant restaurant = Restaurant.Create(creationDto.Id, creationDto.Name);
+            Restaurant restaurant = Restaurant.Create(creationData.Id, creationData.Name);
             await repository.Save(restaurant);
-            logger.Information($"The restaurant '{creationDto.Id}' has been created.");
+            logger.Information($"The restaurant '{creationData.Id}' has been created.");
         }
     }
 

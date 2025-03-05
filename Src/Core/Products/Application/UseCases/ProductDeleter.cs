@@ -1,19 +1,19 @@
-using Src.Core.Products.Application.Dtos;
+using Src.Core.Products.Application.DTOs;
 using Src.Core.Products.Application.Exceptions;
 using Src.Core.Products.Domain.Aggregates;
 using Src.Core.Products.Domain.ValueObjects;
 using Src.Core.Shared.Application.EventBus;
 using Src.Core.Shared.Application.Logging;
 
-namespace Src.Core.Products.Application.Services;
+namespace Src.Core.Products.Application.UseCases;
 
-public class ProductDescriptionChanger
+public class ProductDeleter
 {
     private readonly IProductRepository repository;
     private readonly IDomainEventPublisher eventPublisher;
     private readonly ILogger logger;
 
-    public ProductDescriptionChanger(
+    public ProductDeleter(
         IProductRepository repository,
         IDomainEventPublisher eventPublisher,
         ILogger logger
@@ -24,21 +24,17 @@ public class ProductDescriptionChanger
         this.logger = logger;
     }
 
-    public async Task Change(ProductDescriptionChangeDto changeDto)
+    public async Task Delete(ProductDeletionData deletionData)
     {
         Product? product =
             await repository.FindByStatusNotAndIdAndRestaurantId(
                 ProductStatus.DELETED,
-                changeDto.Id,
-                changeDto.RestaurantId
-            ) ?? throw new ProductNotFoundException(changeDto.Id);
-        string oldDescription = product.Description;
-        product.ChangeDescription(changeDto.Description);
+                deletionData.Id,
+                deletionData.RestaurantId
+            ) ?? throw new ProductNotFoundException(deletionData.Id);
+        product.Delete();
         await repository.Update(product);
         await eventPublisher.Publish(product.PullEvents());
-        logger.Information(
-            $"The product description '{oldDescription}' has been changed to "
-                + $"'{changeDto.Description}'."
-        );
+        logger.Information($"The product '{deletionData.Id}' has been deleted.");
     }
 }

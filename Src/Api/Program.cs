@@ -1,11 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using Src.Api.Middlewares;
 using Src.Core.Products.Application;
-using Src.Core.Products.Application.Services;
+using Src.Core.Products.Application.Validators;
 using Src.Core.Products.Infrastructure;
 using Src.Core.Products.Infrastructure.Mappers;
 using Src.Core.Restaurants.Application;
-using Src.Core.Restaurants.Application.Services;
+using Src.Core.Restaurants.Application.UseCases;
+using Src.Core.Restaurants.Application.Validators;
 using Src.Core.Restaurants.Infrastructure;
 using Src.Core.Restaurants.Infrastructure.Mappers;
 using Src.Core.Shared.Application.EventBus;

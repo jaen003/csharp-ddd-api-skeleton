@@ -1,7 +1,7 @@
 using Src.Core.Products.Application.Exceptions;
 using Src.Core.Products.Domain.ValueObjects;
 
-namespace Src.Core.Products.Application.Services;
+namespace Src.Core.Products.Application.Validators;
 
 public class ProductNameAvailabilityValidator : IProductNameAvailabilityValidator
 {

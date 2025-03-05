@@ -1,5 +1,5 @@
-using Src.Core.Restaurants.Application.Dtos;
-using Src.Core.Restaurants.Application.Services;
+using Src.Core.Restaurants.Application.DTOs;
+using Src.Core.Restaurants.Application.UseCases;
 using Src.Core.Restaurants.Domain.Events;
 using Src.Core.Shared.Application.EventHandlers;
 
@@ -16,7 +16,7 @@ public class RestaurantCreatedEventHandler : IDomainEventHandler<RestaurantCreat
 
     public async Task Handle(RestaurantCreatedDomainEvent domainEvent)
     {
-        RestaurantCreationDto creationDto = new(domainEvent.Id, domainEvent.Name);
-        await creator.Create(creationDto);
+        RestaurantCreationData creationData = new(domainEvent.Id, domainEvent.Name);
+        await creator.Create(creationData);
     }
 }

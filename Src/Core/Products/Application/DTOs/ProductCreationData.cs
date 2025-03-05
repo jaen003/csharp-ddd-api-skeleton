@@ -1,6 +1,6 @@
-namespace Src.Core.Products.Application.Dtos;
+namespace Src.Core.Products.Application.DTOs;
 
-public record ProductCreationDto
+public record ProductCreationData
 {
     public Guid Id { get; }
     public string Name { get; }
@@ -8,7 +8,7 @@ public record ProductCreationDto
     public string Description { get; }
     public Guid RestaurantId { get; }
 
-    public ProductCreationDto(
+    public ProductCreationData(
         Guid id,
         string name,
         int price,

@@ -1,10 +1,11 @@
-using Src.Core.Products.Application.Dtos;
+using Src.Core.Products.Application.DTOs;
+using Src.Core.Products.Application.Validators;
 using Src.Core.Products.Domain.Aggregates;
-using Src.Core.Restaurants.Application.Services;
+using Src.Core.Restaurants.Application.Validators;
 using Src.Core.Shared.Application.EventBus;
 using Src.Core.Shared.Application.Logging;
 
-namespace Src.Core.Products.Application.Services;
+namespace Src.Core.Products.Application.UseCases;
 
 public class ProductCreator
 {
@@ -29,19 +30,22 @@ public class ProductCreator
         this.productNameAvailabilityValidator = productNameAvailabilityValidator;
     }
 
-    public async Task Create(ProductCreationDto creationDto)
+    public async Task Create(ProductCreationData creationData)
     {
-        await restaurantExistenceValidator.Validate(creationDto.RestaurantId);
-        await productNameAvailabilityValidator.Validate(creationDto.Name, creationDto.RestaurantId);
+        await restaurantExistenceValidator.Validate(creationData.RestaurantId);
+        await productNameAvailabilityValidator.Validate(
+            creationData.Name,
+            creationData.RestaurantId
+        );
         Product product = Product.Create(
-            creationDto.Id,
-            creationDto.Name,
-            creationDto.Price,
-            creationDto.Description,
-            creationDto.RestaurantId
+            creationData.Id,
+            creationData.Name,
+            creationData.Price,
+            creationData.Description,
+            creationData.RestaurantId
         );
         await productRepository.Save(product);
         await eventPublisher.Publish(product.PullEvents());
-        logger.Information($"The product '{creationDto.Id}' has been created.");
+        logger.Information($"The product '{creationData.Id}' has been created.");
     }
 }

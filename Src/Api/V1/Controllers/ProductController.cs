@@ -3,11 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using Src.Api.V1.InputModels.Paginations;
 using Src.Api.V1.InputModels.Products;
 using Src.Core.Products.Application;
-using Src.Core.Products.Application.Dtos;
-using Src.Core.Products.Application.Services;
-using Src.Core.Restaurants.Application.Services;
+using Src.Core.Products.Application.DTOs;
+using Src.Core.Products.Application.UseCases;
+using Src.Core.Products.Application.Validators;
+using Src.Core.Restaurants.Application.Validators;
 using Src.Core.Shared.Application.EventBus;
-using Src.Core.Shared.Application.Paginations;
+using Src.Core.Shared.Application.Paginations.DTOs;
 using ILogger = Src.Core.Shared.Application.Logging.ILogger;
 
 namespace Src.Api.V1.Controllers;
@@ -49,7 +50,7 @@ public class ProductController : ControllerBase
                 restaurantExistenceValidator,
                 productNameAvailabilityValidator
             );
-        ProductCreationDto creationDto =
+        ProductCreationData creationData =
             new(
                 inputModel.Id,
                 inputModel.Name,
@@ -57,36 +58,37 @@ public class ProductController : ControllerBase
                 inputModel.Description,
                 inputModel.RestaurantId
             );
-        await creator.Create(creationDto);
+        await creator.Create(creationData);
     }
 
     [HttpGet]
-    public async Task<ActionResult<ReadOnlyCollection<ProductDto>>> FindAll(
+    public async Task<ActionResult<ReadOnlyCollection<ProductResponseData>>> SearchAll(
         [FromQuery] PaginationInputModel paginationInputModel,
         [FromBody] AllProductsQueryInputModel allProductsQueryInputModel
     )
     {
-        AllProductsFinder finder = new(repository);
-        PaginationDto paginationDto =
+        AllProductsSearcher searcher = new(repository);
+        PaginationData paginationData =
             new(
                 paginationInputModel.Limit,
                 paginationInputModel.StartIndex,
                 paginationInputModel.SortingField,
                 paginationInputModel.SortingType
             );
-        AllProductsQueryDto queryDto = new(paginationDto, allProductsQueryInputModel.RestaurantId);
-        return await finder.Find(queryDto);
+        AllProductsSearchData searchData =
+            new(paginationData, allProductsQueryInputModel.RestaurantId);
+        return await searcher.Search(searchData);
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<ProductDto>> FindById(
+    public async Task<ActionResult<ProductResponseData>> SearchById(
         [FromRoute] Guid id,
         [FromBody] ProductByIdQueryInputModel inputModel
     )
     {
-        ProductByIdFinder finder = new(repository);
-        ProductByIdQueryDto queryDto = new(id, inputModel.RestaurantId);
-        return await finder.Find(queryDto);
+        ProductByIdSearcher searcher = new(repository);
+        ProductSearchData searchData = new(id, inputModel.RestaurantId);
+        return await searcher.Search(searchData);
     }
 
     [HttpPut("{id}/change/price")]
@@ -96,16 +98,16 @@ public class ProductController : ControllerBase
     )
     {
         ProductPriceChanger changer = new(repository, eventPublisher, logger);
-        ProductPriceChangeDto changeDto = new(id, inputModel.Price, inputModel.RestaurantId);
-        await changer.Change(changeDto);
+        ProductPriceChangeData changeData = new(id, inputModel.Price, inputModel.RestaurantId);
+        await changer.Change(changeData);
     }
 
     [HttpDelete("{id}")]
     public async Task Delete([FromRoute] Guid id, [FromBody] ProductDeletionInputModel inputModel)
     {
-        ProductDeletor deletor = new(repository, eventPublisher, logger);
-        ProductDeletionDto deletionDto = new(id, inputModel.RestaurantId);
-        await deletor.Delete(deletionDto);
+        ProductDeleter deleter = new(repository, eventPublisher, logger);
+        ProductDeletionData deletionData = new(id, inputModel.RestaurantId);
+        await deleter.Delete(deletionData);
     }
 
     [HttpPut("{id}/change/description")]
@@ -115,9 +117,9 @@ public class ProductController : ControllerBase
     )
     {
         ProductDescriptionChanger changer = new(repository, eventPublisher, logger);
-        ProductDescriptionChangeDto changeDto =
+        ProductDescriptionChangeData changeData =
             new(id, inputModel.Description, inputModel.RestaurantId);
-        await changer.Change(changeDto);
+        await changer.Change(changeData);
     }
 
     [HttpPut("{id}/rename")]
@@ -125,7 +127,7 @@ public class ProductController : ControllerBase
     {
         ProductRenamer renamer =
             new(repository, eventPublisher, logger, productNameAvailabilityValidator);
-        ProductNameChangeDto changeDto = new(id, inputModel.Name, inputModel.RestaurantId);
-        await renamer.Rename(changeDto);
+        ProductNameChangeData changeData = new(id, inputModel.Name, inputModel.RestaurantId);
+        await renamer.Rename(changeData);
     }
 }

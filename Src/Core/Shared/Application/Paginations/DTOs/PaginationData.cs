@@ -1,13 +1,18 @@
-namespace Src.Core.Shared.Application.Paginations;
+namespace Src.Core.Shared.Application.Paginations.DTOs;
 
-public record PaginationDto
+public record PaginationData
 {
     public short Limit { get; }
     public string? StartIndex { get; }
     public string? SortingField { get; }
     public string? SortingType { get; }
 
-    public PaginationDto(short limit, string? startIndex, string? sortingField, string? sortingType)
+    public PaginationData(
+        short limit,
+        string? startIndex,
+        string? sortingField,
+        string? sortingType
+    )
     {
         Limit = limit;
         StartIndex = startIndex;

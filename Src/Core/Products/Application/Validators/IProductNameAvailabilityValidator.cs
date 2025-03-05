@@ -1,4 +1,4 @@
-namespace Src.Core.Products.Application.Services;
+namespace Src.Core.Products.Application.Validators;
 
 public interface IProductNameAvailabilityValidator
 {

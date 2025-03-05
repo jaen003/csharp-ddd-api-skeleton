@@ -1,11 +1,11 @@
-namespace Src.Core.Products.Application.Dtos;
+namespace Src.Core.Products.Application.DTOs;
 
-public record ProductDeletionDto
+public record ProductSearchData
 {
     public Guid Id { get; }
     public Guid RestaurantId { get; }
 
-    public ProductDeletionDto(Guid id, Guid restaurantId)
+    public ProductSearchData(Guid id, Guid restaurantId)
     {
         Id = id;
         RestaurantId = restaurantId;

@@ -1,11 +1,12 @@
-using Src.Core.Products.Application.Dtos;
+using Src.Core.Products.Application.DTOs;
 using Src.Core.Products.Application.Exceptions;
+using Src.Core.Products.Application.Validators;
 using Src.Core.Products.Domain.Aggregates;
 using Src.Core.Products.Domain.ValueObjects;
 using Src.Core.Shared.Application.EventBus;
 using Src.Core.Shared.Application.Logging;
 
-namespace Src.Core.Products.Application.Services;
+namespace Src.Core.Products.Application.UseCases;
 
 public class ProductRenamer
 {
@@ -27,19 +28,21 @@ public class ProductRenamer
         this.productNameAvailabilityValidator = productNameAvailabilityValidator;
     }
 
-    public async Task Rename(ProductNameChangeDto changeDto)
+    public async Task Rename(ProductNameChangeData changeData)
     {
-        await productNameAvailabilityValidator.Validate(changeDto.Name, changeDto.RestaurantId);
+        await productNameAvailabilityValidator.Validate(changeData.Name, changeData.RestaurantId);
         Product? product =
             await repository.FindByStatusNotAndIdAndRestaurantId(
                 ProductStatus.DELETED,
-                changeDto.Id,
-                changeDto.RestaurantId
-            ) ?? throw new ProductNotFoundException(changeDto.Id);
+                changeData.Id,
+                changeData.RestaurantId
+            ) ?? throw new ProductNotFoundException(changeData.Id);
         string oldName = product.Name;
-        product.Rename(changeDto.Name);
+        product.Rename(changeData.Name);
         await repository.Update(product);
         await eventPublisher.Publish(product.PullEvents());
-        logger.Information($"The product name '{oldName}' has been changed to '{changeDto.Name}'.");
+        logger.Information(
+            $"The product name '{oldName}' has been changed to '{changeData.Name}'."
+        );
     }
 }

@@ -1,34 +1,36 @@
 using System.Collections.ObjectModel;
-using Src.Core.Products.Application.Dtos;
+using Src.Core.Products.Application.DTOs;
 using Src.Core.Products.Domain.Aggregates;
 using Src.Core.Products.Domain.ValueObjects;
 using Src.Core.Shared.Domain.Paginations.Aggregates;
 
-namespace Src.Core.Products.Application.Services;
+namespace Src.Core.Products.Application.UseCases;
 
-public class AllProductsFinder
+public class AllProductsSearcher
 {
     private readonly IProductRepository repository;
 
-    public AllProductsFinder(IProductRepository repository)
+    public AllProductsSearcher(IProductRepository repository)
     {
         this.repository = repository;
     }
 
-    public async Task<ReadOnlyCollection<ProductDto>> Find(AllProductsQueryDto queryDto)
+    public async Task<ReadOnlyCollection<ProductResponseData>> Search(
+        AllProductsSearchData searchData
+    )
     {
         Pagination pagination = Pagination.Create(
-            queryDto.PaginationDto.Limit,
-            queryDto.PaginationDto.StartIndex,
-            queryDto.PaginationDto.SortingField,
-            queryDto.PaginationDto.SortingType
+            searchData.PaginationData.Limit,
+            searchData.PaginationData.StartIndex,
+            searchData.PaginationData.SortingField,
+            searchData.PaginationData.SortingType
         );
         List<Product> products = await repository.FindByStatusNotAndRestaurantIdAndPagination(
             ProductStatus.DELETED,
-            queryDto.RestaurantId,
+            searchData.RestaurantId,
             pagination
         );
-        List<ProductDto> result = [];
+        List<ProductResponseData> result = [];
         foreach (Product product in products)
         {
             result.Add(new(product.Id, product.Name, product.Price, product.Description));
