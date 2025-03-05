@@ -1,7 +1,7 @@
 using System.Collections.ObjectModel;
 using Moq;
 using Src.Core.Products.Application;
-using Src.Core.Products.Application.DTOs;
+using Src.Core.Products.Application.Dtos;
 using Src.Core.Products.Application.Exceptions;
 using Src.Core.Products.Application.UseCases;
 using Src.Core.Products.Domain.Aggregates;
