@@ -4,11 +4,11 @@ namespace Src.Core.Shared.Domain.ValueObjects;
 
 public record Email : NonEmptyString
 {
-    private const string PATTERN = @"^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$";
-    private const string VALUE_OBJECT_NAME = "email";
+    private const string Pattern = @"^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$";
+    private const string ValueObjectName = "email";
 
     public Email(string value, string aggregateName)
-        : base(value, VALUE_OBJECT_NAME, aggregateName)
+        : base(value, ValueObjectName, aggregateName)
     {
         if (!IsValid())
         {
@@ -18,6 +18,6 @@ public record Email : NonEmptyString
 
     private bool IsValid()
     {
-        return Matches(PATTERN);
+        return Matches(Pattern);
     }
 }

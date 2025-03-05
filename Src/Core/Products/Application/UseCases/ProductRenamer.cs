@@ -33,7 +33,7 @@ public class ProductRenamer
         await productNameAvailabilityValidator.Validate(changeData.Name, changeData.RestaurantId);
         Product? product =
             await repository.FindByStatusNotAndIdAndRestaurantId(
-                ProductStatus.DELETED,
+                ProductStatus.Deleted,
                 changeData.Id,
                 changeData.RestaurantId
             ) ?? throw new ProductNotFoundException(changeData.Id);

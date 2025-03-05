@@ -6,11 +6,11 @@ namespace Src.Core.Shared.Domain.Paginations.ValueObjects;
 
 public record PaginationLimit : NonNegativeShort
 {
-    private const short MAXIMUM = 30;
-    private const string VALUE_OBJECT_NAME = "limit";
+    private const short Maximum = 30;
+    private const string ValueObjectName = "limit";
 
     public PaginationLimit(short value)
-        : base(value, VALUE_OBJECT_NAME, AggregateName.PAGINATION)
+        : base(value, ValueObjectName, AggregateName.Pagination)
     {
         if (!IsValid())
         {
@@ -20,6 +20,6 @@ public record PaginationLimit : NonNegativeShort
 
     private bool IsValid()
     {
-        return IsLessThanOrEqual(MAXIMUM);
+        return IsLessThanOrEqual(Maximum);
     }
 }

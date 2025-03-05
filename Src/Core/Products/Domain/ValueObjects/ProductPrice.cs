@@ -5,8 +5,8 @@ namespace Src.Core.Products.Domain.ValueObjects;
 
 public record ProductPrice : NonNegativeInt
 {
-    private const string VALUE_OBJECT_NAME = "price";
+    private const string ValueObjectName = "price";
 
     public ProductPrice(int value)
-        : base(value, VALUE_OBJECT_NAME, AggregateName.PRODUCT) { }
+        : base(value, ValueObjectName, AggregateName.Product) { }
 }

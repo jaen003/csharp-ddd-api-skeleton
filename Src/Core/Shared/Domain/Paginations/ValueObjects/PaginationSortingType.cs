@@ -6,12 +6,12 @@ namespace Src.Core.Shared.Domain.Paginations.ValueObjects;
 
 public record PaginationSortingType : NonEmptyString
 {
-    private const string ASCENDING = "asc";
-    private const string DESCENDING = "desc";
-    private const string VALUE_OBJECT_NAME = "type";
+    private const string Ascending = "asc";
+    private const string Descending = "desc";
+    private const string ValueObjectName = "type";
 
     public PaginationSortingType(string? value)
-        : base(value ?? DESCENDING, VALUE_OBJECT_NAME, AggregateName.PAGINATION_SORTING)
+        : base(value ?? Descending, ValueObjectName, AggregateName.PaginationSorting)
     {
         if (!IsValid())
         {
@@ -21,11 +21,11 @@ public record PaginationSortingType : NonEmptyString
 
     private bool IsValid()
     {
-        return Equals(ASCENDING) || Equals(DESCENDING);
+        return Equals(Ascending) || Equals(Descending);
     }
 
     public bool IsDescending()
     {
-        return Equals(DESCENDING);
+        return Equals(Descending);
     }
 }

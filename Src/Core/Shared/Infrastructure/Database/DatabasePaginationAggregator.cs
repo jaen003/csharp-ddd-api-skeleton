@@ -5,9 +5,9 @@ namespace Src.Core.Shared.Infrastructure.Database;
 
 public static class DatabasePaginationAggregator
 {
-    private const string DESCENDING_SORT_TYPE = "DESC";
-    private const string GREATER_THAN_COMPARASION_OPERATOR = ">";
-    private const string LESS_THAN_COMPARASION_OPERATOR = "<";
+    private const string DescendingSortType = "DESC";
+    private const string GreaterThanComparasionOperator = ">";
+    private const string LessThanComparasionOperator = "<";
 
     public static IQueryable<T> AddPagination<T>(
         this IQueryable<T> collection,
@@ -20,14 +20,14 @@ public static class DatabasePaginationAggregator
             string sortingString = pagination.SortingField;
             if (pagination.IsDescendingSortingType())
             {
-                sortingString += $" {DESCENDING_SORT_TYPE}";
+                sortingString += $" {DescendingSortType}";
             }
             if (pagination.HasStartIndex())
             {
-                string comparasionOperator = GREATER_THAN_COMPARASION_OPERATOR;
+                string comparasionOperator = GreaterThanComparasionOperator;
                 if (pagination.IsDescendingSortingType())
                 {
-                    comparasionOperator = LESS_THAN_COMPARASION_OPERATOR;
+                    comparasionOperator = LessThanComparasionOperator;
                 }
                 collection = collection.Where(
                     $"{pagination.SortingField} {comparasionOperator} "

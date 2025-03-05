@@ -2,8 +2,8 @@ namespace Src.Core.Shared.Domain.Aggregates;
 
 public static class AggregateName
 {
-    public const string RESTAURANT = "restaurant";
-    public const string PRODUCT = "product";
-    public const string PAGINATION = "pagination";
-    public const string PAGINATION_SORTING = "pagination sorting";
+    public const string Restaurant = "restaurant";
+    public const string Product = "product";
+    public const string Pagination = "pagination";
+    public const string PaginationSorting = "pagination sorting";
 }

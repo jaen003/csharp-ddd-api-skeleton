@@ -9,10 +9,10 @@ namespace Src.Core.Shared.Infrastructure.EventBus;
 
 public class RabbitMQConsumptionErrorHandler
 {
-    private const string DELIVERY_ATTEMPTS_HEADER = "delivery_attempts";
-    private const string QUEUE_HEADER = "queue";
-    private const string TIMESTAMP_HEADER = "timestamp";
-    private const string DELIVERY_DELAY_HEADER = "x-delay";
+    private const string DeliveryAttemptsHeader = "delivery_attempts";
+    private const string QueueHeader = "queue";
+    private const string TimestampHeader = "timestamp";
+    private const string DeliveryDelayHeader = "x-delay";
 
     private readonly RabbitMQMessagePublisher messagePublisher;
     private readonly CustomExceptionHandler exceptionHandler;
@@ -71,9 +71,9 @@ public class RabbitMQConsumptionErrorHandler
     private static int GetDeliveryAttempts(BasicDeliverEventArgs deliverEventArgs)
     {
         IDictionary<string, object>? messageHeaders = deliverEventArgs.BasicProperties.Headers;
-        if (messageHeaders?.ContainsKey(DELIVERY_ATTEMPTS_HEADER) == true)
+        if (messageHeaders?.ContainsKey(DeliveryAttemptsHeader) == true)
         {
-            return (int)messageHeaders[DELIVERY_ATTEMPTS_HEADER];
+            return (int)messageHeaders[DeliveryAttemptsHeader];
         }
         return 0;
     }
@@ -88,8 +88,8 @@ public class RabbitMQConsumptionErrorHandler
         properties.DeliveryMode = (byte)messageDeliveryMode;
         properties.Headers = new Dictionary<string, object>()
         {
-            { QUEUE_HEADER, queueName },
-            { TIMESTAMP_HEADER, TimestampGenerator.Generate() },
+            { QueueHeader, queueName },
+            { TimestampHeader, TimestampGenerator.Generate() },
         };
         byte[] messageBody = deliverEventArgs.Body.ToArray();
         string exchangeName = RabbitMQExchangeNameFormatter.FormatToDeadLetter();
@@ -107,8 +107,8 @@ public class RabbitMQConsumptionErrorHandler
         properties.DeliveryMode = (byte)messageDeliveryMode;
         properties.Headers = new Dictionary<string, object>()
         {
-            { DELIVERY_DELAY_HEADER, messageRedeliveryDelay },
-            { DELIVERY_ATTEMPTS_HEADER, deliveryAttempts },
+            { DeliveryDelayHeader, messageRedeliveryDelay },
+            { DeliveryAttemptsHeader, deliveryAttempts },
         };
         byte[] messageBody = deliverEventArgs.Body.ToArray();
         string exchangeName = RabbitMQExchangeNameFormatter.FormatToRetry(eventInformation);

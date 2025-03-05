@@ -4,11 +4,11 @@ namespace Src.Core.Products.Domain.Events;
 
 public class ProductCreatedDomainEvent : DomainEvent
 {
-    private const string ID_FIELD = "id";
-    private const string NAME_FIELD = "name";
-    private const string PRICE_FIELD = "price";
-    private const string DESCRIPTION_FIELD = "description";
-    private const string RESTAURANT_ID_FIELD = "restaurantId";
+    private const string IdField = "id";
+    private const string NameField = "name";
+    private const string PriceField = "price";
+    private const string DescriptionField = "description";
+    private const string RestaurantIdField = "restaurantId";
 
     public Guid Id { get; }
     public string Name { get; }
@@ -64,11 +64,11 @@ public class ProductCreatedDomainEvent : DomainEvent
     )
     {
         return new ProductCreatedDomainEvent(
-            new Guid(data[ID_FIELD].ToString()!),
-            data[NAME_FIELD].ToString()!,
-            int.Parse(data[PRICE_FIELD].ToString()!),
-            data[DESCRIPTION_FIELD].ToString()!,
-            new Guid(data[RESTAURANT_ID_FIELD].ToString()!),
+            new Guid(data[IdField].ToString()!),
+            data[NameField].ToString()!,
+            int.Parse(data[PriceField].ToString()!),
+            data[DescriptionField].ToString()!,
+            new Guid(data[RestaurantIdField].ToString()!),
             eventId,
             timestamp
         );
@@ -78,11 +78,11 @@ public class ProductCreatedDomainEvent : DomainEvent
     {
         return new Dictionary<string, object>
         {
-            { ID_FIELD, Id },
-            { NAME_FIELD, Name },
-            { PRICE_FIELD, Price },
-            { DESCRIPTION_FIELD, Description },
-            { RESTAURANT_ID_FIELD, RestaurantId },
+            { IdField, Id },
+            { NameField, Name },
+            { PriceField, Price },
+            { DescriptionField, Description },
+            { RestaurantIdField, RestaurantId },
         };
     }
 }

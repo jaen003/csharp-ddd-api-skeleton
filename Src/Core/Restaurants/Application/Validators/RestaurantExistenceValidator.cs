@@ -15,7 +15,7 @@ public class RestaurantExistenceValidator : IRestaurantExistenceValidator
     public async Task Validate(Guid restaurantId)
     {
         bool exists = await repository.ExistsByStatusNotAndId(
-            RestaurantStatus.DELETED,
+            RestaurantStatus.Deleted,
             restaurantId
         );
         if (!exists)

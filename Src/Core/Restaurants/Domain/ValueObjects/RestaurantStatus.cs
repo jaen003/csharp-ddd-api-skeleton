@@ -6,12 +6,12 @@ namespace Src.Core.Restaurants.Domain.ValueObjects;
 
 public record RestaurantStatus : NonNegativeShort
 {
-    private const short ACTIVE = 0;
-    public const short DELETED = 1;
-    private const string VALUE_OBJECT_NAME = "status";
+    private const short Active = 0;
+    public const short Deleted = 1;
+    private const string ValueObjectName = "status";
 
     public RestaurantStatus(short value)
-        : base(value, VALUE_OBJECT_NAME, AggregateName.RESTAURANT)
+        : base(value, ValueObjectName, AggregateName.Restaurant)
     {
         if (!IsValid())
         {
@@ -21,21 +21,21 @@ public record RestaurantStatus : NonNegativeShort
 
     public static RestaurantStatus CreateActive()
     {
-        return new RestaurantStatus(ACTIVE);
+        return new RestaurantStatus(Active);
     }
 
     public static RestaurantStatus CreateDeleted()
     {
-        return new RestaurantStatus(DELETED);
+        return new RestaurantStatus(Deleted);
     }
 
     public bool IsActive()
     {
-        return Equals(ACTIVE);
+        return Equals(Active);
     }
 
     private bool IsValid()
     {
-        return Equals(ACTIVE) || Equals(DELETED);
+        return Equals(Active) || Equals(Deleted);
     }
 }

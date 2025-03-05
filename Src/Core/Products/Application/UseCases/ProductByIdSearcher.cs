@@ -18,7 +18,7 @@ public class ProductByIdSearcher
     {
         Product? product =
             await repository.FindByStatusNotAndIdAndRestaurantId(
-                ProductStatus.DELETED,
+                ProductStatus.Deleted,
                 searchData.Id,
                 searchData.RestaurantId
             ) ?? throw new ProductNotFoundException(searchData.Id);

@@ -4,8 +4,8 @@ namespace Src.Core.Products.Domain.Events;
 
 public class ProductDescriptionChangedDomainEvent : DomainEvent
 {
-    private const string ID_FIELD = "id";
-    private const string DESCRIPTION_FIELD = "description";
+    private const string IdField = "id";
+    private const string DescriptionField = "description";
 
     public Guid Id { get; }
     public string Description { get; }
@@ -42,8 +42,8 @@ public class ProductDescriptionChangedDomainEvent : DomainEvent
     )
     {
         return new ProductDescriptionChangedDomainEvent(
-            new Guid(data[ID_FIELD].ToString()!),
-            data[DESCRIPTION_FIELD].ToString()!,
+            new Guid(data[IdField].ToString()!),
+            data[DescriptionField].ToString()!,
             eventId,
             timestamp
         );
@@ -53,8 +53,8 @@ public class ProductDescriptionChangedDomainEvent : DomainEvent
     {
         return new Dictionary<string, object>
         {
-            { ID_FIELD, Id },
-            { DESCRIPTION_FIELD, Description },
+            { IdField, Id },
+            { DescriptionField, Description },
         };
     }
 }

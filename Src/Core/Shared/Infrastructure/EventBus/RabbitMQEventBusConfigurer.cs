@@ -6,9 +6,9 @@ namespace Src.Core.Shared.Infrastructure.EventBus;
 
 public class RabbitMQEventBusConfigurer
 {
-    private const string EXCHANGE_TYPE = "fanout";
-    private const string DELAYED_EXCHANGE_TYPE = "x-delayed-message";
-    private const string DELAYED_EXCHANGE_TYPE_HEADER = "x-delayed-type";
+    private const string ExchangeType = "fanout";
+    private const string DelayedExchangeType = "x-delayed-message";
+    private const string DelayedExchangeTypeHeader = "x-delayed-type";
 
     private readonly RabbitMQEventBusConnection eventBusConnection;
     private readonly DomainEventInformationCollection eventInformationCollection;
@@ -77,16 +77,15 @@ public class RabbitMQEventBusConfigurer
 
     private static async Task DeclareExchange(string exchangeName, IModel channel)
     {
-        await Task.Run(() => channel.ExchangeDeclare(exchangeName, EXCHANGE_TYPE, true));
+        await Task.Run(() => channel.ExchangeDeclare(exchangeName, ExchangeType, true));
     }
 
     private static async Task DeclareDelayedExchange(string exchangeName, IModel channel)
     {
         Dictionary<string, object> arguments =
-            new() { { DELAYED_EXCHANGE_TYPE_HEADER, EXCHANGE_TYPE } };
+            new() { { DelayedExchangeTypeHeader, ExchangeType } };
         await Task.Run(
-            () =>
-                channel.ExchangeDeclare(exchangeName, DELAYED_EXCHANGE_TYPE, true, false, arguments)
+            () => channel.ExchangeDeclare(exchangeName, DelayedExchangeType, true, false, arguments)
         );
     }
 

@@ -4,7 +4,7 @@ namespace Src.Core.Products.Domain.Events;
 
 public class ProductDeletedDomainEvent : DomainEvent
 {
-    private const string ID_FIELD = "id";
+    private const string IdField = "id";
 
     public Guid Id { get; }
 
@@ -30,7 +30,7 @@ public class ProductDeletedDomainEvent : DomainEvent
     )
     {
         return new ProductDeletedDomainEvent(
-            new Guid(data[ID_FIELD].ToString()!),
+            new Guid(data[IdField].ToString()!),
             eventId,
             timestamp
         );
@@ -38,6 +38,6 @@ public class ProductDeletedDomainEvent : DomainEvent
 
     public override Dictionary<string, object> ToPrimitives()
     {
-        return new Dictionary<string, object> { { ID_FIELD, Id } };
+        return new Dictionary<string, object> { { IdField, Id } };
     }
 }

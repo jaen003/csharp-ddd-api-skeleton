@@ -5,8 +5,8 @@ namespace Src.Core.Restaurants.Domain.ValueObjects;
 
 public record RestaurantName : NonEmptyString
 {
-    private const string VALUE_OBJECT_NAME = "name";
+    private const string ValueObjectName = "name";
 
     public RestaurantName(string value)
-        : base(value, VALUE_OBJECT_NAME, AggregateName.RESTAURANT) { }
+        : base(value, ValueObjectName, AggregateName.Restaurant) { }
 }

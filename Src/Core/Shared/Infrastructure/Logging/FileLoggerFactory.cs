@@ -6,7 +6,7 @@ namespace Src.Core.Shared.Infrastructure.Logging;
 
 public class FileLoggerFactory : LoggerFactory
 {
-    private const string LOG_FILE_DIRECTORY = "logs";
+    private const string LogFileDirectory = "logs";
 
     private readonly string logFilePath;
 
@@ -27,6 +27,6 @@ public class FileLoggerFactory : LoggerFactory
     private static string GenerateLogFilePath()
     {
         string logFileName = Environment.GetEnvironmentVariable("LOG_FILE_NAME")!;
-        return $"{LOG_FILE_DIRECTORY}/{logFileName}.log";
+        return $"{LogFileDirectory}/{logFileName}.log";
     }
 }

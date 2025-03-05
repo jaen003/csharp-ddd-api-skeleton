@@ -6,12 +6,12 @@ namespace Src.Core.Products.Domain.ValueObjects;
 
 public record ProductStatus : NonNegativeShort
 {
-    private const short ACTIVE = 0;
-    public const short DELETED = 1;
-    private const string VALUE_OBJECT_NAME = "status";
+    private const short Active = 0;
+    public const short Deleted = 1;
+    private const string ValueObjectName = "status";
 
     public ProductStatus(short value)
-        : base(value, VALUE_OBJECT_NAME, AggregateName.PRODUCT)
+        : base(value, ValueObjectName, AggregateName.Product)
     {
         if (!IsValid())
         {
@@ -21,21 +21,21 @@ public record ProductStatus : NonNegativeShort
 
     public static ProductStatus CreateActive()
     {
-        return new ProductStatus(ACTIVE);
+        return new ProductStatus(Active);
     }
 
     public static ProductStatus CreateDeleted()
     {
-        return new ProductStatus(DELETED);
+        return new ProductStatus(Deleted);
     }
 
     public bool IsActive()
     {
-        return Equals(ACTIVE);
+        return Equals(Active);
     }
 
     private bool IsValid()
     {
-        return Equals(ACTIVE) || Equals(DELETED);
+        return Equals(Active) || Equals(Deleted);
     }
 }

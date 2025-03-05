@@ -8,7 +8,7 @@ public class DomainEventInformation
     public Type EventClass { get; }
     public ReadOnlyCollection<Type> EventHandlerClasses { get; }
     public string EventName { get; }
-    public const string CONTEXT_NAME = "backoffice";
+    public const string ContextName = "backoffice";
 
     public DomainEventInformation(Type eventClass, ReadOnlyCollection<Type> eventHandlerClasses)
     {

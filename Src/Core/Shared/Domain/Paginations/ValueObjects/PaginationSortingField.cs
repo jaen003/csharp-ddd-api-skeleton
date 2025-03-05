@@ -5,8 +5,8 @@ namespace Src.Core.Shared.Domain.Paginations.ValueObjects;
 
 public record PaginationSortingField : NonEmptyString
 {
-    private const string VALUE_OBJECT_NAME = "field";
+    private const string ValueObjectName = "field";
 
     public PaginationSortingField(string value)
-        : base(value, VALUE_OBJECT_NAME, AggregateName.PAGINATION_SORTING) { }
+        : base(value, ValueObjectName, AggregateName.PaginationSorting) { }
 }

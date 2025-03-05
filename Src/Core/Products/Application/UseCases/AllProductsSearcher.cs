@@ -26,7 +26,7 @@ public class AllProductsSearcher
             searchData.PaginationData.SortingType
         );
         List<Product> products = await repository.FindByStatusNotAndRestaurantIdAndPagination(
-            ProductStatus.DELETED,
+            ProductStatus.Deleted,
             searchData.RestaurantId,
             pagination
         );

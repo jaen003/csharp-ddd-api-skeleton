@@ -4,8 +4,8 @@ namespace Src.Core.Products.Domain.Events;
 
 public class ProductRenamedDomainEvent : DomainEvent
 {
-    private const string ID_FIELD = "id";
-    private const string NAME_FIELD = "name";
+    private const string IdField = "id";
+    private const string NameField = "name";
 
     public Guid Id { get; }
     public string Name { get; }
@@ -37,8 +37,8 @@ public class ProductRenamedDomainEvent : DomainEvent
     )
     {
         return new ProductRenamedDomainEvent(
-            new Guid(data[ID_FIELD].ToString()!),
-            data[NAME_FIELD].ToString()!,
+            new Guid(data[IdField].ToString()!),
+            data[NameField].ToString()!,
             eventId,
             timestamp
         );
@@ -46,6 +46,6 @@ public class ProductRenamedDomainEvent : DomainEvent
 
     public override Dictionary<string, object> ToPrimitives()
     {
-        return new Dictionary<string, object> { { ID_FIELD, Id }, { NAME_FIELD, Name } };
+        return new Dictionary<string, object> { { IdField, Id }, { NameField, Name } };
     }
 }

@@ -4,8 +4,8 @@ namespace Src.Core.Shared.Infrastructure.EventBus;
 
 public static class RabbitMQExchangeNameFormatter
 {
-    private const string DEAD_LETTER_PREFIX = "dead.letter";
-    private const string RETRY_PREFIX = "retry";
+    private const string DeadLetterPrefix = "dead.letter";
+    private const string RetryPrefix = "retry";
 
     public static string Format(DomainEventInformation eventInformation)
     {
@@ -14,14 +14,14 @@ public static class RabbitMQExchangeNameFormatter
 
     public static string FormatToDeadLetter()
     {
-        string contextName = DomainEventInformation.CONTEXT_NAME;
-        return $"{DEAD_LETTER_PREFIX}.{contextName}";
+        string contextName = DomainEventInformation.ContextName;
+        return $"{DeadLetterPrefix}.{contextName}";
     }
 
     public static string FormatToRetry(DomainEventInformation eventInformation)
     {
-        string contextName = DomainEventInformation.CONTEXT_NAME;
+        string contextName = DomainEventInformation.ContextName;
         string eventName = eventInformation.EventName;
-        return $"{RETRY_PREFIX}.{contextName}.{eventName}";
+        return $"{RetryPrefix}.{contextName}.{eventName}";
     }
 }
