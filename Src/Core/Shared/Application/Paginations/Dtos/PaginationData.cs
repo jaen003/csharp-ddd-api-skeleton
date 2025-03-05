@@ -1,4 +1,4 @@
-namespace Src.Core.Shared.Application.Paginations.DTOs;
+namespace Src.Core.Shared.Application.Paginations.Dtos;
 
 public record PaginationData
 {

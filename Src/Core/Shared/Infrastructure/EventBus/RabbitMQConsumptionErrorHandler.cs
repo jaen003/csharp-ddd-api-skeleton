@@ -7,21 +7,21 @@ using Src.Core.Shared.Domain.Generators;
 
 namespace Src.Core.Shared.Infrastructure.EventBus;
 
-public class RabbitmqConsumptionErrorHandler
+public class RabbitMQConsumptionErrorHandler
 {
     private const string DELIVERY_ATTEMPTS_HEADER = "delivery_attempts";
     private const string QUEUE_HEADER = "queue";
     private const string TIMESTAMP_HEADER = "timestamp";
     private const string DELIVERY_DELAY_HEADER = "x-delay";
 
-    private readonly RabbitmqMessagePublisher messagePublisher;
+    private readonly RabbitMQMessagePublisher messagePublisher;
     private readonly CustomExceptionHandler exceptionHandler;
     private readonly int messageDeliveryMode;
     private readonly int messageDeliveryLimit;
     private readonly int messageRedeliveryDelay;
 
-    public RabbitmqConsumptionErrorHandler(
-        RabbitmqMessagePublisher messagePublisher,
+    public RabbitMQConsumptionErrorHandler(
+        RabbitMQMessagePublisher messagePublisher,
         CustomExceptionHandler exceptionHandler
     )
     {
@@ -83,7 +83,7 @@ public class RabbitmqConsumptionErrorHandler
         DomainEventInformation eventInformation
     )
     {
-        string queueName = RabbitmqQueueNameFormatter.Format(eventInformation);
+        string queueName = RabbitMQQueueNameFormatter.Format(eventInformation);
         IBasicProperties properties = deliverEventArgs.BasicProperties;
         properties.DeliveryMode = (byte)messageDeliveryMode;
         properties.Headers = new Dictionary<string, object>()
@@ -92,7 +92,7 @@ public class RabbitmqConsumptionErrorHandler
             { TIMESTAMP_HEADER, TimestampGenerator.Generate() },
         };
         byte[] messageBody = deliverEventArgs.Body.ToArray();
-        string exchangeName = RabbitmqExchangeNameFormatter.FormatToDeadLetter();
+        string exchangeName = RabbitMQExchangeNameFormatter.FormatToDeadLetter();
         messagePublisher.Publish(exchangeName, messageBody, properties);
     }
 
@@ -111,7 +111,7 @@ public class RabbitmqConsumptionErrorHandler
             { DELIVERY_ATTEMPTS_HEADER, deliveryAttempts },
         };
         byte[] messageBody = deliverEventArgs.Body.ToArray();
-        string exchangeName = RabbitmqExchangeNameFormatter.FormatToRetry(eventInformation);
+        string exchangeName = RabbitMQExchangeNameFormatter.FormatToRetry(eventInformation);
         messagePublisher.Publish(exchangeName, messageBody, properties);
     }
 }

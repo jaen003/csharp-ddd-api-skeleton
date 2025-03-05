@@ -4,17 +4,17 @@ using Src.Core.Shared.Infrastructure.Exceptions;
 
 namespace Src.Core.Shared.Infrastructure.EventBus;
 
-public class RabbitmqEventBusConfigurer
+public class RabbitMQEventBusConfigurer
 {
     private const string EXCHANGE_TYPE = "fanout";
     private const string DELAYED_EXCHANGE_TYPE = "x-delayed-message";
     private const string DELAYED_EXCHANGE_TYPE_HEADER = "x-delayed-type";
 
-    private readonly RabbitmqEventBusConnection eventBusConnection;
+    private readonly RabbitMQEventBusConnection eventBusConnection;
     private readonly DomainEventInformationCollection eventInformationCollection;
 
-    public RabbitmqEventBusConfigurer(
-        RabbitmqEventBusConnection eventBusConnection,
+    public RabbitMQEventBusConfigurer(
+        RabbitMQEventBusConnection eventBusConnection,
         DomainEventInformationCollection eventInformationCollection
     )
     {
@@ -40,8 +40,8 @@ public class RabbitmqEventBusConfigurer
     {
         if (!eventInformationCollection.IsEmpty())
         {
-            string deadLetterQueueName = RabbitmqQueueNameFormatter.FormatToDeadLetter();
-            string deadLetterExchangeName = RabbitmqExchangeNameFormatter.FormatToDeadLetter();
+            string deadLetterQueueName = RabbitMQQueueNameFormatter.FormatToDeadLetter();
+            string deadLetterExchangeName = RabbitMQExchangeNameFormatter.FormatToDeadLetter();
             await DeclareQueue(deadLetterQueueName, channel);
             await DeclareExchange(deadLetterExchangeName, channel);
             await BindQueue(deadLetterQueueName, deadLetterExchangeName, channel);
@@ -52,7 +52,7 @@ public class RabbitmqEventBusConfigurer
     {
         foreach (DomainEventInformation eventInformation in eventInformationCollection.GetAll())
         {
-            string exchangeName = RabbitmqExchangeNameFormatter.Format(eventInformation);
+            string exchangeName = RabbitMQExchangeNameFormatter.Format(eventInformation);
             await DeclareExchange(exchangeName, channel);
             if (eventInformation.HasEventHandlers())
             {
@@ -66,11 +66,11 @@ public class RabbitmqEventBusConfigurer
         IModel channel
     )
     {
-        string exchangeName = RabbitmqExchangeNameFormatter.Format(eventInformation);
-        string queueName = RabbitmqQueueNameFormatter.Format(eventInformation);
+        string exchangeName = RabbitMQExchangeNameFormatter.Format(eventInformation);
+        string queueName = RabbitMQQueueNameFormatter.Format(eventInformation);
         await DeclareQueue(queueName, channel);
         await BindQueue(queueName, exchangeName, channel);
-        string retryExchangeName = RabbitmqExchangeNameFormatter.FormatToRetry(eventInformation);
+        string retryExchangeName = RabbitMQExchangeNameFormatter.FormatToRetry(eventInformation);
         await DeclareDelayedExchange(retryExchangeName, channel);
         await BindQueue(queueName, retryExchangeName, channel);
     }

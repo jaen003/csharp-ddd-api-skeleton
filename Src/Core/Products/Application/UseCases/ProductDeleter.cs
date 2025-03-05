@@ -1,4 +1,4 @@
-using Src.Core.Products.Application.DTOs;
+using Src.Core.Products.Application.Dtos;
 using Src.Core.Products.Application.Exceptions;
 using Src.Core.Products.Domain.Aggregates;
 using Src.Core.Products.Domain.ValueObjects;

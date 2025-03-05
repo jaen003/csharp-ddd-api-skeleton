@@ -1,5 +1,5 @@
 using System.Collections.ObjectModel;
-using Src.Core.Products.Application.DTOs;
+using Src.Core.Products.Application.Dtos;
 using Src.Core.Products.Domain.Aggregates;
 using Src.Core.Products.Domain.ValueObjects;
 using Src.Core.Shared.Domain.Paginations.Aggregates;

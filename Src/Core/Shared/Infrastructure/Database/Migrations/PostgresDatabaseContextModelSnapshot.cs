@@ -10,8 +10,8 @@ using Src.Core.Shared.Infrastructure.Database;
 
 namespace Src.Core.Shared.Infrastructure.Database.Migrations
 {
-    [DbContext(typeof(PostgresqlDatabaseContext))]
-    partial class PostgresqlDatabaseContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(PostgresDatabaseContext))]
+    partial class PostgresDatabaseContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

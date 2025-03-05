@@ -11,19 +11,19 @@ using Src.Core.Shared.Infrastructure.Exceptions;
 
 namespace Src.Core.Shared.Infrastructure.EventBus;
 
-public class RabbitmqDomainEventConsumer
+public class RabbitMQDomainEventConsumer
 {
-    private readonly RabbitmqEventBusConnection eventBusConnection;
+    private readonly RabbitMQEventBusConnection eventBusConnection;
     private readonly DomainEventInformationCollection eventInformationCollection;
     private readonly CustomExceptionHandler exceptionHandler;
-    private readonly RabbitmqConsumptionErrorHandler consumptionErrorHandler;
+    private readonly RabbitMQConsumptionErrorHandler consumptionErrorHandler;
     private readonly IServiceProvider serviceProvider;
 
-    public RabbitmqDomainEventConsumer(
-        RabbitmqEventBusConnection eventBusConnection,
+    public RabbitMQDomainEventConsumer(
+        RabbitMQEventBusConnection eventBusConnection,
         DomainEventInformationCollection eventInformationCollection,
         CustomExceptionHandler exceptionHandler,
-        RabbitmqConsumptionErrorHandler consumptionErrorHandler,
+        RabbitMQConsumptionErrorHandler consumptionErrorHandler,
         IServiceProvider serviceProvider
     )
     {
@@ -53,7 +53,7 @@ public class RabbitmqDomainEventConsumer
             AsyncEventingBasicConsumer consumer = new(channel);
             consumer.Received += (_, deliverEventArgs) =>
                 Callback(deliverEventArgs, eventInformation);
-            string queueName = RabbitmqQueueNameFormatter.Format(eventInformation);
+            string queueName = RabbitMQQueueNameFormatter.Format(eventInformation);
             channel.BasicConsume(queueName, true, consumer);
         }
         catch (Exception exception)

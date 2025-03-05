@@ -7,13 +7,13 @@ using Src.Core.Shared.Infrastructure.Events;
 
 namespace Src.Core.Shared.Infrastructure.EventBus;
 
-public class RabbitmqDomainEventPublisher : IDomainEventPublisher
+public class RabbitMQDomainEventPublisher : IDomainEventPublisher
 {
-    private readonly RabbitmqMessagePublisher messagePublisher;
+    private readonly RabbitMQMessagePublisher messagePublisher;
     private readonly CustomExceptionHandler exceptionHandler;
 
-    public RabbitmqDomainEventPublisher(
-        RabbitmqMessagePublisher messagePublisher,
+    public RabbitMQDomainEventPublisher(
+        RabbitMQMessagePublisher messagePublisher,
         CustomExceptionHandler exceptionHandler
     )
     {

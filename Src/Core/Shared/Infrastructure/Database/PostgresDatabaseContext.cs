@@ -4,11 +4,11 @@ using Src.Core.Restaurants.Infrastructure.Models;
 
 namespace Src.Core.Shared.Infrastructure.Database;
 
-public class PostgresqlDatabaseContext : DbContext
+public class PostgresDatabaseContext : DbContext
 {
     public DbSet<ProductModel> Products { get; set; } = null!;
     public DbSet<RestaurantModel> Restaurants { get; set; } = null!;
 
-    public PostgresqlDatabaseContext(DbContextOptions<PostgresqlDatabaseContext> options)
+    public PostgresDatabaseContext(DbContextOptions<PostgresDatabaseContext> options)
         : base(options) { }
 }

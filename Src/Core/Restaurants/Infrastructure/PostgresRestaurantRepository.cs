@@ -8,14 +8,14 @@ using Src.Core.Shared.Infrastructure.Exceptions;
 
 namespace Src.Core.Restaurants.Infrastructure;
 
-public class PostgresqlRestaurantRepository : IRestaurantRepository
+public class PostgresRestaurantRepository : IRestaurantRepository
 {
-    private readonly IDbContextFactory<PostgresqlDatabaseContext> databaseContextFactory;
+    private readonly IDbContextFactory<PostgresDatabaseContext> databaseContextFactory;
 
     private readonly RestaurantMapper mapper;
 
-    public PostgresqlRestaurantRepository(
-        IDbContextFactory<PostgresqlDatabaseContext> databaseContextFactory,
+    public PostgresRestaurantRepository(
+        IDbContextFactory<PostgresDatabaseContext> databaseContextFactory,
         RestaurantMapper mapper
     )
     {
@@ -27,7 +27,7 @@ public class PostgresqlRestaurantRepository : IRestaurantRepository
     {
         try
         {
-            await using PostgresqlDatabaseContext databaseContext =
+            await using PostgresDatabaseContext databaseContext =
                 await databaseContextFactory.CreateDbContextAsync();
             return await databaseContext.Restaurants.AnyAsync(t =>
                 t.Status != status && t.Id == id
@@ -43,7 +43,7 @@ public class PostgresqlRestaurantRepository : IRestaurantRepository
     {
         try
         {
-            await using PostgresqlDatabaseContext databaseContext =
+            await using PostgresDatabaseContext databaseContext =
                 await databaseContextFactory.CreateDbContextAsync();
             RestaurantModel restaurantModel = mapper.ToModel(restaurant);
             await databaseContext.Restaurants.AddAsync(restaurantModel);

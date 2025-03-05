@@ -2,7 +2,7 @@ using Src.Core.Shared.Application.Events;
 
 namespace Src.Core.Shared.Infrastructure.EventBus;
 
-public static class RabbitmqQueueNameFormatter
+public static class RabbitMQQueueNameFormatter
 {
     private const string DEAD_LETTER_PREFIX = "dead.letter";
 

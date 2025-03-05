@@ -1,4 +1,4 @@
-using Src.Core.Restaurants.Application.DTOs;
+using Src.Core.Restaurants.Application.Dtos;
 using Src.Core.Restaurants.Domain.Aggregates;
 using Src.Core.Restaurants.Domain.ValueObjects;
 using Src.Core.Shared.Application.Logging;

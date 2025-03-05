@@ -9,13 +9,13 @@ using Src.Core.Shared.Infrastructure.Exceptions;
 
 namespace Src.Core.Products.Infrastructure;
 
-public class PostgresqlProductRepository : IProductRepository
+public class PostgresProductRepository : IProductRepository
 {
-    private readonly IDbContextFactory<PostgresqlDatabaseContext> databaseContextFactory;
+    private readonly IDbContextFactory<PostgresDatabaseContext> databaseContextFactory;
     private readonly ProductMapper mapper;
 
-    public PostgresqlProductRepository(
-        IDbContextFactory<PostgresqlDatabaseContext> databaseContextFactory,
+    public PostgresProductRepository(
+        IDbContextFactory<PostgresDatabaseContext> databaseContextFactory,
         ProductMapper mapper
     )
     {
@@ -31,7 +31,7 @@ public class PostgresqlProductRepository : IProductRepository
     {
         try
         {
-            await using PostgresqlDatabaseContext databaseContext =
+            await using PostgresDatabaseContext databaseContext =
                 await databaseContextFactory.CreateDbContextAsync();
             return await databaseContext.Products.AnyAsync(t =>
                 t.Status != status && t.Name == name && t.RestaurantId == restaurantId
@@ -51,7 +51,7 @@ public class PostgresqlProductRepository : IProductRepository
     {
         try
         {
-            await using PostgresqlDatabaseContext databaseContext =
+            await using PostgresDatabaseContext databaseContext =
                 await databaseContextFactory.CreateDbContextAsync();
             ProductModel? productModel = await databaseContext.Products.FirstOrDefaultAsync(t =>
                 t.Status != status && t.Id == id && t.RestaurantId == restaurantId
@@ -72,7 +72,7 @@ public class PostgresqlProductRepository : IProductRepository
     {
         try
         {
-            await using PostgresqlDatabaseContext databaseContext =
+            await using PostgresDatabaseContext databaseContext =
                 await databaseContextFactory.CreateDbContextAsync();
             ProductModel productModel = mapper.ToModel(product);
             await databaseContext.Products.AddAsync(productModel);
@@ -88,7 +88,7 @@ public class PostgresqlProductRepository : IProductRepository
     {
         try
         {
-            await using PostgresqlDatabaseContext databaseContext =
+            await using PostgresDatabaseContext databaseContext =
                 await databaseContextFactory.CreateDbContextAsync();
             ProductModel productModel = await databaseContext.Products.FirstAsync(t =>
                 t.Id == product.Id
@@ -113,7 +113,7 @@ public class PostgresqlProductRepository : IProductRepository
     {
         try
         {
-            await using PostgresqlDatabaseContext databaseContext =
+            await using PostgresDatabaseContext databaseContext =
                 await databaseContextFactory.CreateDbContextAsync();
             List<ProductModel> productModels = await databaseContext
                 .Products.Where(t => t.Status != status && t.RestaurantId == restaurantId)

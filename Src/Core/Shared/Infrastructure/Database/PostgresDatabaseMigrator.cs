@@ -2,12 +2,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Src.Core.Shared.Infrastructure.Database;
 
-public class PostgresqlDatabaseMigrator
+public class PostgresDatabaseMigrator
 {
-    private readonly IDbContextFactory<PostgresqlDatabaseContext> databaseContextFactory;
+    private readonly IDbContextFactory<PostgresDatabaseContext> databaseContextFactory;
 
-    public PostgresqlDatabaseMigrator(
-        IDbContextFactory<PostgresqlDatabaseContext> databaseContextFactory
+    public PostgresDatabaseMigrator(
+        IDbContextFactory<PostgresDatabaseContext> databaseContextFactory
     )
     {
         this.databaseContextFactory = databaseContextFactory;
@@ -15,7 +15,7 @@ public class PostgresqlDatabaseMigrator
 
     public async Task Migrate()
     {
-        await using PostgresqlDatabaseContext databaseContext =
+        await using PostgresDatabaseContext databaseContext =
             await databaseContextFactory.CreateDbContextAsync();
         await databaseContext.Database.MigrateAsync();
     }

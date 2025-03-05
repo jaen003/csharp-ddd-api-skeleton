@@ -11,7 +11,7 @@ using Src.Core.Shared.Infrastructure.Database;
 
 namespace Src.Core.Shared.Infrastructure.Database.Migrations
 {
-    [DbContext(typeof(PostgresqlDatabaseContext))]
+    [DbContext(typeof(PostgresDatabaseContext))]
     [Migration("20250301100917_InitialSchema")]
     partial class InitialSchema
     {

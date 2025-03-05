@@ -1,11 +1,11 @@
 namespace Src.Core.Shared.Infrastructure.Database;
 
-public class PostgresqlDatabaseConnectionData
+public class PostgresDatabaseConnectionData
 {
     public int PoolSize { get; }
     public string ConnectionString { get; }
 
-    public PostgresqlDatabaseConnectionData()
+    public PostgresDatabaseConnectionData()
     {
         PoolSize = int.Parse(Environment.GetEnvironmentVariable("DATABASE_CONNECTION_POOL_SIZE")!);
         ConnectionString = GenerateConnectionString();

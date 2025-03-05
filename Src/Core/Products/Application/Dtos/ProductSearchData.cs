@@ -1,4 +1,4 @@
-namespace Src.Core.Products.Application.DTOs;
+namespace Src.Core.Products.Application.Dtos;
 
 public record ProductSearchData
 {

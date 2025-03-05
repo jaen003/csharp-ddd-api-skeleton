@@ -3,14 +3,14 @@ using RabbitMQ.Client.Exceptions;
 
 namespace Src.Core.Shared.Infrastructure.EventBus;
 
-public class RabbitmqEventBusConnection
+public class RabbitMQEventBusConnection
 {
     private readonly int reconnectionTime;
     private readonly int reconnectLimit;
     private IConnection? connection;
     private readonly ConnectionFactory connectionFactory;
 
-    public RabbitmqEventBusConnection()
+    public RabbitMQEventBusConnection()
     {
         reconnectionTime = int.Parse(
             Environment.GetEnvironmentVariable("EVENT_BUS_RECONNECTION_TIME_IN_MILLISECONDS")!

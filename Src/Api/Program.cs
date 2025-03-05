@@ -33,23 +33,23 @@ builder.Services.AddTransient(serviceProvider =>
     serviceProvider.GetRequiredService<LoggerFactory>().Create()
 );
 builder.Services.AddTransient<CustomExceptionHandler>();
-builder.Services.AddSingleton<RabbitmqEventBusConnection>();
-builder.Services.AddTransient<RabbitmqMessagePublisher>();
-builder.Services.AddTransient<RabbitmqConsumptionErrorHandler>();
+builder.Services.AddSingleton<RabbitMQEventBusConnection>();
+builder.Services.AddTransient<RabbitMQMessagePublisher>();
+builder.Services.AddTransient<RabbitMQConsumptionErrorHandler>();
 builder.Services.CollectDomainEventInformation();
-builder.Services.AddTransient<RabbitmqEventBusConfigurer>();
-builder.Services.AddSingleton<RabbitmqDomainEventConsumer>();
-PostgresqlDatabaseConnectionData databaseConnectionData = new();
-builder.Services.AddPooledDbContextFactory<PostgresqlDatabaseContext>(
+builder.Services.AddTransient<RabbitMQEventBusConfigurer>();
+builder.Services.AddSingleton<RabbitMQDomainEventConsumer>();
+PostgresDatabaseConnectionData databaseConnectionData = new();
+builder.Services.AddPooledDbContextFactory<PostgresDatabaseContext>(
     options => options.UseNpgsql(databaseConnectionData.ConnectionString),
     databaseConnectionData.PoolSize
 );
-builder.Services.AddTransient<PostgresqlDatabaseMigrator>();
-builder.Services.AddScoped<IDomainEventPublisher, RabbitmqDomainEventPublisher>();
-builder.Services.AddTransient<IRestaurantRepository, PostgresqlRestaurantRepository>();
+builder.Services.AddTransient<PostgresDatabaseMigrator>();
+builder.Services.AddScoped<IDomainEventPublisher, RabbitMQDomainEventPublisher>();
+builder.Services.AddTransient<IRestaurantRepository, PostgresRestaurantRepository>();
 builder.Services.AddTransient<RestaurantCreator>();
 builder.Services.AddScoped<IRestaurantExistenceValidator, RestaurantExistenceValidator>();
-builder.Services.AddScoped<IProductRepository, PostgresqlProductRepository>();
+builder.Services.AddScoped<IProductRepository, PostgresProductRepository>();
 builder.Services.AddScoped<IProductNameAvailabilityValidator, ProductNameAvailabilityValidator>();
 var app = builder.Build();
 
@@ -59,14 +59,14 @@ app.UseMiddleware<CustomExceptionMiddleware>();
 
 // Init services
 
-PostgresqlDatabaseMigrator databaseMigrator =
-    app.Services.GetRequiredService<PostgresqlDatabaseMigrator>();
+PostgresDatabaseMigrator databaseMigrator =
+    app.Services.GetRequiredService<PostgresDatabaseMigrator>();
 await databaseMigrator.Migrate();
-RabbitmqEventBusConfigurer eventBusConfigurer =
-    app.Services.GetRequiredService<RabbitmqEventBusConfigurer>();
+RabbitMQEventBusConfigurer eventBusConfigurer =
+    app.Services.GetRequiredService<RabbitMQEventBusConfigurer>();
 await eventBusConfigurer.Configure();
-RabbitmqDomainEventConsumer eventBusConsumer =
-    app.Services.GetRequiredService<RabbitmqDomainEventConsumer>();
+RabbitMQDomainEventConsumer eventBusConsumer =
+    app.Services.GetRequiredService<RabbitMQDomainEventConsumer>();
 eventBusConsumer.Consume();
 
 // Configure the HTTP request pipeline.

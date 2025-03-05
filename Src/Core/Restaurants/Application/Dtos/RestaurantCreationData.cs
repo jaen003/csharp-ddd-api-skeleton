@@ -1,4 +1,4 @@
-namespace Src.Core.Restaurants.Application.DTOs;
+namespace Src.Core.Restaurants.Application.Dtos;
 
 public record RestaurantCreationData
 {

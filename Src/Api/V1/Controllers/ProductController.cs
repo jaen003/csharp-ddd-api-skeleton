@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using Src.Api.V1.InputModels.Paginations;
 using Src.Api.V1.InputModels.Products;
 using Src.Core.Products.Application;
-using Src.Core.Products.Application.DTOs;
+using Src.Core.Products.Application.Dtos;
 using Src.Core.Products.Application.UseCases;
 using Src.Core.Products.Application.Validators;
 using Src.Core.Restaurants.Application.Validators;
 using Src.Core.Shared.Application.EventBus;
-using Src.Core.Shared.Application.Paginations.DTOs;
+using Src.Core.Shared.Application.Paginations.Dtos;
 using ILogger = Src.Core.Shared.Application.Logging.ILogger;
 
 namespace Src.Api.V1.Controllers;

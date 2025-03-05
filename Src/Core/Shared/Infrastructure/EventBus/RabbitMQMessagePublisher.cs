@@ -3,12 +3,12 @@ using Src.Core.Shared.Infrastructure.Exceptions;
 
 namespace Src.Core.Shared.Infrastructure.EventBus;
 
-public class RabbitmqMessagePublisher
+public class RabbitMQMessagePublisher
 {
-    private readonly RabbitmqEventBusConnection eventBusConnection;
+    private readonly RabbitMQEventBusConnection eventBusConnection;
     private readonly int messageDeliveryMode;
 
-    public RabbitmqMessagePublisher(RabbitmqEventBusConnection eventBusConnection)
+    public RabbitMQMessagePublisher(RabbitMQEventBusConnection eventBusConnection)
     {
         this.eventBusConnection = eventBusConnection;
         messageDeliveryMode = int.Parse(
